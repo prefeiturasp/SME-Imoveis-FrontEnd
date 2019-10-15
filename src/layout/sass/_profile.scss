@@ -86,28 +86,3 @@
   }
 }
 
-.layout-sidebar-dark {
-  .layout-profile {
-    .layout-profile-link {
-      color: $menuitemDarkColor;
-
-      &:hover {
-        color: $menuitemDarkHoverColor;
-      }
-    }
-
-    ul {
-      background-color: $menuitemDarkActiveBgColor;
-
-      li {
-        button {
-          color: $menuitemDarkColor;
-
-          &:hover {
-            color: $menuitemDarkHoverColor;
-          }
-        }
-      }
-    }
-  }
-}

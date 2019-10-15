@@ -117,7 +117,7 @@ class App extends Component {
 
         <div
           ref={el => (this.sidebar = el)}
-          className="layout-sidebar layout-sidebar-dark"
+          className="layout-sidebar layout-sidebar-light"
           onClick={this.onSidebarClick}
         >
           <div className="layout-logo">
