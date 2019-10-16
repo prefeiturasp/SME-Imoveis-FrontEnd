@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import { AppMenu } from "./components/AppMenu";
 import { AppTopbar } from "./components/AppTopbar";
 import { Dashboard } from "./components/Dashboard";
+import { CadastroImovel } from "./components/CadastroImovel";
 
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -11,6 +12,7 @@ import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "./layout/layout.scss";
 import "./App.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 class App extends Component {
   constructor() {
@@ -23,6 +25,7 @@ class App extends Component {
     this.onToggleMenu = this.onToggleMenu.bind(this);
     this.onMenuItemClick = this.onMenuItemClick.bind(this);
     this.onWrapperClick = this.onWrapperClick.bind(this);
+    this.onSidebarClick = this.onSidebarClick.bind(this);
     this.createMenu();
   }
 
@@ -74,6 +77,11 @@ class App extends Component {
         command: () => {
           window.location = "#/";
         }
+      },
+      {
+        label: "Form",
+        icon: "pi pi-fw pi-file",
+        to: "/forms"
       }
     ];
   }
@@ -127,6 +135,7 @@ class App extends Component {
         </div>
         <div className="layout-main">
           <Route path="/" exact component={Dashboard} />
+          <Route path="/forms" exact component={CadastroImovel} />
         </div>
         <div className="layout-mask"></div>
       </div>

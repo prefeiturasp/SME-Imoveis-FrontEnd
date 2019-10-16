@@ -1,16 +1,28 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+// Redux
+import { createStore, combineReducers } from "redux";
+import { reducer as formReducer } from "redux-form";
+
 import App from "./App";
 //import * as serviceWorker from './serviceWorker';
 import { HashRouter } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 
+const rootReducer = combineReducers({
+  form: formReducer
+});
+const store = createStore(rootReducer);
+
 ReactDOM.render(
-  <HashRouter>
-    <ScrollToTop>
-      <App></App>
-    </ScrollToTop>
-  </HashRouter>,
+  <Provider store={store}>
+    <HashRouter>
+      <ScrollToTop>
+        <App></App>
+      </ScrollToTop>
+    </HashRouter>
+  </Provider>,
   document.getElementById("root")
 );
 
