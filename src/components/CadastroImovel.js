@@ -2,10 +2,15 @@ import React, { Component } from "react";
 
 import { Form, Field, reduxForm } from "redux-form";
 import { Button } from "primereact/button";
+import {Messages} from 'primereact/messages';
+
 import { InputText } from "components/Input/InputText";
 import { FileUpload } from "components/Input/FileUpload";
+import { fieldCep, fieldTel, fieldCel } from "helpers/textMask";
+import { required, email } from "helpers/fieldValidators";
 
 import { Imovel } from "services/Imovel.service";
+
 
 const ENTER = 13;
 export class CadastroImovel extends Component {
@@ -27,9 +32,30 @@ export class CadastroImovel extends Component {
     
     Imovel.create(values)
       .then(resp => {
+        this.resetForm();
+        this.messages.show(
+          {severity: 'success', 
+           summary: 'Cadastro Realizado com sucesso', 
+           detail: 'Obrigado pelo cadastro, logo vc recebera mais informações.',
+           sticky: true,
+          }
+        );
         console.log(resp);
       })
       .catch(error => {
+        const msg = JSON.parse(error)
+        let text = ""
+        for (let key in msg) {
+          const element = msg[key];
+          text += `${key}: ${element.join(",")} \n`
+        }
+
+        this.messages.show(
+          {severity: 'error', 
+          summary: 'Erro ao Realizado o cadatro', 
+          detail: `Detalhes: ${text}`,
+          sticky: true,
+        });
         console.log(error);
       });
   }
@@ -37,11 +63,14 @@ export class CadastroImovel extends Component {
   resetForm = () => this.props.reset();
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, pristine, submitting } = this.props;
     return (
       <div className="p-grid p-fluid">
         <div className="p-col-12">
           <h1>Cadastro de Oferta de Imovel</h1>
+        </div>
+        <div className="p-col-12">
+          <Messages ref={(el) => this.messages = el}></Messages>
         </div>
         <div className="p-col-12">
           <Form onSubmit={handleSubmit(this.onSubmit)}
@@ -57,6 +86,7 @@ export class CadastroImovel extends Component {
                     label="Nome"
                     name="contato.name"
                     required
+                    validate={required}
                   />
                 </div>
                 <div className="p-col">
@@ -65,22 +95,27 @@ export class CadastroImovel extends Component {
                     label="E-mail"
                     name="contato.email"
                     required
+                    validate={required && email}
                   />
                 </div>
                 <div className="p-col">
                   <Field
+                   {...fieldTel}
                     component={InputText}
                     label="Telefone"
                     name="contato.telephone"
                     required
+                    validate={required}
                   />
                 </div>
                 <div className="p-col">
                   <Field
+                    {...fieldCel}
                     component={InputText}
                     label="Celular"
                     name="contato.cellphone"
                     required
+                    validate={required}
                   />
                 </div>
               </div>
@@ -95,6 +130,7 @@ export class CadastroImovel extends Component {
                     label="Logradouro"
                     name="address"
                     required
+                    validate={required}
                   />
                 </div>
                 <div className="p-col">
@@ -103,6 +139,7 @@ export class CadastroImovel extends Component {
                     label="Bairro"
                     name="neighborhood"
                     required
+                    validate={required}
                   />
                 </div>
                 <div className="p-col">
@@ -111,6 +148,7 @@ export class CadastroImovel extends Component {
                     label="Cidade"
                     name="city"
                     required
+                    validate={required}
                   />
                 </div>
                 <div className="p-col">
@@ -119,36 +157,49 @@ export class CadastroImovel extends Component {
                     label="Estado"
                     name="state"
                     required
+                    validate={required}
                   />
                 </div>
                 <div className="p-col">
                   <Field
+                    {...fieldCep}
                     component={InputText}
                     label="CEP"
                     name="cep"
                     required
+                    validate={required}
                   />
                 </div>
                 <div className="p-col">
-                  <label className="col-form-label">Planta Baixa</label>
-                  <div className="custom-file nput-group">
-                    <Field
-                      type='file'
-                      component={FileUpload}
-                      name='planta'
-                      id='planta'
-                      accept='file/*'
-                      className="custom-file-input" 
-                    />
-                    <label className="custom-file-label">Selecione o Arquivo</label>
-                  </div>
+                  <Field
+                    component={FileUpload}
+                    name='planta'
+                    id='planta'
+                    accept='file/*'
+                    className="form-control-file"
+                    label="Planta Baixa"
+                    required
+                    validate={required}
+                  />
                 </div>
                 
               </div>
             </div>
 
-            <div className="p-col-1">
-              <Button label="Enviar" type="submit" />
+            <div className="p-col-12 ">
+              <div className="p-grid p-fluid">
+                <div className="p-col">
+                  <button type="button" className="btn btn-outline-danger"
+                    disabled={pristine || submitting} onClick={this.resetForm}>
+                    Limpar
+                  </button>
+                </div>
+                <div className="p-col-4"></div>
+                <div className="p-col-1">
+                  <Button label="Enviar" className="p-button-success"
+                    disabled={pristine || submitting} /> 
+                </div>
+              </div>
             </div>
           </Form>
         </div>

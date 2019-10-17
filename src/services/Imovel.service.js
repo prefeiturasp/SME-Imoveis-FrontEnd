@@ -3,13 +3,19 @@ const authHeader = {
   "Content-Type": "application/json"
 };
 
+function handleErrors(response) {
+  if (!response.ok) {
+    throw response;
+  }
+  return response;
+}
+
 class ImovelClass {
   create(values) {
     return new Promise((resolve, reject) => {
       const file = values.planta[0]
       const reader = new FileReader()
       reader.onload = () => {
-        debugger
         const data = {
           base64: reader.result.split('base64,')[1],
           filename: file.name,
@@ -23,10 +29,19 @@ class ImovelClass {
           headers: authHeader,
           body: JSON.stringify(values)
         })
-        .then(res => resolve(res))
-        .catch(error => reject(error))
-      };  
-      reader.readAsDataURL(values.planta[0])
+        .then(handleErrors)
+        .then(res => {
+          let data = res.json();
+          data['status'] = res.status;
+          return resolve(data);
+        })
+        .catch(error => {
+          error.text().then( errorMessage => {
+            return reject(errorMessage);
+          })
+        });
+      };
+      reader.readAsDataURL(values.planta[0] || "")
     })  
   }
 }
