@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
-import { Field, reduxForm } from "redux-form";
+import { Form, Field, reduxForm } from "redux-form";
 import { Button } from "primereact/button";
 import { InputText } from "components/Input/InputText";
-import { FileUpload } from "primereact/fileupload";
+import { FileUpload } from "components/Input/FileUpload";
 
 import { Imovel } from "services/Imovel.service";
 
@@ -11,6 +11,7 @@ const ENTER = 13;
 export class CadastroImovel extends Component {
   constructor() {
     super();
+    this.state = { imageFile: [] };
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
@@ -23,6 +24,7 @@ export class CadastroImovel extends Component {
   }
 
   onSubmit(values) {
+    
     Imovel.create(values)
       .then(resp => {
         console.log(resp);
@@ -32,6 +34,8 @@ export class CadastroImovel extends Component {
       });
   }
 
+  resetForm = () => this.props.reset();
+
   render() {
     const { handleSubmit } = this.props;
     return (
@@ -40,10 +44,9 @@ export class CadastroImovel extends Component {
           <h1>Cadastro de Oferta de Imovel</h1>
         </div>
         <div className="p-col-12">
-          <form
+          <Form onSubmit={handleSubmit(this.onSubmit)}
             className="p-grid p-fluid"
             onKeyPress={this.onKeyPress}
-            onSubmit={handleSubmit}
           >
             <div className="p-col-6">
               <div className="card card-w-title">
@@ -52,7 +55,7 @@ export class CadastroImovel extends Component {
                   <Field
                     component={InputText}
                     label="Nome"
-                    name="name"
+                    name="contato.name"
                     required
                   />
                 </div>
@@ -60,7 +63,7 @@ export class CadastroImovel extends Component {
                   <Field
                     component={InputText}
                     label="E-mail"
-                    name="email"
+                    name="contato.email"
                     required
                   />
                 </div>
@@ -68,7 +71,7 @@ export class CadastroImovel extends Component {
                   <Field
                     component={InputText}
                     label="Telefone"
-                    name="telephone"
+                    name="contato.telephone"
                     required
                   />
                 </div>
@@ -76,7 +79,7 @@ export class CadastroImovel extends Component {
                   <Field
                     component={InputText}
                     label="Celular"
-                    name="cellphone"
+                    name="contato.cellphone"
                     required
                   />
                 </div>
@@ -128,19 +131,26 @@ export class CadastroImovel extends Component {
                 </div>
                 <div className="p-col">
                   <label className="col-form-label">Planta Baixa</label>
-                  <FileUpload name="planta" url="./upload" />
+                  <div className="custom-file nput-group">
+                    <Field
+                      type='file'
+                      component={FileUpload}
+                      name='planta'
+                      id='planta'
+                      accept='file/*'
+                      className="custom-file-input" 
+                    />
+                    <label className="custom-file-label">Selecione o Arquivo</label>
+                  </div>
                 </div>
+                
               </div>
             </div>
 
             <div className="p-col-1">
-              <Button
-                label="Enviar"
-                type="submit"
-                onClick={handleSubmit(values => this.onSubmit(values))}
-              />
+              <Button label="Enviar" type="submit" />
             </div>
-          </form>
+          </Form>
         </div>
       </div>
     );
