@@ -1,21 +1,23 @@
-import React from 'react'
+import React from "react";
 import { InputErroMensagem } from "./InputErroMensagem";
 import { HelpText } from "components/HelpText";
 
 export class FileUpload extends React.Component {
-  constructor (props) {
-    super(props)
-    this.onChange = this.onChange.bind(this)
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
   }
 
-  onChange (e) {
-    const { input: { onChange } } = this.props
+  onChange(e) {
+    const {
+      input: { onChange }
+    } = this.props;
     if (e.target.files[0]) {
-      onChange(e.target.files[0])
+      onChange(e.target.files[0]);
     }
   }
 
-  render () {
+  render() {
     const {
       input: { value, ...inputProps },
       className,
@@ -29,8 +31,8 @@ export class FileUpload extends React.Component {
       meta,
       name,
       placeholder,
-      required,
-    } = this.props
+      required
+    } = this.props;
     return (
       <div className="input">
         {label && [
@@ -54,7 +56,7 @@ export class FileUpload extends React.Component {
           name={name}
           placeholder={placeholder}
           required={required}
-          type='file'
+          type="file"
           onChange={this.onChange}
           id={id}
           accept={accept}
@@ -62,6 +64,6 @@ export class FileUpload extends React.Component {
         <HelpText helpText={helpText} />
         <InputErroMensagem meta={meta} />
       </div>
-    )
+    );
   }
 }

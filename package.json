@@ -1,11 +1,11 @@
 {
-    "name": "sigma-react",
-    "version": "3.0.1-SNAPSHOT",
-    "homepage": "/sigma-react",
+    "name": "sme-oferta-imoveis",
+    "version": "1.0.0",
+    "homepage": "/",
     "private": false,
     "repository": {
         "type": "git",
-        "url": "https://github.com/primefaces/sigma.git"
+        "url": ""
     },
     "license": "MIT",
     "dependencies": {
