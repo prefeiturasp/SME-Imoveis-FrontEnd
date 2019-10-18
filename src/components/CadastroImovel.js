@@ -40,13 +40,15 @@ export class CadastroImovel extends Component {
         console.log(resp);
       })
       .catch(error => {
-        const msg = JSON.parse(error);
         let text = "";
-        for (let key in msg) {
-          const element = msg[key];
-          text += `${key}: ${element.join(",")} \n`;
+        if (typeof(error) == "object"){
+          for (let key in error) {
+            const element = error[key];
+            text += `${key}: ${element.join(",")} \n`;
+          }
+        }else{
+          text = error;
         }
-
         this.messages.show({
           severity: "error",
           summary: "Erro ao Realizado o cadatro",

@@ -35,10 +35,20 @@ class ImovelClass {
             data["status"] = res.status;
             return resolve(data);
           })
-          .catch(error => {
-            error.text().then(errorMessage => {
-              return reject(errorMessage);
-            });
+          .catch(err => {
+            if (false === err instanceof Error && err.type){
+              switch (err.type) {
+                case 'cors':
+                  return err.json().then(errorMessage => {
+                    return reject(errorMessage);
+                  });
+                case 'unparsable':
+                  return reject(err.body);
+                default:
+                  return reject(err);
+              }    
+            }
+            return reject(err.toString())
           });
       };
       reader.readAsDataURL(values.planta[0] || "");

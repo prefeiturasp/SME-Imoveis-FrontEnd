@@ -79,7 +79,7 @@ class App extends Component {
         }
       },
       {
-        label: "Form",
+        label: "Cadastro de Imoveis",
         icon: "pi pi-fw pi-file",
         to: "/forms"
       }
