@@ -2,8 +2,9 @@
 FROM node:10.15.3-alpine as builder
 WORKDIR /app
 COPY . ./
-RUN npm install
-RUN NODE_PATH=src/ npm run-script build
+RUN export NODE_PATH=src/ \
+    && npm install \
+    && npm run-script build
 
 # replace strings, this way we can pass parameters to static files.
 # For more details:
