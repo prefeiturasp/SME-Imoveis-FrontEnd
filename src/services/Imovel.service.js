@@ -36,19 +36,19 @@ class ImovelClass {
             return resolve(data);
           })
           .catch(err => {
-            if (false === err instanceof Error && err.type){
+            if (false === err instanceof Error && err.type) {
               switch (err.type) {
-                case 'cors':
+                case "cors":
                   return err.json().then(errorMessage => {
                     return reject(errorMessage);
                   });
-                case 'unparsable':
+                case "unparsable":
                   return reject(err.body);
                 default:
                   return reject(err);
-              }    
+              }
             }
-            return reject(err.toString())
+            return reject(err.toString());
           });
       };
       reader.readAsDataURL(values.planta[0] || "");

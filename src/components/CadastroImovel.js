@@ -6,12 +6,26 @@ import { Messages } from "primereact/messages";
 
 import { InputText } from "components/Input/InputText";
 import { FileUpload } from "components/Input/FileUpload";
-import { fieldCep, fieldTel, fieldCel } from "helpers/textMask";
+import { fieldCep, fieldTel, fieldCPF_CNPJ } from "helpers/textMask";
 import { required, email } from "helpers/fieldValidators";
 
 import { Imovel } from "services/Imovel.service";
 
 const ENTER = 13;
+
+function join_error(errors) {
+  let text = "";
+  for (let key in errors) {
+    const element = errors[key];
+    if (!(element instanceof Array)) {
+      text += `${join_error(element)} \n`;
+    } else {
+      text += `${key}: ${element.join(",")} \n`;
+    }
+  }
+  return text;
+}
+
 export class CadastroImovel extends Component {
   constructor() {
     super();
@@ -41,12 +55,9 @@ export class CadastroImovel extends Component {
       })
       .catch(error => {
         let text = "";
-        if (typeof(error) == "object"){
-          for (let key in error) {
-            const element = error[key];
-            text += `${key}: ${element.join(",")} \n`;
-          }
-        }else{
+        if (typeof error == "object") {
+          text = join_error(error);
+        } else {
           text = error;
         }
         this.messages.show({
@@ -79,21 +90,32 @@ export class CadastroImovel extends Component {
           >
             <div className="p-col-6">
               <div className="card card-w-title">
-                <h2>Dados de Contato</h2>
+                <h2>Dados do Proponente</h2>
                 <div className="p-col">
                   <Field
                     component={InputText}
                     label="Nome"
-                    name="contato.name"
+                    name="proponente.nome"
                     required
                     validate={required}
                   />
                 </div>
                 <div className="p-col">
                   <Field
+                    customChange={fieldCPF_CNPJ}
+                    component={InputText}
+                    label="CPF/CNPJ"
+                    name="proponente.cpf_cnpj"
+                    required
+                    validate={required}
+                    maxLength="18"
+                  />
+                </div>
+                <div className="p-col">
+                  <Field
                     component={InputText}
                     label="E-mail"
-                    name="contato.email"
+                    name="proponente.email"
                     required
                     validate={required && email}
                   />
@@ -103,17 +125,7 @@ export class CadastroImovel extends Component {
                     {...fieldTel}
                     component={InputText}
                     label="Telefone"
-                    name="contato.telephone"
-                    required
-                    validate={required}
-                  />
-                </div>
-                <div className="p-col">
-                  <Field
-                    {...fieldCel}
-                    component={InputText}
-                    label="Celular"
-                    name="contato.cellphone"
+                    name="proponente.telefone"
                     required
                     validate={required}
                   />
@@ -122,44 +134,50 @@ export class CadastroImovel extends Component {
             </div>
             <div className="p-col-6">
               <div className="card card-w-title">
-                <h2>Dados do Imovel</h2>
-
+                <h2>Dados do Proprietário do Imovel</h2>
+                <div className="p-col">
+                  <Field
+                    component={InputText}
+                    label="Nome"
+                    name="contato.nome"
+                    required
+                    validate={required}
+                  />
+                </div>
+                <div className="p-col">
+                  <Field
+                    customChange={fieldCPF_CNPJ}
+                    component={InputText}
+                    label="CPF/CNPJ"
+                    name="contato.cpf_cnpj"
+                    required
+                    validate={required}
+                    maxLength="18"
+                  />
+                </div>
+                <div className="p-col">
+                  <h2>Dados do Imovel</h2>
+                </div>
                 <div className="p-col">
                   <Field
                     component={InputText}
                     label="Logradouro"
-                    name="address"
+                    name="endereco"
                     required
                     validate={required}
+                    helpText="Rua, Nº e Complemento"
                   />
                 </div>
                 <div className="p-col">
                   <Field
                     component={InputText}
                     label="Bairro"
-                    name="neighborhood"
+                    name="bairro"
                     required
                     validate={required}
                   />
                 </div>
-                <div className="p-col">
-                  <Field
-                    component={InputText}
-                    label="Cidade"
-                    name="city"
-                    required
-                    validate={required}
-                  />
-                </div>
-                <div className="p-col">
-                  <Field
-                    component={InputText}
-                    label="Estado"
-                    name="state"
-                    required
-                    validate={required}
-                  />
-                </div>
+
                 <div className="p-col">
                   <Field
                     {...fieldCep}
@@ -175,7 +193,7 @@ export class CadastroImovel extends Component {
                     component={FileUpload}
                     name="planta"
                     id="planta"
-                    accept="file/*"
+                    accept="file/pdf"
                     className="form-control-file"
                     label="Planta Baixa"
                     required

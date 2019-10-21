@@ -18,7 +18,9 @@ export const InputText = props => {
     name,
     placeholder,
     required,
-    type
+    type,
+    maxLength,
+    customChange
   } = props;
   return (
     <div className="input">
@@ -45,6 +47,18 @@ export const InputText = props => {
         placeholder={placeholder}
         required={required}
         type={type}
+        maxLength={maxLength}
+        {...(() => {
+          if (customChange) {
+            return {
+              onChange: e => {
+                input.onChange(customChange(e.target.value));
+              }
+            };
+          } else {
+            return {};
+          }
+        })()}
       />
       <HelpText helpText={helpText} />
       <InputErroMensagem meta={meta} />
