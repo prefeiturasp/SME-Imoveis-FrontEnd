@@ -56,7 +56,12 @@ export class CadastroImovel extends Component {
       .catch(error => {
         let text = "";
         if (typeof error == "object") {
-          text = join_error(error);
+          try {
+            text = join_error(error);
+          } catch (e) {
+            text = error.toString();
+            console.log(e);            
+          }
         } else {
           text = error;
         }
