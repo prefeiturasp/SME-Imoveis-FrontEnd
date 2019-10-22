@@ -2,26 +2,27 @@ import PropTypes from "prop-types";
 import React from "react";
 import { InputErroMensagem } from "../InputErroMensagem";
 import { HelpText } from "components/HelpText";
+import {AutoSuggestAddress} from "./AutoSuggest";
+
+
 import "../style.scss";
 
-export const InputText = props => {
+export const AutoComplete = props => {
   const {
     className,
-    disabled,
     esconderAsterisco,
     helpText,
     input,
     label,
     labelClassName,
     meta,
-    min,
     name,
-    placeholder,
     required,
-    type,
-    maxLength,
-    customChange
+    handleChange,
   } = props;
+  const {
+    input: { value, onChange }
+  } = props
   return (
     <div className="input">
       {label && [
@@ -36,37 +37,35 @@ export const InputText = props => {
           {label}
         </label>
       ]}
-      <input
+      <AutoSuggestAddress
         {...input}
-        className={`form-control ${className} ${meta.touched &&
+        className={`${className} ${meta.touched &&
           meta.error &&
-          "invalid-field"}`}
-        disabled={disabled}
-        min={min}
-        name={name}
-        placeholder={placeholder}
+          "invalid-field"}`
+        }
         required={required}
-        type={type}
-        maxLength={maxLength}
-        {...(() => {
-          if (customChange) {
-            return {
-              onChange: e => {
-                input.onChange(customChange(e.target.value));
-              }
-            };
-          } else {
-            return {};
-          }
-        })()}
+        value={value}
+        onAddressSelected={dataAddress => {
+          const address = dataAddress.display_name.split(",")
+          const result = {
+            AddressLat: dataAddress.lat,
+            AddressLng: dataAddress.lon,
+            endereco: address[0],
+            bairro: address[1],
+          };
+          onChange(result)
+          handleChange(result)
+        }}
       />
+
       <HelpText helpText={helpText} />
       <InputErroMensagem meta={meta} />
     </div>
-  );
-};
 
-InputText.propTypes = {
+  )
+}
+
+AutoComplete.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   esconderAsterisco: PropTypes.bool,
@@ -78,10 +77,10 @@ InputText.propTypes = {
   name: PropTypes.string,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
-  type: PropTypes.string
+  handleChange: PropTypes.func
 };
 
-InputText.defaultProps = {
+AutoComplete.defaultProps = {
   className: "",
   disabled: false,
   esconderAsterisco: false,
@@ -93,7 +92,7 @@ InputText.defaultProps = {
   name: "",
   placeholder: "",
   required: false,
-  type: "text"
+  handleChange: () => {},
 };
 
-export default InputText;
+export default AutoComplete;
