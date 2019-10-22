@@ -48,8 +48,8 @@ export const AutoComplete = props => {
         onAddressSelected={dataAddress => {
           const address = dataAddress.display_name.split(",")
           const result = {
-            AddressLat: dataAddress.lat,
-            AddressLng: dataAddress.lon,
+            latitude: dataAddress.lat,
+            longitude: dataAddress.lon,
             endereco: address[0],
             bairro: address[1],
           };
