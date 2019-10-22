@@ -2,18 +2,34 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 // Redux
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { reducer as formReducer } from "redux-form";
+// Middleware
+import promise from "redux-promise";
+import thunk from "redux-thunk";
 
 import App from "./App";
 //import * as serviceWorker from './serviceWorker';
 import { HashRouter } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 
+
+// see https://github.com/zalmoxisus/redux-devtools-extension
+let devTools = undefined;
+//eslint-disable-next-line
+if (process.env.NODE_ENV === "development") {
+  devTools =
+    window.__REDUX_DEVTOOLS_EXTENSION__ &&
+    window.__REDUX_DEVTOOLS_EXTENSION__();
+}
+
 const rootReducer = combineReducers({
   form: formReducer
 });
-const store = createStore(rootReducer);
+const store = applyMiddleware(thunk, promise)(createStore)(
+  rootReducer,
+  devTools
+);
 
 ReactDOM.render(
   <Provider store={store}>

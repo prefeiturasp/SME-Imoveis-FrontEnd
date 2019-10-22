@@ -3,10 +3,15 @@ import React, { Component } from "react";
 import { Form, Field, reduxForm } from "redux-form";
 import { Button } from "primereact/button";
 import { Messages } from "primereact/messages";
+import {Card} from 'primereact/card';
+
 
 import { InputText } from "components/Input/InputText";
 import { FileUpload } from "components/Input/FileUpload";
-import { fieldCep, fieldTel, fieldCPF_CNPJ } from "helpers/textMask";
+import { SelectText } from "components/Input/SelectText";
+import {AutoComplete} from "components/Input/AutoComplete";
+
+import { fieldTel, fieldCPF_CNPJ } from "helpers/textMask";
 import { required, email } from "helpers/fieldValidators";
 
 import { Imovel } from "services/Imovel.service";
@@ -29,10 +34,19 @@ function join_error(errors) {
 export class CadastroImovel extends Component {
   constructor() {
     super();
-    this.state = { imageFile: [] };
+    this.state = { 
+      imageFile: [],
+      AddressSelected: false,
+      endereco: "",
+      bairro: "",
+      selectCEP: [],
+      cep:"",
+    };
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
+    this.handleAddressChange = this.handleAddressChange.bind(this);
+    this.onFetchCEP = this.onFetchCEP.bind(this);
   }
 
   onKeyPress(event) {
@@ -51,7 +65,6 @@ export class CadastroImovel extends Component {
           detail: "Obrigado pelo cadastro, logo vc recebera mais informações.",
           sticky: true
         });
-        console.log(resp);
       })
       .catch(error => {
         let text = "";
@@ -75,10 +88,40 @@ export class CadastroImovel extends Component {
       });
   }
 
-  resetForm = () => this.props.reset();
+  resetForm = () => {
+    this.setState({
+      AddressSelected:false
+    })
+    this.props.reset()
+  };
+
+  onFetchCEP = (value) => {
+    fetch(
+      `https://viacep.com.br/ws/SP/São%20Paulo/${value.trim()}/json`
+    ).then(response => response.json())
+     .then(json => {
+        const data = json.map((data) => {
+          return {
+            value: data.cep,
+            label: `${data.cep} - ${data.logradouro} ${data.complemento}`,
+          }
+        })
+
+        this.setState({ selectCEP: data })
+    });
+  };
+
+  handleAddressChange(dataAddress) {
+    this.onFetchCEP(dataAddress.endereco)
+    this.setState({
+      AddressSelected: true,
+      ...dataAddress,
+    });
+  }
 
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
+    const {AddressSelected, endereco, bairro} = this.state;
     return (
       <div className="p-grid p-fluid">
         <div className="p-col-12">
@@ -165,34 +208,58 @@ export class CadastroImovel extends Component {
                 </div>
                 <div className="p-col">
                   <Field
-                    component={InputText}
-                    label="Logradouro"
+                    component={AutoComplete}
+                    label="Endereço"
                     name="endereco"
                     required
                     validate={required}
-                    helpText="Rua, Nº e Complemento"
+                    handleChange={this.handleAddressChange}
                   />
+                  
+                  {( AddressSelected && (
+                    <Card title="Endereço Selecionado">
+                        <b>Endereço:</b> <span>{ endereco }</span><br/>
+                        <b>Bairro:</b> <span>{ bairro }</span><br/>
+                        <b>Cidade:</b> <span>São Paulo </span>
+                        <b>Estado:</b> <span>SP</span>
+                    </Card>
+                  ))}
                 </div>
+                
                 <div className="p-col">
-                  <Field
-                    component={InputText}
-                    label="Bairro"
-                    name="bairro"
-                    required
-                    validate={required}
-                  />
-                </div>
-
-                <div className="p-col">
-                  <Field
-                    {...fieldCep}
-                    component={InputText}
+                  <Field 
+                    component={SelectText}
+                    options={this.state.selectCEP} 
+                    onChange={event => this.setState({cep: event.value})} 
+                    placeholder="Selecione um CEP"
                     label="CEP"
-                    name="cep"
+                    name="endereco.cep"
                     required
                     validate={required}
                   />
                 </div>
+                
+                <div className="p-col">
+                  <div className="p-grid p-fluid">
+                    <div className="p-col-4">
+                      <Field
+                        component={InputText}
+                        label="Nº"
+                        name="endereco.numero"
+                        required
+                        validate={required}
+                      />
+                    </div>
+                    <div className="p-col-8">
+                      <Field
+                        component={InputText}
+                        label="Complemento"
+                        name="endereco.complemento"
+                      />
+                    </div>
+                  </div>
+                </div>
+                
                 <div className="p-col">
                   <Field
                     component={FileUpload}
