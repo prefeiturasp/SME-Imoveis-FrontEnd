@@ -123,7 +123,7 @@ export class CadastroImovel extends Component {
     return (
       <div className="p-grid p-fluid">
         <div className="p-col-12">
-          <h1>Cadastro de Oferta de Imovel</h1>
+          <h1>Cadastro de Oferta de Imóvel</h1>
         </div>
         <div className="p-col-12">
           <Messages ref={el => (this.messages = el)}></Messages>
@@ -180,7 +180,7 @@ export class CadastroImovel extends Component {
             </div>
             <div className="p-col-6">
               <div className="card card-w-title">
-                <h2>Dados do Proprietário do Imovel</h2>
+                <h2>Dados do Proprietário do Imóvel</h2>
                 <div className="p-col">
                   <Field
                     component={InputText}
@@ -202,7 +202,7 @@ export class CadastroImovel extends Component {
                   />
                 </div>
                 <div className="p-col">
-                  <h2>Dados do Imovel</h2>
+                  <h2>Dados do Imóvel</h2>
                 </div>
                 <div className="p-col">
                   <Field
