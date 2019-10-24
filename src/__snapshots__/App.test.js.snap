@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test <CadastroImovel> renders component 1`] = `
+exports[`test <AppLayout> renders component 1`] = `
 <ContextProvider
   value={
     Object {
@@ -32,23 +32,8 @@ exports[`test <CadastroImovel> renders component 1`] = `
     }
   }
 >
-  <ReduxForm
-    destroyOnUnmount={true}
-    enableReinitialize={false}
-    forceUnregisterOnUnmount={false}
-    form="CadastroImovelForm"
-    getFormState={[Function]}
-    keepDirtyOnReinitialize={false}
-    persistentSubmitErrors={false}
-    pure={true}
-    shouldAsyncValidate={[Function]}
-    shouldError={[Function]}
-    shouldValidate={[Function]}
-    shouldWarn={[Function]}
-    submitAsSideEffect={false}
-    touchOnBlur={true}
-    touchOnChange={false}
-    updateUnregisteredFields={false}
-  />
+  <HashRouter>
+    <App />
+  </HashRouter>
 </ContextProvider>
 `;

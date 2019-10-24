@@ -1,4 +1,4 @@
-import { mount } from "enzyme";
+import { shallow } from "enzyme";
 import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
@@ -13,7 +13,7 @@ describe("test <CadastroImovel>", () => {
   beforeAll(() => {
     let store = mockStore(initialState);
 
-    wrapper = mount(
+    wrapper = shallow(
       <Provider store={store}>
         <CadastroImovel />
       </Provider>

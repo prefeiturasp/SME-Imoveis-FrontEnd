@@ -1,28 +1,224 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test <AppMenu> renders component 1`] = `
-<AppMenu
-  model={null}
-  onMenuItemClick={null}
->
-  <div
-    className="layout-menu-container"
+<HashRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
   >
-    <AppSubmenu
-      className="layout-menu"
-      items={null}
-      onMenuItemClick={null}
-      root={true}
-    />
-  </div>
-</AppMenu>
-`;
-
-exports[`test <AppSubmenu> renders component 1`] = `
-<AppSubmenu
-  className={null}
-  items={null}
-  onMenuItemClick={null}
-  root={false}
-/>
+    <AppMenu
+      model={
+        Array [
+          Object {
+            "icon": "pi pi-fw pi-file",
+            "label": "Cadastro de Imoveis",
+            "to": "/",
+          },
+          Object {
+            "badge": "9",
+            "icon": "pi pi-fw pi-globe",
+            "items": Array [
+              Object {
+                "icon": "pi pi-fw pi-th-large",
+                "label": "Sample Page",
+                "to": "/sample",
+              },
+            ],
+            "label": "Components",
+          },
+        ]
+      }
+      onMenuItemClick={[MockFunction]}
+    >
+      <div
+        className="layout-menu-container"
+      >
+        <AppSubmenu
+          className="layout-menu"
+          items={
+            Array [
+              Object {
+                "icon": "pi pi-fw pi-file",
+                "label": "Cadastro de Imoveis",
+                "to": "/",
+              },
+              Object {
+                "badge": "9",
+                "icon": "pi pi-fw pi-globe",
+                "items": Array [
+                  Object {
+                    "icon": "pi pi-fw pi-th-large",
+                    "label": "Sample Page",
+                    "to": "/sample",
+                  },
+                ],
+                "label": "Components",
+              },
+            ]
+          }
+          onMenuItemClick={[MockFunction]}
+          root={true}
+        >
+          <ul
+            className="layout-menu"
+          >
+            <li
+              className=""
+              key="0"
+            >
+              <NavLink
+                activeClassName="active-route"
+                aria-current="page"
+                exact={true}
+                onClick={[Function]}
+                to="/"
+              >
+                <Route
+                  exact={true}
+                  path="\\\\/"
+                >
+                  <Link
+                    aria-current="page"
+                    className="active-route"
+                    onClick={[Function]}
+                    replace={false}
+                    style={Object {}}
+                    to="/"
+                  >
+                    <a
+                      aria-current="page"
+                      className="active-route"
+                      href="#/"
+                      onClick={[Function]}
+                      style={Object {}}
+                    >
+                      <i
+                        className="pi pi-fw pi-file"
+                      />
+                      <span>
+                        Cadastro de Imoveis
+                      </span>
+                    </a>
+                  </Link>
+                </Route>
+              </NavLink>
+              <AppSubmenu
+                className={null}
+                items={null}
+                onMenuItemClick={[MockFunction]}
+                root={false}
+              />
+            </li>
+            <li
+              className=""
+              key="1"
+            >
+              <div
+                className="arrow"
+              />
+              <a
+                onClick={[Function]}
+              >
+                <i
+                  className="pi pi-fw pi-globe"
+                />
+                <span>
+                  Components
+                </span>
+                <i
+                  className="pi pi-fw pi-angle-down menuitem-toggle-icon"
+                />
+                <span
+                  className="menuitem-badge"
+                >
+                  9
+                </span>
+              </a>
+              <AppSubmenu
+                className={null}
+                items={
+                  Array [
+                    Object {
+                      "icon": "pi pi-fw pi-th-large",
+                      "label": "Sample Page",
+                      "to": "/sample",
+                    },
+                  ]
+                }
+                onMenuItemClick={[MockFunction]}
+                root={false}
+              >
+                <ul
+                  className={null}
+                >
+                  <li
+                    className=""
+                    key="0"
+                  >
+                    <NavLink
+                      activeClassName="active-route"
+                      aria-current="page"
+                      exact={true}
+                      onClick={[Function]}
+                      to="/sample"
+                    >
+                      <Route
+                        exact={true}
+                        path="\\\\/sample"
+                      >
+                        <Link
+                          aria-current={null}
+                          onClick={[Function]}
+                          replace={false}
+                          to="/sample"
+                        >
+                          <a
+                            aria-current={null}
+                            href="#/sample"
+                            onClick={[Function]}
+                          >
+                            <i
+                              className="pi pi-fw pi-th-large"
+                            />
+                            <span>
+                              Sample Page
+                            </span>
+                          </a>
+                        </Link>
+                      </Route>
+                    </NavLink>
+                    <AppSubmenu
+                      className={null}
+                      items={null}
+                      onMenuItemClick={[MockFunction]}
+                      root={false}
+                    />
+                  </li>
+                </ul>
+              </AppSubmenu>
+            </li>
+          </ul>
+        </AppSubmenu>
+      </div>
+    </AppMenu>
+  </Router>
+</HashRouter>
 `;

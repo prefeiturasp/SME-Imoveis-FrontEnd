@@ -1,22 +1,31 @@
 import { mount } from "enzyme";
 import React from "react";
-import { AppSubmenu, AppMenu } from "./AppMenu";
-
-describe("test <AppSubmenu>", () => {
-  let wrapper;
-  beforeAll(() => {
-    wrapper = mount(<AppSubmenu />);
-  });
-
-  it("renders component", () => {
-    expect(wrapper).toMatchSnapshot();
-  });
-});
+import { HashRouter } from "react-router-dom";
+import { AppMenu } from "./AppMenu";
 
 describe("test <AppMenu>", () => {
   let wrapper;
+  let onMenuItemClick = jest.fn();
+  let menu = [
+    {
+      label: "Cadastro de Imoveis",
+      icon: "pi pi-fw pi-file",
+      to: "/"
+    },
+    {
+      label: 'Components', icon: 'pi pi-fw pi-globe', badge: '9',
+      items: [
+        {label: 'Sample Page', icon: 'pi pi-fw pi-th-large', to: '/sample'}
+      ]
+    }
+  ]
+
   beforeAll(() => {
-    wrapper = mount(<AppMenu />);
+    wrapper = mount(
+      <HashRouter>
+        <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
+      </HashRouter>
+    );
   });
 
   it("renders component", () => {

@@ -1,3 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test <FileUpload> renders component 1`] = `undefined`;
+exports[`test <FileUpload> renders component 1`] = `
+<FileUpload
+  className="teste"
+  input={
+    Object {
+      "onChange": [MockFunction],
+      "value": "",
+    }
+  }
+  label="mylabel"
+  meta={
+    Object {
+      "error": "This field is required",
+      "touched": true,
+    }
+  }
+  name="myCombo"
+  required={true}
+  validate={[Function]}
+  value=""
+>
+  <div
+    className="input"
+  >
+    <span
+      className="required-asterisk"
+    >
+      *
+    </span>
+    <label
+      className="col-form-label undefined"
+      htmlFor="myCombo"
+      key="1"
+    >
+      mylabel
+    </label>
+    <input
+      className="form-control teste invalid-field"
+      name="myCombo"
+      onChange={[Function]}
+      required={true}
+      type="file"
+    />
+    <HelpText>
+      <div
+        className="help-text"
+      />
+    </HelpText>
+    <InputErroMensagem
+      meta={
+        Object {
+          "error": "This field is required",
+          "touched": true,
+        }
+      }
+    >
+      <div
+        className="error-or-warning-message"
+      >
+        <div
+          className="error-message"
+        >
+          This field is required
+        </div>
+      </div>
+    </InputErroMensagem>
+  </div>
+</FileUpload>
+`;
