@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test <InputText> renders component 1`] = `
+<InputText
+  className=""
+  disabled={false}
+  esconderAsterisco={false}
+  helpText=""
+  input={Object {}}
+  label=""
+  labelClassName=""
+  meta={Object {}}
+  name=""
+  placeholder=""
+  required={false}
+  type="text"
+>
+  <div
+    className="input"
+  >
+    <input
+      className="form-control  undefined"
+      disabled={false}
+      name=""
+      placeholder=""
+      required={false}
+      type="text"
+    />
+    <HelpText
+      helpText=""
+    >
+      <div
+        className="help-text"
+      />
+    </HelpText>
+    <InputErroMensagem
+      meta={Object {}}
+    >
+      <div
+        className="error-or-warning-message"
+      />
+    </InputErroMensagem>
+  </div>
+</InputText>
+`;

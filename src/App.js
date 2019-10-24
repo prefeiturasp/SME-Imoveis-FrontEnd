@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { Route } from "react-router-dom";
 import { AppMenu } from "./components/AppMenu";
 import { AppTopbar } from "./components/AppTopbar";
-import { Dashboard } from "./components/Dashboard";
 import { CadastroImovel } from "./components/CadastroImovel";
 
 import "primereact/resources/themes/nova-light/theme.css";
@@ -18,8 +17,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      staticMenuInactive: false,
-      mobileMenuActive: false
+      staticMenuInactive: true,
+      mobileMenuActive: true
     };
 
     this.onToggleMenu = this.onToggleMenu.bind(this);
@@ -72,16 +71,9 @@ class App extends Component {
   createMenu() {
     this.menu = [
       {
-        label: "Dashboard",
-        icon: "pi pi-fw pi-home",
-        command: () => {
-          window.location = "#/";
-        }
-      },
-      {
         label: "Cadastro de Imoveis",
         icon: "pi pi-fw pi-file",
-        to: "/forms"
+        to: "/"
       }
     ];
   }
@@ -134,8 +126,7 @@ class App extends Component {
           <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
         </div>
         <div className="layout-main">
-          <Route path="/" exact component={Dashboard} />
-          <Route path="/forms" exact component={CadastroImovel} />
+          <Route path="/" exact component={CadastroImovel} />
         </div>
         <div className="layout-mask"></div>
       </div>

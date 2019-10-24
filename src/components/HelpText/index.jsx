@@ -1,7 +1,9 @@
 import React from "react";
 import "./style.scss";
 
-export const HelpText = props => {
-  const { helpText } = props;
-  return <div className="help-text">{helpText}</div>;
-};
+export class HelpText extends React.Component {
+  render() {
+    const { helpText } = this.props;
+    return <div className="help-text">{helpText}</div>;
+  }
+}

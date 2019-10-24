@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-class AppSubmenu extends Component {
+export class AppSubmenu extends Component {
   static defaultProps = {
     className: null,
     items: null,

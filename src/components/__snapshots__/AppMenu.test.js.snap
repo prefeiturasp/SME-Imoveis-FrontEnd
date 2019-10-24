@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test <AppMenu> renders component 1`] = `
+<AppMenu
+  model={null}
+  onMenuItemClick={null}
+>
+  <div
+    className="layout-menu-container"
+  >
+    <AppSubmenu
+      className="layout-menu"
+      items={null}
+      onMenuItemClick={null}
+      root={true}
+    />
+  </div>
+</AppMenu>
+`;
+
+exports[`test <AppSubmenu> renders component 1`] = `
+<AppSubmenu
+  className={null}
+  items={null}
+  onMenuItemClick={null}
+  root={false}
+/>
+`;

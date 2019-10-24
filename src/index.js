@@ -13,7 +13,6 @@ import App from "./App";
 import { HashRouter } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 
-
 // see https://github.com/zalmoxisus/redux-devtools-extension
 let devTools = undefined;
 //eslint-disable-next-line

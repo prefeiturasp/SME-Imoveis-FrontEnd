@@ -4,67 +4,69 @@ import { InputErroMensagem } from "./InputErroMensagem";
 import { HelpText } from "components/HelpText";
 import "./style.scss";
 
-export const InputText = props => {
-  const {
-    className,
-    disabled,
-    esconderAsterisco,
-    helpText,
-    input,
-    label,
-    labelClassName,
-    meta,
-    min,
-    name,
-    placeholder,
-    required,
-    type,
-    maxLength,
-    customChange
-  } = props;
-  return (
-    <div className="input">
-      {label && [
-        required && !esconderAsterisco && (
-          <span className="required-asterisk">*</span>
-        ),
-        <label
-          key={1}
-          htmlFor={name}
-          className={`col-form-label ${labelClassName}`}
-        >
-          {label}
-        </label>
-      ]}
-      <input
-        {...input}
-        className={`form-control ${className} ${meta.touched &&
-          meta.error &&
-          "invalid-field"}`}
-        disabled={disabled}
-        min={min}
-        name={name}
-        placeholder={placeholder}
-        required={required}
-        type={type}
-        maxLength={maxLength}
-        {...(() => {
-          if (customChange) {
-            return {
-              onChange: e => {
-                input.onChange(customChange(e.target.value));
-              }
-            };
-          } else {
-            return {};
-          }
-        })()}
-      />
-      <HelpText helpText={helpText} />
-      <InputErroMensagem meta={meta} />
-    </div>
-  );
-};
+export class InputText extends React.Component {
+  render() {
+    const {
+      className,
+      disabled,
+      esconderAsterisco,
+      helpText,
+      input,
+      label,
+      labelClassName,
+      meta,
+      min,
+      name,
+      placeholder,
+      required,
+      type,
+      maxLength,
+      customChange
+    } = this.props;
+    return (
+      <div className="input">
+        {label && [
+          required && !esconderAsterisco && (
+            <span className="required-asterisk">*</span>
+          ),
+          <label
+            key={1}
+            htmlFor={name}
+            className={`col-form-label ${labelClassName}`}
+          >
+            {label}
+          </label>
+        ]}
+        <input
+          {...input}
+          className={`form-control ${className} ${meta.touched &&
+            meta.error &&
+            "invalid-field"}`}
+          disabled={disabled}
+          min={min}
+          name={name}
+          placeholder={placeholder}
+          required={required}
+          type={type}
+          maxLength={maxLength}
+          {...(() => {
+            if (customChange) {
+              return {
+                onChange: e => {
+                  input.onChange(customChange(e.target.value));
+                }
+              };
+            } else {
+              return {};
+            }
+          })()}
+        />
+        <HelpText helpText={helpText} />
+        <InputErroMensagem meta={meta} />
+      </div>
+    );
+  }
+}
 
 InputText.propTypes = {
   className: PropTypes.string,
@@ -95,5 +97,3 @@ InputText.defaultProps = {
   required: false,
   type: "text"
 };
-
-export default InputText;
