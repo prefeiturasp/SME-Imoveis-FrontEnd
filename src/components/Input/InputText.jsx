@@ -27,10 +27,10 @@ export class InputText extends React.Component {
       <div className="input">
         {label && [
           required && !esconderAsterisco && (
-            <span className="required-asterisk">*</span>
+            <span key={1} className="required-asterisk">*</span>
           ),
           <label
-            key={1}
+            key={2}
             htmlFor={name}
             className={`col-form-label ${labelClassName}`}
           >

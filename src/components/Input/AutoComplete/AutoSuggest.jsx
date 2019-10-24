@@ -37,7 +37,7 @@ export class AutoSuggestAddress extends Component {
   getSuggestionValue = suggestion => {
     this.setState({ addressObject: suggestion });
     this.props.onAddressSelected(suggestion);
-    return suggestion.street;
+    return suggestion.street || suggestion.name || suggestion.display_name;
   };
 
   onSuggestionsClearRequested = () => {

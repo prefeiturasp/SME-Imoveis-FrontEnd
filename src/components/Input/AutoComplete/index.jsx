@@ -27,7 +27,7 @@ export class AutoComplete extends React.Component {
       <div className="input">
         {label && [
           required && !esconderAsterisco && (
-            <span className="required-asterisk">*</span>
+            <span key={2} className="required-asterisk">*</span>
           ),
           <label
             key={1}
