@@ -142,8 +142,6 @@ export class CadastroImovel extends Component {
                     component={InputText}
                     label="Nome"
                     name="proponente.nome"
-                    required
-                    validate={required}
                   />
                 </div>
                 <div className="p-col">
@@ -152,8 +150,6 @@ export class CadastroImovel extends Component {
                     component={InputText}
                     label="CPF/CNPJ"
                     name="proponente.cpf_cnpj"
-                    required
-                    validate={required}
                     maxLength="18"
                   />
                 </div>
@@ -162,8 +158,6 @@ export class CadastroImovel extends Component {
                     component={InputText}
                     label="E-mail"
                     name="proponente.email"
-                    required
-                    validate={required && email}
                   />
                 </div>
                 <div className="p-col">
@@ -172,8 +166,6 @@ export class CadastroImovel extends Component {
                     component={InputText}
                     label="Telefone"
                     name="proponente.telefone"
-                    required
-                    validate={required}
                   />
                 </div>
               </div>
@@ -267,7 +259,7 @@ export class CadastroImovel extends Component {
                     id="planta"
                     accept="file/pdf"
                     className="form-control-file"
-                    label="Planta Baixa"
+                    label="Fotos / Planta Baixa"
                     required
                     validate={required}
                   />
