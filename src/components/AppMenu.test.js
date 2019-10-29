@@ -13,12 +13,14 @@ describe("test <AppMenu>", () => {
       to: "/"
     },
     {
-      label: 'Components', icon: 'pi pi-fw pi-globe', badge: '9',
+      label: "Components",
+      icon: "pi pi-fw pi-globe",
+      badge: "9",
       items: [
-        {label: 'Sample Page', icon: 'pi pi-fw pi-th-large', to: '/sample'}
+        { label: "Sample Page", icon: "pi pi-fw pi-th-large", to: "/sample" }
       ]
     }
-  ]
+  ];
 
   beforeAll(() => {
     wrapper = mount(

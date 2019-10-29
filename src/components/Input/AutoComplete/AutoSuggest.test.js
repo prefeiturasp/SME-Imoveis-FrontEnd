@@ -1,7 +1,7 @@
 import { mount } from "enzyme";
 import React from "react";
 import { required } from "helpers/fieldValidators";
-import {AutoSuggestAddress} from "./AutoSuggest";
+import { AutoSuggestAddress } from "./AutoSuggest";
 
 describe("test <AutoSuggestAddress>", () => {
   let wrapper;

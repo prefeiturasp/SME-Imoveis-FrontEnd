@@ -1,6 +1,24 @@
 import React from "react";
+import { FileUpload as FileUploadPR } from "primereact/fileupload";
+
 import { InputErroMensagem } from "./InputErroMensagem";
 import { HelpText } from "components/HelpText";
+import { asyncForEach, readerFile } from "helpers/utils";
+
+class CustomFileUploadPR extends FileUploadPR {
+  async upload() {
+    const { onUploadChange } = this.props;
+    const { files } = this.state;
+    let data = [];
+
+    await asyncForEach(files, async file => {
+      await readerFile(file).then(v => {
+        data.push(v);
+      });
+    });
+    onUploadChange(data);
+  }
+}
 
 export class FileUpload extends React.Component {
   constructor(props) {
@@ -8,12 +26,12 @@ export class FileUpload extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange(e) {
+  onChange(data) {
     const {
       input: { onChange }
     } = this.props;
-    if (e.target.files[0]) {
-      onChange(e.target.files[0]);
+    if (data) {
+      onChange(data);
     }
   }
 
@@ -37,7 +55,9 @@ export class FileUpload extends React.Component {
       <div className="input">
         {label && [
           required && !esconderAsterisco && (
-            <span key={1} className="required-asterisk">*</span>
+            <span key={1} className="required-asterisk">
+              *
+            </span>
           ),
           <label
             key={2}
@@ -47,19 +67,23 @@ export class FileUpload extends React.Component {
             {label}
           </label>
         ]}
-        <input
-          {...inputProps}
-          className={`form-control ${className} ${meta.touched &&
-            meta.error &&
-            "invalid-field"}`}
+
+        <CustomFileUploadPR
           disabled={disabled}
           name={name}
+          id={id}
           placeholder={placeholder}
           required={required}
-          type="file"
-          onChange={this.onChange}
-          id={id}
+          className={`${className} 
+             ${meta.touched && meta.error && "invalid-field"}`}
+          {...inputProps}
           accept={accept}
+          auto={true}
+          multiple={true}
+          maxFileSize={2 * 1024 * 1024}
+          chooseLabel="Selecione os arquivos"
+          cancelLabel="Cancelar"
+          onUploadChange={this.onChange}
         />
         <HelpText helpText={helpText} />
         <InputErroMensagem meta={meta} />

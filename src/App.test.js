@@ -7,8 +7,6 @@ import configureStore from "redux-mock-store";
 
 import AppLayout from "./App";
 
-
-
 describe("test <AppLayout>", () => {
   const mockStore = configureStore();
   const initialState = {};

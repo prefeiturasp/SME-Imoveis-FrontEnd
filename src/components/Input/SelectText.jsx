@@ -25,7 +25,9 @@ export class SelectText extends React.Component {
       <div className="input">
         {label && [
           required && !esconderAsterisco && (
-            <span key={2} className="required-asterisk">*</span>
+            <span key={2} className="required-asterisk">
+              *
+            </span>
           ),
           <label
             key={1}

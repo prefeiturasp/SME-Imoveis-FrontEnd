@@ -55,6 +55,10 @@ export class CadastroImovel extends Component {
   }
 
   onSubmit(values) {
+    const sub_endereco = values.endereco.endereco;
+    delete values.endereco.endereco;
+    values["endereco"] = { ...values.endereco, ...sub_endereco };
+
     Imovel.create(values)
       .then(resp => {
         this.resetForm();
@@ -95,7 +99,12 @@ export class CadastroImovel extends Component {
   };
 
   onFetchCEP = value => {
-    fetch(`https://viacep.com.br/ws/SP/São%20Paulo/${value.trim()}/json`)
+    value = value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLocaleLowerCase()
+      .trim();
+    fetch(`https://viacep.com.br/ws/SP/sao%20paulo/${value}/json`)
       .then(response => response.json())
       .then(json => {
         const data = json.map(data => {
@@ -134,9 +143,10 @@ export class CadastroImovel extends Component {
             className="p-grid p-fluid"
             onKeyPress={this.onKeyPress}
           >
-            <div className="p-col-6">
+            {/* Proponente */}
+            <div className="p-col-12 p-md-4">
               <div className="card card-w-title">
-                <h2>Dados do Proponente</h2>
+                <h3>Proponente</h3>
                 <div className="p-col">
                   <Field
                     component={InputText}
@@ -170,9 +180,11 @@ export class CadastroImovel extends Component {
                 </div>
               </div>
             </div>
-            <div className="p-col-6">
+
+            {/* Proprietário */}
+            <div className="p-col-12 p-md-4">
               <div className="card card-w-title">
-                <h2>Dados do Proprietário do Imóvel</h2>
+                <h3>Proprietário do Imóvel</h3>
                 <div className="p-col">
                   <Field
                     component={InputText}
@@ -194,13 +206,38 @@ export class CadastroImovel extends Component {
                   />
                 </div>
                 <div className="p-col">
-                  <h2>Dados do Imóvel</h2>
+                  <Field
+                    component={InputText}
+                    label="E-mail"
+                    name="contato.email"
+                    required
+                    validate={required && email}
+                  />
+                </div>
+                <div className="p-col">
+                  <Field
+                    {...fieldTel}
+                    component={InputText}
+                    label="Telefone"
+                    name="contato.telefone"
+                    required
+                    validate={required}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Imovel */}
+            <div className="p-col-12 p-md-4">
+              <div className="card card-w-title">
+                <div className="p-col">
+                  <h3>Dados do Imóvel</h3>
                 </div>
                 <div className="p-col">
                   <Field
                     component={AutoComplete}
                     label="Endereço"
-                    name="endereco"
+                    name="endereco.endereco"
                     required
                     validate={required}
                     handleChange={this.handleAddressChange}
@@ -255,8 +292,8 @@ export class CadastroImovel extends Component {
                 <div className="p-col">
                   <Field
                     component={FileUpload}
-                    name="planta"
-                    id="planta"
+                    name="planta_fotos"
+                    id="planta_fotos"
                     accept="file/pdf"
                     className="form-control-file"
                     label="Fotos / Planta Baixa"

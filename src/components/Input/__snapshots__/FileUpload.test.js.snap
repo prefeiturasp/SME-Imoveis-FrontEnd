@@ -26,23 +26,111 @@ exports[`test <FileUpload> renders component 1`] = `
   >
     <span
       className="required-asterisk"
+      key="1"
     >
       *
     </span>
     <label
       className="col-form-label undefined"
       htmlFor="myCombo"
-      key="1"
+      key="2"
     >
       mylabel
     </label>
-    <input
-      className="form-control teste invalid-field"
+    <CustomFileUploadPR
+      accept={null}
+      auto={true}
+      cancelLabel="Cancelar"
+      chooseLabel="Selecione os arquivos"
+      className="teste 
+             invalid-field"
+      disabled={false}
+      id={null}
+      invalidFileSizeMessageDetail="maximum upload size is {0}."
+      invalidFileSizeMessageSummary="{0}: Invalid file size, "
+      maxFileSize={2097152}
+      mode="advanced"
+      multiple={true}
       name="myCombo"
-      onChange={[Function]}
+      onBeforeSend={null}
+      onBeforeUpload={null}
+      onChange={[MockFunction]}
+      onClear={null}
+      onError={null}
+      onProgress={null}
+      onSelect={null}
+      onUpload={null}
+      onUploadChange={[Function]}
+      onValidationFail={null}
+      previewWidth={50}
       required={true}
-      type="file"
-    />
+      style={null}
+      uploadLabel="Upload"
+      url={null}
+      widthCredentials={false}
+    >
+      <div
+        className="p-fileupload p-component teste 
+             invalid-field"
+        id={null}
+        style={null}
+      >
+        <div
+          className="p-fileupload-buttonbar"
+        >
+          <span
+            className="p-button p-fileupload-choose p-component p-button-text-icon-left"
+            icon="pi pi-plus"
+          >
+            <input
+              accept={null}
+              disabled={false}
+              multiple={true}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              type="file"
+            />
+            <span
+              className="p-button-icon p-button-icon-left p-clickable pi pi-fw pi-plus"
+            />
+            <span
+              className="p-button-text p-clickable"
+            >
+              Selecione os arquivos
+            </span>
+          </span>
+        </div>
+        <div
+          className="p-fileupload-content"
+          onDragEnter={[Function]}
+          onDragLeave={[Function]}
+          onDragOver={[Function]}
+          onDrop={[Function]}
+        >
+          <Messages
+            className={null}
+            id={null}
+            onClick={null}
+            onRemove={null}
+            style={null}
+          >
+            <div
+              className={null}
+              id={null}
+              style={null}
+            >
+              <TransitionGroup
+                childFactory={[Function]}
+                component="div"
+              >
+                <div />
+              </TransitionGroup>
+            </div>
+          </Messages>
+        </div>
+      </div>
+    </CustomFileUploadPR>
     <HelpText>
       <div
         className="help-text"

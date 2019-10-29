@@ -4,7 +4,6 @@ import { mount } from "enzyme";
 import { required } from "helpers/fieldValidators";
 import { FileUpload } from "./FileUpload";
 
-
 describe("test <FileUpload>", () => {
   let wrapper;
   let onChange = jest.fn();
@@ -29,8 +28,8 @@ describe("test <FileUpload>", () => {
         {...props}
       />
     );
-  });  
-  
+  });
+
   it("renders component", () => {
     expect(wrapper).toMatchSnapshot();
   });
