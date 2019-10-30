@@ -2,31 +2,52 @@
 
 exports[`test <AutoComplete> renders component 1`] = `
 <AutoComplete
-  className=""
+  className="teste"
   disabled={false}
   esconderAsterisco={false}
   handleChange={[Function]}
   helpText=""
   input={
     Object {
+      "onChange": [MockFunction],
       "value": "",
     }
   }
-  label=""
+  label="mylabel"
   labelClassName=""
-  meta={Object {}}
-  name=""
+  meta={
+    Object {
+      "error": "This field is required",
+      "touched": true,
+    }
+  }
+  name="myCombo"
   placeholder=""
-  required={false}
+  required={true}
+  validate={[Function]}
   value=""
 >
   <div
     className="input"
   >
+    <span
+      className="required-asterisk"
+      key="2"
+    >
+      *
+    </span>
+    <label
+      className="col-form-label "
+      htmlFor="myCombo"
+      key="1"
+    >
+      mylabel
+    </label>
     <AutoSuggestAddress
-      className=" undefined"
+      className="teste invalid-field"
       onAddressSelected={[Function]}
-      required={false}
+      onChange={[MockFunction]}
+      required={true}
       value=""
     >
       <Autosuggest
@@ -38,11 +59,11 @@ exports[`test <AutoComplete> renders component 1`] = `
         inputProps={
           Object {
             "autoFocus": true,
-            "className": "form-control  undefined",
+            "className": "form-control teste invalid-field",
             "name": undefined,
             "onChange": [Function],
             "placeholder": "Ex: Rua Doutor Diogo de Faria",
-            "required": false,
+            "required": true,
             "type": "search",
             "value": "",
           }
@@ -82,14 +103,14 @@ exports[`test <AutoComplete> renders component 1`] = `
           inputProps={
             Object {
               "autoFocus": true,
-              "className": "form-control  undefined",
+              "className": "form-control teste invalid-field",
               "name": undefined,
               "onBlur": [Function],
               "onChange": [Function],
               "onFocus": [Function],
               "onKeyDown": [Function],
               "placeholder": "Ex: Rua Doutor Diogo de Faria",
-              "required": false,
+              "required": true,
               "type": "search",
               "value": "",
             }
@@ -139,14 +160,14 @@ exports[`test <AutoComplete> renders component 1`] = `
               aria-controls="react-autowhatever-1"
               autoComplete="off"
               autoFocus={true}
-              className="form-control  undefined"
+              className="form-control teste invalid-field"
               key="react-autowhatever-1-input"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
               placeholder="Ex: Rua Doutor Diogo de Faria"
-              required={false}
+              required={true}
               type="search"
               value=""
             />
@@ -168,11 +189,22 @@ exports[`test <AutoComplete> renders component 1`] = `
       />
     </HelpText>
     <InputErroMensagem
-      meta={Object {}}
+      meta={
+        Object {
+          "error": "This field is required",
+          "touched": true,
+        }
+      }
     >
       <div
         className="error-or-warning-message"
-      />
+      >
+        <div
+          className="error-message"
+        >
+          This field is required
+        </div>
+      </div>
     </InputErroMensagem>
   </div>
 </AutoComplete>
