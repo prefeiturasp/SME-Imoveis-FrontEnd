@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
-import "./styles/styles.scss";
+import ReactGA from 'react-ga';
+
 import Home from "./components/Home/Home";
 import CadastroImovel from "./components/CadastroImovel";
 
-import ReactGA from 'react-ga';
-ReactGA.initialize('XXXXXXXX');
+// Style
+import "./styles/styles.scss";
+import "./App.scss";
+
+ReactGA.initialize('GA-XXXXXXXX');
 ReactGA.pageview(window.location.pathname + window.location.search);
+
 
 export default class App extends Component {
   constructor(props) {
