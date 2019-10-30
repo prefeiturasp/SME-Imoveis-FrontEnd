@@ -9,13 +9,6 @@ export default class BasePage extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    if (document.querySelector(".conteudo")){
-      document.querySelector(".conteudo").style.marginTop =
-        document.querySelector(".busca-escolas").clientHeight / 2 / 2 + "px";
-    }
-  }
-
   render() {
     return (
       <div>

@@ -100,30 +100,22 @@ export default class Menu extends Component {
               <div className="col-lg-6 col-xs-12 d-flex justify-content-lg-end justify-content-center">
                 <ul className="list-inline my-auto">
                   <li className="list-inline-item">
-                    <a
-                      href="https://pt-br.facebook.com/EducaPrefSP/"
-                    >
+                    <a href="https://pt-br.facebook.com/EducaPrefSP/">
                       <FontAwesomeIcon size="2x" icon={faFacebookSquare} />
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a
-                      href="https://www.instagram.com/educaprefsp/"
-                    >
+                    <a href="https://www.instagram.com/educaprefsp/">
                       <FontAwesomeIcon size="2x" icon={faInstagram} />
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a
-                      href="https://twitter.com/EducaPrefSP"
-                    >
+                    <a href="https://twitter.com/EducaPrefSP">
                       <FontAwesomeIcon size="2x" icon={faTwitter} />
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a
-                      href="https://www.youtube.com/c/EducaPrefSP"
-                    >
+                    <a href="https://www.youtube.com/c/EducaPrefSP">
                       <FontAwesomeIcon size="2x" icon={faYoutube} />
                     </a>
                   </li>
@@ -166,7 +158,6 @@ export default class Menu extends Component {
                   </Link>
                 </li>
 
-                
                 <li className="nav-item">
                   <a
                     className="nav-link text-secondary mb-1 pb-0"
@@ -175,7 +166,6 @@ export default class Menu extends Component {
                     Portal da Transparência
                   </a>
                 </li>
-              
               </ul>
             </div>
           </div>

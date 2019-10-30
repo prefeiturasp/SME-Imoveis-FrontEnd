@@ -98,7 +98,6 @@ export class CadastroImovel extends Component {
     this.props.reset();
   };
 
-
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
 
@@ -107,7 +106,6 @@ export class CadastroImovel extends Component {
         <div id="conteudo" className="w-100 desenvolvimento-escolar">
           <div className="container pt-5 pb-5">
             <div className="row">
-
               <div className="col-12 mb-4">
                 <h1>Cadastro de Oferta de Imóvel</h1>
               </div>
@@ -146,7 +144,9 @@ export class CadastroImovel extends Component {
                               className="btn btn-outline-danger"
                               disabled={pristine || submitting}
                               onClick={this.resetForm}
-                            >Limpar</button>
+                            >
+                              Limpar
+                            </button>
                           </div>
                           <div className="col-6">
                             <Button
@@ -158,9 +158,7 @@ export class CadastroImovel extends Component {
                       </div>
                     </div>
                   </div>
-                  
                 </Form>
-
               </div>
             </div>
           </div>

@@ -72,51 +72,26 @@ body {
 
 // Home
 
-.busca-escolas {
-  background-blend-mode: lighten;
-  background-size: cover;
+.oferta-imoveis {
+  background: url("../img/banner_home.png");
   color: $corCinzaHome;
   height: 490px;
 
   .conteudo {
     margin: 0 auto;
     z-index: 1;
-    width: auto;
+    position: absolute;
+    top: 25%;
 
     h2 {
       font-size: 30px;
       font-weight: bold;
     }
-
-    .busca {
-      .form-control {
-        font-size: 16px;
-        font-style: italic;
-        text-align: center;
-      }
-
-      .rounded-pill {
-        border-radius: 30px !important;
-      }
-
-      .rounded-bottom-0 {
-        border-bottom-left-radius: 0 !important;
-        border-bottom-right-radius: 0 !important;
-      }
-    }
-
-    .resultados {
-      &.borda-on {
-        border-color: $corAzulBuscaOn !important;
-      }
-
-      &.borda-off {
-        border-color: $corCinzaBuscaOff !important;
-      }
-
-      .cursor-link {
-        cursor: pointer;
-      }
+    p {
+      font-size: 22;
+      line-height: 26px;
+      font-style: normal;
+      font-weight: bold;
     }
   }
 }
@@ -124,8 +99,8 @@ body {
 .sociedade-governo {
   background: $corAzulPortal;
 
-  button {
-    background: $corVerdeBotaoHome;
+  .btn {
+    border: 1px solid #fff;
   }
 }
 
@@ -248,7 +223,6 @@ h2 {
     margin-bottom: 40px;
   }
 
-
   .mapa {
     background: $corBranco;
     border: 0 none;
@@ -264,7 +238,6 @@ h2 {
         height: 500px;
       }
     }
-
   }
 }
 
@@ -331,6 +304,6 @@ h2 {
   }
 }
 
-.p-dropdown{
+.p-dropdown {
   width: 100%;
 }

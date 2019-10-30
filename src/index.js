@@ -14,8 +14,8 @@ import { BrowserRouter } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 
 // Style
-import './index.css';
-import './include/bootstrap';
+import "./index.css";
+import "./include/bootstrap";
 
 // see https://github.com/zalmoxisus/redux-devtools-extension
 let devTools = undefined;
