@@ -10,8 +10,12 @@ import thunk from "redux-thunk";
 
 import App from "./App";
 //import * as serviceWorker from './serviceWorker';
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
+
+// Style
+import './index.css';
+import './include/bootstrap';
 
 // see https://github.com/zalmoxisus/redux-devtools-extension
 let devTools = undefined;
@@ -32,11 +36,11 @@ const store = applyMiddleware(thunk, promise)(createStore)(
 
 ReactDOM.render(
   <Provider store={store}>
-    <HashRouter>
+    <BrowserRouter>
       <ScrollToTop>
         <App></App>
       </ScrollToTop>
-    </HashRouter>
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );
