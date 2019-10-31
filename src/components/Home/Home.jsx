@@ -46,7 +46,7 @@ export default class Home extends Component {
                   receba iluminação natural, banheiros com possibilidade de adaptação para 
                   fraldário/vasos infantis, cozinha ampla, com espaço para refeitório e 
                   dispensa, espaço externo para instalação de playground e solário.
-                  Clique aqui e veja abaixo todas as condições necessárias 
+                  <a href="http://portal.sme.prefeitura.sp.gov.br/Portals/1/Files/35746.pdf" download> Clique aqui</a> e veja abaixo todas as condições necessárias 
                   (link da Orientação Normativa Nº 01/2015).
                   </div>
                 </BlocoTexto>
