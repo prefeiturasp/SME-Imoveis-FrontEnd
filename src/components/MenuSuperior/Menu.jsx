@@ -37,20 +37,15 @@ export default class Menu extends Component {
                       <span className="span-accesskey">2</span>{" "}
                     </a>
                   </li>
-                  <li onClick={focusBusca} className="list-inline-item">
-                    <a href="#busca">
-                      Ir para a busca<span className="span-accesskey">3</span>{" "}
-                    </a>
-                  </li>
                   <li className="list-inline-item">
                     <a href="#rodape">
                       Ir para o rodapé
-                      <span className="span-accesskey">4</span>{" "}
+                      <span className="span-accesskey">3</span>{" "}
                     </a>
                   </li>
                 </ul>
               </div>
-              <div className="col-6 text-right">
+              {/*(<div className="col-6 text-right">
                 <ul className="list-inline mt-3">
                   <li className="list-inline-item">
                     <a href="https://educacao.sme.prefeitura.sp.gov.br/acessibilidade/">
@@ -66,7 +61,7 @@ export default class Menu extends Component {
                     <FontAwesomeIcon icon={faTextHeight} />
                   </li>
                 </ul>
-              </div>
+              </div>*/}
             </div>
           </div>
         </div>

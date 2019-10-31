@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import BasePage from "components/Base/BasePage";
 import BlocoTexto from "components/BlocoTexto";
 
-import imgSalaAula from "img/sala_aula.png";
-import imgMapaSaoPaulo from "img/mapa_soapaulo.png";
+import listaDeSubdistritos from "files/lista_de_subdistritos.pdf";
+import imgSalaAula from "img/02.jpg";
+import imgMapaSaoPaulo from "img/03.jpg";
 
 export default class Home extends Component {
   render() {
@@ -14,11 +15,11 @@ export default class Home extends Component {
           <div className="container">
             <div className="conteudo">
               <div className="col-lg-6 col-sm-12 mt-5">
-                <h2>Ajude a aumentar o número de creches em São Paulo</h2>
+                <h2>Venha contribuir com a ampliação de vagas de creche em São Paulo!</h2>
                 <p>
-                  Você pode ajudar no aumento do número de creches na cidade
-                  disponibilizando o seu imóvel. Veja abaixo quais são os
-                  requisitos mínimos e como se cadastrar para a vistoria
+                Seu imóvel pode ser adaptado para atendimento de creche mantida 
+                por uma Organização da Sociedade Civil. Veja abaixo os requisitos 
+                mínimos e como se cadastrar.
                 </p>
                 <Link className="btn btn-primary pl-4 pr-4" to="/form">
                   Cadastrar imóvel
@@ -41,28 +42,12 @@ export default class Home extends Component {
               <div className="col-lg-6">
                 <BlocoTexto title="O que é necessário?">
                   <div className="justify-content-lg-end justify-content-center">
-                    A Secretaria Municipal de Educação está cadastrando imóveis
-                    para atendimento de Educação Infantil – Creche. Verifique se
-                    seu imóvel atende nossos requisitos:
-                    <br />
-                    <b>Documentação:</b>IPTU (ou registro do INCRA), registro de
-                    imóvel e planta.
-                    <br />
-                    <b>Condições do imóvel:</b>o prédio precisa ser de alvenaria
-                    em bom estado de conservação; com janelas que permitam que
-                    ventilação, iluminação natural e visibilidade para ambiente
-                    externo; corrimão na altura das crianças e dos adultos; piso
-                    lavável, não escorregadio e de fácil limpeza, nas salas de
-                    atividade com conforto térmico; as salas devem ter tem
-                    minimamente 10,5m²; banheiro amplo para adaptação para
-                    fraldário ou instalação de bancadas para troca de fraldas e
-                    vasos infantis; espaço destinado para instalação de lactário
-                    próximo à cozinha; espaço que possibilite a organização de
-                    refeitório; cozinha ampla para instalação de fogão
-                    industrial e pia com 2 cubas; espaço para dispensa; depósito
-                    de lixo externo; espaço externo para instalação de
-                    playground e solário; salas para
-                    direção/coordenação/secretaria/sala de professores.
+                  <b>Condições básicas do imóvel:</b> prédio de alvenaria, bem ventilado, que 
+                  receba iluminação natural, banheiros com possibilidade de adaptação para 
+                  fraldário/vasos infantis, cozinha ampla, com espaço para refeitório e 
+                  dispensa, espaço externo para instalação de playground e solário.
+                  Clique aqui e veja abaixo todas as condições necessárias 
+                  (link da Orientação Normativa Nº 01/2015).
                   </div>
                 </BlocoTexto>
               </div>
@@ -75,20 +60,15 @@ export default class Home extends Component {
             <div className="row">
               <div className="col-lg-6 col-sm-12 mb-4 mb-lg-0">
                 <BlocoTexto title="Aonde a cidade precisa de novas creches?">
-                  Ao lado você encontra o mapa de São Paulo com indicações de
-                  regiões com mais e menos procura por creches.
-                  <br />
-                  As regiões em vermelho e amarelo são as que
+                  Todas as regiões da cidade podem ter imóveis cadastrados, 
+                  a Secretaria Municipal de Educação analisará todas as solicitações. 
+                  As regiões com maior necessidade estão destacadas na tabela.
                 </BlocoTexto>
+                <a href={listaDeSubdistritos} className="btn btn-primary" download>Mapa da Demanda</a>
                 <BlocoTexto title=" O que acontece depois do cadastro?">
-                  Após o envio do cadastro, você receberá um número de protocolo
-                  para a identificação e acompanhamento da solicitação.
-                  <br />
-                  Também será enviado um e-mail da SME confirmando o cadastro e
-                  com alguns detalhes do processo: se o imóvel será vistoriado,
-                  e que uma Organização da Sociedade Civil entrará em contato
-                  para elaboração de plano de adequação do imóvel e tratativas
-                  para a locação.
+                Você receberá um número de protocolo para identificação da solicitação.
+                No prazo de 30 dias um novo email será enviado com o resultado da análise
+                 da área técnica quanto a possibilidade de vistoria no imóvel.
                 </BlocoTexto>
               </div>
               <div className="col-lg-6 col-sm-12 mt-5 mb-5 d-flex justify-content-lg-end justify-content-center">

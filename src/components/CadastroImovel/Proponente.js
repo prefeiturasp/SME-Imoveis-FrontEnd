@@ -2,8 +2,11 @@ import React, { Component } from "react";
 
 import { Field } from "redux-form";
 import { InputText } from "components/Input/InputText";
+import { SelectText } from "components/Input/SelectText";
 import { fieldCPF_CNPJ, fieldTel } from "helpers/textMask";
 import { email } from "helpers/fieldValidators";
+import { TIPO_PROPONENTE } from "constants/choices.constants";
+
 
 export class Proponente extends Component {
   render() {
@@ -11,6 +14,13 @@ export class Proponente extends Component {
       <div className="card">
         <div className="card-body">
           <h4 className="card-title">Proponente</h4>
+          <Field
+            component={SelectText}
+            options={TIPO_PROPONENTE}
+            placeholder="Selecione um Tipo"
+            label="Tipo"
+            name="endereco.tipo"
+          />
           <Field component={InputText} label="Nome" name="proponente.nome" />
           <Field
             customChange={fieldCPF_CNPJ}

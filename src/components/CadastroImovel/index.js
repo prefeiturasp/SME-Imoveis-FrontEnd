@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import { Form, reduxForm } from "redux-form";
 import { Button } from "primereact/button";
 import { Messages } from "primereact/messages";
@@ -46,6 +45,7 @@ export class CadastroImovel extends Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
+    this.setAddressSelected = this.setAddressSelected.bind(this);
   }
 
   onKeyPress(event) {
@@ -98,6 +98,12 @@ export class CadastroImovel extends Component {
     this.props.reset();
   };
 
+  setAddressSelected(value) {
+    this.setState({
+      AddressSelected: value
+    })
+  }
+
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
 
@@ -129,8 +135,8 @@ export class CadastroImovel extends Component {
                   </div>
 
                   {/* Imovel */}
-                  <div className="p-col-12 p-md-6">
-                    <Imovel />
+                  <div className="p-col-12">
+                    <Imovel {...this.state} setAddressSelected={this.setAddressSelected}/>
                   </div>
 
                   {/* Botao */}
