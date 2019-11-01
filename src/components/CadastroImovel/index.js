@@ -15,6 +15,7 @@ import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
+import "../../styles/styles.scss";
 
 const ENTER = 13;
 
@@ -140,29 +141,19 @@ export class CadastroImovel extends Component {
                   </div>
 
                   {/* Botao */}
-                  <div className="p-col-12 ">
-                    <div className="card">
-                      <div className="card-body">
-                        <div className="row">
-                          <div className="col-6">
-                            <button
-                              type="button"
-                              className="btn btn-outline-danger"
-                              disabled={pristine || submitting}
-                              onClick={this.resetForm}
-                            >
-                              Limpar
-                            </button>
-                          </div>
-                          <div className="col-6">
-                            <Button
-                              label="Enviar"
-                              disabled={pristine || submitting}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="botoes">
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      disabled={pristine || submitting}
+                      onClick={this.resetForm}
+                    >
+                      Limpar
+                    </button>
+                    <Button
+                      label="Enviar"
+                      disabled={pristine || submitting}
+                    />
                   </div>
                 </Form>
               </div>

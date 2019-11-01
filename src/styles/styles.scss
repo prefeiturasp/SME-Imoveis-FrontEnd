@@ -74,7 +74,7 @@ body {
 
 .oferta-imoveis {
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 33.83%, rgba(255, 255, 255, 0.648) 64.77%, rgba(255, 255, 255, 0.324) 92.11%), url('../img/01.jpg'), #C4C4C4;
-  color: $corCinzaHome;
+  color: $corPretoPortal;
   height: 490px;
   background-repeat: no-repeat;
   background-size: cover;
@@ -82,14 +82,14 @@ body {
     margin: 0 auto;
     z-index: 1;
     position: absolute;
-    top: 25%;
-
-    h2 {
-      font-size: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    h1 {
+      font-size: 40px;
       font-weight: bold;
     }
     p {
-      font-size: 22;
+      font-size: 20px;
       line-height: 26px;
       font-style: normal;
       font-weight: bold;
@@ -97,11 +97,52 @@ body {
   }
 }
 
+.btn {
+  &.btn-primary {
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #1A6EB8;
+    border-color: #1A6EB8;
+    margin-top: 1em;
+    &:hover {
+      background-color: #004a99;
+      border-color: #004a99;
+    }
+    &.hero {
+      font-size: 18px;
+    }
+  }
+}
+
+.o-que-e-necessario {
+  display: flex;
+  align-items: center;
+}
+
 .sociedade-governo {
   background: $corAzulPortal;
-
+  .container {
+    padding: 4em 0;
+  }
+  h3 {
+    font-weight: bold;
+  }
   .btn {
+    margin-top: 0;
     border: 1px solid #fff;
+    font-size: 18px;
+    &:hover{
+      background-color: #ffffff;
+      color: #196cbd;
+    }  
+  }
+}
+
+.cidade-precisa {
+  .container {
+    .row {
+      align-items: center;
+    }
   }
 }
 
@@ -307,4 +348,18 @@ h2 {
 
 .p-dropdown {
   width: 100%;
+}
+
+.desenvolvimento-escolar {
+  .botoes {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em;
+    margin-top: 1.5em;
+    button {
+      font-weight: bold;
+      font-size: 16px;
+    }
+  }
 }
