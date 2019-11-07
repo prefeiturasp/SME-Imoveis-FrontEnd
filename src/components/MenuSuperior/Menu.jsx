@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import logoEducacaoSP from "../../img/educacao_sp.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdjust, faTextHeight } from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebookSquare,
   faInstagram,
@@ -14,9 +13,6 @@ import "./style.scss";
 export default class Menu extends Component {
   render() {
     const {
-      alterarFonte,
-      alterarContraste,
-      focusBusca,
       esconderLinkBuscaEscola
     } = this.props;
     return (
@@ -149,7 +145,7 @@ export default class Menu extends Component {
                     className="nav-link text-secondary mb-1 pb-0"
                     to="/form"
                   >
-                    Oferta de Imoveis
+                    Oferta de Imóveis
                   </Link>
                 </li>
 

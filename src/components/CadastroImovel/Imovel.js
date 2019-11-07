@@ -90,6 +90,7 @@ export class Imovel extends Component {
                 required
                 validate={required}
                 handleChange={this.handleAddressChange}
+                {...this.props}
               />
               <Field
                 component={SelectText}
@@ -136,6 +137,7 @@ export class Imovel extends Component {
                 label="Fotos / Planta Baixa"
                 required
                 validate={required}
+                {...this.props}
               />
 
             </div>

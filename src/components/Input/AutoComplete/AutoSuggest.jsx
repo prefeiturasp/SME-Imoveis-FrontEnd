@@ -24,6 +24,18 @@ export class AutoSuggestAddress extends Component {
     });
   };
 
+  handleClearInput = () => {
+    this.setState({
+      value: '',
+    });
+  };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.resetarFile && !prevProps.resetarFile) {
+      this.handleClearInput();
+    }
+  }
+
   onSuggestionsFetchRequested = async ({ value }) => {
     if (value.length >= 4) {
       const response = await fetch(

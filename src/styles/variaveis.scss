@@ -28,6 +28,17 @@ $gray: #686868;
 $blackInput: $corPretoPortal;
 $grayDisabled: #dadada;
 
+/* Toasts */
+$blueBackgroundToastInfo: #d1ecf1;
+$blueBackgroundToastPrimary: #cce5fd;
+$blueToastInfo: #0c5460;
+$greenBackgroundToastSuccess: #d4edda;
+$greenToastSuccess: #155724;
+$redToastError: #721c24;
+$redBackgroundToastError: #f8d7da;
+$yellowBackgroundToastWarning: #fff3cd;
+$yellowToastWarning: #856404;
+
 // Fontes
 
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,700");

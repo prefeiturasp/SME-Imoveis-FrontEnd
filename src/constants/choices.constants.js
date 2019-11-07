@@ -10,7 +10,7 @@ const TIPO_PROPONENTE = [
     },
     {
         value: 3,
-        label: "Ong"
+        label: "ONG"
     },
     {
         value: 4,

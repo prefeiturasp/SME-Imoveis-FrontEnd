@@ -7,7 +7,8 @@ import { reducer as formReducer } from "redux-form";
 // Middleware
 import promise from "redux-promise";
 import thunk from "redux-thunk";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import App from "./App";
 //import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
@@ -16,6 +17,8 @@ import ScrollToTop from "./components/ScrollToTop";
 // Style
 import "./index.css";
 import "./include/bootstrap";
+
+toast.configure();
 
 // see https://github.com/zalmoxisus/redux-devtools-extension
 let devTools = undefined;

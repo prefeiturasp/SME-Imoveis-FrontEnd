@@ -24,6 +24,7 @@ export class FileUpload extends React.Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    this.fileUpload = React.createRef();
   }
 
   onChange(data) {
@@ -32,6 +33,13 @@ export class FileUpload extends React.Component {
     } = this.props;
     if (data) {
       onChange(data);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.resetarFile && !prevProps.resetarFile) {
+      this.fileUpload.current.clear();
+      this.props.setResetarFileFalse();
     }
   }
 
@@ -69,6 +77,7 @@ export class FileUpload extends React.Component {
         ]}
 
         <CustomFileUploadPR
+          ref={this.fileUpload}
           disabled={disabled}
           name={name}
           id={id}

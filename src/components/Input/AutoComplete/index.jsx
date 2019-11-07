@@ -57,6 +57,7 @@ export class AutoComplete extends React.Component {
             onChange(result);
             handleChange(result);
           }}
+          {...this.props}
         />
 
         <HelpText helpText={helpText} />

@@ -103,7 +103,6 @@ body {
     font-size: 16px;
     background-color: #1A6EB8;
     border-color: #1A6EB8;
-    margin-top: 1em;
     &:hover {
       background-color: #004a99;
       border-color: #004a99;
@@ -142,6 +141,9 @@ body {
   .container {
     .row {
       align-items: center;
+      .duvidas {
+        padding-top: 50px;
+      }
     }
   }
 }

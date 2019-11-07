@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Form, reduxForm } from "redux-form";
-import { Button } from "primereact/button";
 import { Messages } from "primereact/messages";
 
 import BasePage from "components/Base/BasePage";
@@ -16,21 +15,11 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "../../styles/styles.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { ModalConfirmacaoCadastro } from "./components/ModalConfirmacaoCadastro";
+import { toastError } from "components/Toast/dialogs";
 
 const ENTER = 13;
-
-function join_error(errors) {
-  let text = "";
-  for (let key in errors) {
-    const element = errors[key];
-    if (!(element instanceof Array)) {
-      text += `${join_error(element)} \n`;
-    } else {
-      text += `${key}: ${element.join(",")} \n`;
-    }
-  }
-  return text;
-}
 
 export class CadastroImovel extends Component {
   constructor() {
@@ -41,12 +30,18 @@ export class CadastroImovel extends Component {
       endereco: "",
       bairro: "",
       selectCEP: [],
-      cep: ""
+      cep: "",
+      resetarFile: false,
+      protocolo: null,
+      showModal: false,
+      labelBotao: "Enviar"
     };
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
     this.setAddressSelected = this.setAddressSelected.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.setResetarFileFalse = this.setResetarFileFalse.bind(this);
   }
 
   onKeyPress(event) {
@@ -55,61 +50,54 @@ export class CadastroImovel extends Component {
     }
   }
 
+  closeModal() {
+    this.setState({ showModal: false });
+  }
+
   onSubmit(values) {
     const sub_endereco = values.endereco.endereco;
     delete values.endereco.endereco;
     values["endereco"] = { ...values.endereco, ...sub_endereco };
-
+    this.setState({ labelBotao: "Aguarde..." });
     ImovelService.create(values)
       .then(resp => {
         this.resetForm();
-        this.messages.show({
-          severity: "success",
-          summary: "Cadastro Realizado com sucesso",
-          detail: "Obrigado pelo cadastro, logo vc recebera mais informações.",
-          sticky: true
-        });
+        this.setState({ showModal: true, protocolo: resp.protocolo, labelBotao: 'Enviar' });
       })
       .catch(error => {
-        let text = "";
-        if (typeof error == "object") {
-          try {
-            text = join_error(error);
-          } catch (e) {
-            text = error.toString();
-            console.log(e);
-          }
-        } else {
-          text = error;
-        }
-        this.messages.show({
-          severity: "error",
-          summary: "Erro ao Realizado o cadatro",
-          detail: `Detalhes: ${text}`,
-          sticky: true
-        });
-        console.log(error);
+        toastError(`Erro ao efetuar cadastro`);
+        this.setState({ labelBotao: "Enviar" });
       });
   }
 
   resetForm = () => {
     this.setState({
-      AddressSelected: false
+      AddressSelected: false,
+      resetarFile: true
     });
     this.props.reset();
   };
 
+  setResetarFileFalse() {
+    this.setState({ resetarFile: false });
+  }
+
   setAddressSelected(value) {
     this.setState({
       AddressSelected: value
-    })
+    });
   }
 
   render() {
+    const { labelBotao, protocolo, showModal } = this.state;
     const { handleSubmit, pristine, submitting } = this.props;
-
     return (
       <BasePage>
+        <ModalConfirmacaoCadastro
+          protocolo={protocolo}
+          showModal={showModal}
+          closeModal={this.closeModal}
+        />
         <div id="conteudo" className="w-100 desenvolvimento-escolar">
           <div className="container pt-5 pb-5">
             <div className="row">
@@ -137,7 +125,11 @@ export class CadastroImovel extends Component {
 
                   {/* Imovel */}
                   <div className="p-col-12">
-                    <Imovel {...this.state} setAddressSelected={this.setAddressSelected}/>
+                    <Imovel
+                      {...this.state}
+                      setResetarFileFalse={this.setResetarFileFalse}
+                      setAddressSelected={this.setAddressSelected}
+                    />
                   </div>
 
                   {/* Botao */}
@@ -150,10 +142,13 @@ export class CadastroImovel extends Component {
                     >
                       Limpar
                     </button>
-                    <Button
-                      label="Enviar"
-                      disabled={pristine || submitting}
-                    />
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      disabled={pristine || submitting || labelBotao === 'Aguarde...'}
+                    >
+                      {labelBotao}
+                    </button>
                   </div>
                 </Form>
               </div>
