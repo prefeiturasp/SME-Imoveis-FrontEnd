@@ -18,7 +18,8 @@ export class AutoComplete extends React.Component {
       meta,
       name,
       required,
-      handleChange
+      handleChange,
+      onAddressBlur
     } = this.props;
     const {
       input: { value, onChange }
@@ -47,20 +48,22 @@ export class AutoComplete extends React.Component {
           required={required}
           value={value}
           onAddressSelected={dataAddress => {
-            const address = dataAddress.display_name.split(",");
             const result = {
-              latitude: dataAddress.lat,
-              longitude: dataAddress.lon,
-              endereco: address[0],
-              bairro: address[1]
+              latitude: dataAddress.geometry.coordinates[1],
+              longitude: dataAddress.geometry.coordinates[0],
+              endereco: dataAddress.properties.label,
+              bairro: dataAddress.properties.neighbourhood || "indisponível",
+              cep: dataAddress.properties.postalcode,
+              numero: dataAddress.properties.housenumber
             };
             onChange(result);
             handleChange(result);
           }}
+          onAddressBlur={onAddressBlur}
           {...this.props}
         />
 
-        <HelpText helpText={helpText} />
+        <HelpText helpText={helpText} red/>
         <InputErroMensagem meta={meta} />
       </div>
     );

@@ -5,7 +5,6 @@ import { InputText } from "components/Input/InputText";
 import { required } from "helpers/fieldValidators";
 
 import { FileUpload } from "components/Input/FileUpload";
-import { SelectText } from "components/Input/SelectText";
 import { AutoComplete } from "components/Input/AutoComplete";
 import { Card } from "primereact/card";
 import API_FILACRECHE from "constants/apiFilaCreche.constants";
@@ -18,64 +17,64 @@ export class Imovel extends Component {
       bairro: "",
       selectCEP: [],
       cep: "",
+      helpText: ""
     };
     this.grupo = [
       ["1", "Bercario I"],
       ["4", "Bercario II"],
       ["27", "Mini Grupo I"],
-      ["28", "Mini grupo II"],
-    ]
+      ["28", "Mini grupo II"]
+    ];
 
     this.handleAddressChange = this.handleAddressChange.bind(this);
     this.onFetchCEP = this.onFetchCEP.bind(this);
     this.onFetchGrupoCreche = this.onFetchGrupoCreche.bind(this);
+    this.onAddressBlur = this.onAddressBlur.bind(this);
   }
 
   onFetchCEP = dataAddress => {
-    const value = dataAddress.endereco
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLocaleLowerCase()
-      .trim();
-    fetch(`https://viacep.com.br/ws/SP/sao%20paulo/${value}/json`)
-      .then(response => response.json())
-      .then(json => {
-        const data = json.map(data => {
-          return {
-            value: data.cep,
-            label: `${data.cep} - ${data.logradouro} ${data.complemento}`
-          };
-        });
-
-        this.setState({ selectCEP: data });
-        this.grupo.map(item => 
-          this.onFetchGrupoCreche(item[0], dataAddress)
-        )
-      });
+    this.grupo.map(item => this.onFetchGrupoCreche(item[0], dataAddress));
   };
 
   onFetchGrupoCreche(grupo, endereco) {
     const { longitude, latitude } = endereco;
     fetch(`${API_FILACRECHE.demanda_endoint}/${longitude}/${latitude}/${grupo}`)
-    .then(response => response.json())
-    .then(json => {
-      let data = {};
-      data[grupo] = json.results.wait
-      this.setState( data )
-    });
+      .then(response => response.json())
+      .then(json => {
+        let data = {};
+        data[grupo] = json.results.wait;
+        this.setState(data);
+      });
   }
 
   handleAddressChange(dataAddress) {
+    if (dataAddress.cep) {
+      this.setState({
+        helpText: ""
+      });
+    }
     this.onFetchCEP(dataAddress);
     this.setState({
       ...dataAddress
     });
-    this.props.setAddressSelected(true);
+    this.props.setAddressSelected(true, dataAddress);
+  }
+
+  onAddressBlur(event) {
+    if (this.state.cep === "") {
+      this.setState({
+        helpText: "Endereço inválido. Selecione um resultado da lista."
+      });
+    } else {
+      this.setState({
+        helpText: ""
+      });
+    }
   }
 
   render() {
     const { AddressSelected } = this.props;
-    const { endereco, bairro } = this.state;
+    const { endereco, helpText } = this.state;
     return (
       <div className="card">
         <div className="card-body">
@@ -90,30 +89,12 @@ export class Imovel extends Component {
                 required
                 validate={required}
                 handleChange={this.handleAddressChange}
+                onAddressBlur={this.onAddressBlur}
+                helpText={helpText}
                 {...this.props}
               />
-              <Field
-                component={SelectText}
-                options={this.state.selectCEP}
-                onChange={event => this.setState({ cep: event.value })}
-                placeholder="Selecione um CEP"
-                label="CEP"
-                name="endereco.cep"
-                required
-                validate={required}
-              />
-
               <div className="row">
-                <div className="col-4">
-                  <Field
-                    component={InputText}
-                    label="Nº"
-                    name="endereco.numero"
-                    required
-                    validate={required}
-                  />
-                </div>
-                <div className="col-8">
+                <div className="col-12">
                   <Field
                     component={InputText}
                     label="Complemento"
@@ -139,44 +120,41 @@ export class Imovel extends Component {
                 validate={required}
                 {...this.props}
               />
-
             </div>
             <div className="p-col-12 p-md-6">
-              {AddressSelected && (<div>
-                <Card title="Endereço Selecionado">
-                  <b>Endereço:</b> <span>{endereco}</span>
-                  <br />
-                  <b>Bairro:</b> <span>{bairro}</span>
-                  <br />
-                  <b>Cidade:</b> <span>São Paulo </span>
-                  <b>Estado:</b> <span>SP</span>
-                </Card>
+              {AddressSelected && (
+                <div>
+                  <Card title="Endereço Selecionado">
+                    <b>Endereço:</b> <span>{endereco}</span>
+                    <br />
+                    <b>Cidade:</b> <span>São Paulo </span>
+                    <b>Estado:</b> <span>SP</span>
+                  </Card>
 
-                <Card title="Demanda da Região">
-                  <table className="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col">Grupo</th>
-                        <th scope="col">Fila</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {(this.grupo.map((item, i) => {
-                        return (
-                          <tr key={i}>
-                            <td>{item[1]}</td>
-                            <td>{this.state[item[0]]}</td>
-                          </tr>
-                        )
-                      })
-                      )}
-                    </tbody>
-                  </table>
-                </Card>
-              </div>)}
+                  <Card title="Demanda da Região">
+                    <table className="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">Grupo</th>
+                          <th scope="col">Fila</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {this.grupo.map((item, i) => {
+                          return (
+                            <tr key={i}>
+                              <td>{item[1]}</td>
+                              <td>{this.state[item[0]]}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </Card>
+                </div>
+              )}
             </div>
           </div>
-        
         </div>
       </div>
     );

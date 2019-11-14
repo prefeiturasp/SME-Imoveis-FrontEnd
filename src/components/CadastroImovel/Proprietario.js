@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import { Field } from "redux-form";
 import { InputText } from "components/Input/InputText";
 import { fieldTel, fieldCPF_CNPJ } from "helpers/textMask";
@@ -17,6 +16,7 @@ export class Proprietario extends Component {
             name="contato.nome"
             required
             validate={required}
+            autoFocus
           />
           <Field
             customChange={fieldCPF_CNPJ}

@@ -1,4 +1,3 @@
-import API_FILACRECHE from "constants/apiFilaCreche.constants";
 import React, { Component } from "react";
 import Autosuggest from "react-autosuggest";
 
@@ -26,7 +25,7 @@ export class AutoSuggestAddress extends Component {
 
   handleClearInput = () => {
     this.setState({
-      value: '',
+      value: ""
     });
   };
 
@@ -39,17 +38,35 @@ export class AutoSuggestAddress extends Component {
   onSuggestionsFetchRequested = async ({ value }) => {
     if (value.length >= 4) {
       const response = await fetch(
-        `${API_FILACRECHE.maps_api_endpoint}/q/${value.trim()}.js`
+        `https://georef.sme.prefeitura.sp.gov.br/v1/autocomplete?text=${value.trim()}&layers=address&boundary.gid=whosonfirst:locality:101965533`
       );
       const json = await response.json();
-      this.setState({ suggestions: json.results });
+      this.setState({ suggestions: json.features });
     }
   };
 
   getSuggestionValue = suggestion => {
     this.setState({ addressObject: suggestion });
     this.props.onAddressSelected(suggestion);
-    return suggestion.street || suggestion.name || suggestion.display_name;
+    return `${
+      suggestion.properties.street ? suggestion.properties.street + ", " : ""
+    }${
+      suggestion.properties.housenumber
+        ? suggestion.properties.housenumber + ", "
+        : ""
+    }${
+      suggestion.properties.neighbourhood
+        ? suggestion.properties.neighbourhood + ", "
+        : ""
+    }${
+      suggestion.properties.postalcode
+        ? suggestion.properties.postalcode + ", "
+        : ""
+    }${
+      suggestion.properties.region ? suggestion.properties.region + ", " : ""
+    }${
+      suggestion.properties.country ? suggestion.properties.country : ""
+    }`;
   };
 
   onSuggestionsClearRequested = () => {
@@ -59,21 +76,40 @@ export class AutoSuggestAddress extends Component {
   };
 
   renderSuggestion(suggestion) {
-    return <span>{suggestion.display_name}</span>;
+    return (
+      <span>{`${
+        suggestion.properties.street ? suggestion.properties.street + ", " : ""
+      }${
+        suggestion.properties.housenumber
+          ? suggestion.properties.housenumber + ", "
+          : ""
+      }${
+        suggestion.properties.neighbourhood
+          ? suggestion.properties.neighbourhood + ", "
+          : ""
+      }${
+        suggestion.properties.postalcode
+          ? suggestion.properties.postalcode + ", "
+          : ""
+      }${
+        suggestion.properties.region ? suggestion.properties.region + ", " : ""
+      }${
+        suggestion.properties.country ? suggestion.properties.country : ""
+      }`}</span>
+    );
   }
 
   render() {
     const { value, suggestions } = this.state;
-
     const inputProps = {
       placeholder: "Ex: Rua Doutor Diogo de Faria",
       value,
       type: "search",
       onChange: this.onChange,
-      autoFocus: true,
       className: `form-control ${this.props.className}`,
       required: this.props.required,
-      name: this.props.name
+      name: this.props.name,
+      onBlur: this.props.onAddressBlur
     };
 
     return (

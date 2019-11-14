@@ -21,7 +21,8 @@ export class InputText extends React.Component {
       required,
       type,
       maxLength,
-      customChange
+      customChange,
+      autoFocus
     } = this.props;
     return (
       <div className="input">
@@ -41,6 +42,7 @@ export class InputText extends React.Component {
         ]}
         <input
           {...input}
+          autoFocus={autoFocus}
           className={`form-control ${className} ${meta.touched &&
             meta.error &&
             "invalid-field"}`}

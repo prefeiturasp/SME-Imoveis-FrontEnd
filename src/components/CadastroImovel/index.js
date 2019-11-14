@@ -31,6 +31,7 @@ export class CadastroImovel extends Component {
       bairro: "",
       selectCEP: [],
       cep: "",
+      numero: "",
       resetarFile: false,
       protocolo: null,
       showModal: false,
@@ -57,6 +58,9 @@ export class CadastroImovel extends Component {
   onSubmit(values) {
     const sub_endereco = values.endereco.endereco;
     delete values.endereco.endereco;
+    values.endereco.cep = this.state.cep;
+    values.endereco.bairro = this.state.bairro;
+    values.endereco.numero = this.state.numero;
     values["endereco"] = { ...values.endereco, ...sub_endereco };
     this.setState({ labelBotao: "Aguarde..." });
     ImovelService.create(values)
@@ -82,9 +86,12 @@ export class CadastroImovel extends Component {
     this.setState({ resetarFile: false });
   }
 
-  setAddressSelected(value) {
+  setAddressSelected(value, address) {
     this.setState({
-      AddressSelected: value
+      AddressSelected: value,
+      cep: address.cep,
+      bairro: address.bairro,
+      numero: address.numero
     });
   }
 
