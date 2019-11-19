@@ -7,7 +7,7 @@ import { required } from "helpers/fieldValidators";
 import { FileUpload } from "components/Input/FileUpload";
 import { AutoComplete } from "components/Input/AutoComplete";
 import { Card } from "primereact/card";
-import API_FILACRECHE from "constants/apiFilaCreche.constants";
+import { API_IMOVEIS_DEMANDA } from "constants/apiFilaCreche.constants";
 
 export class Imovel extends Component {
   constructor(props) {
@@ -20,10 +20,10 @@ export class Imovel extends Component {
       helpText: ""
     };
     this.grupo = [
-      ["1", "Bercario I"],
-      ["4", "Bercario II"],
-      ["27", "Mini Grupo I"],
-      ["28", "Mini grupo II"]
+      [1, "Bercario I"],
+      [4, "Bercario II"],
+      [27, "Mini Grupo I"],
+      [28, "Mini grupo II"]
     ];
 
     this.handleAddressChange = this.handleAddressChange.bind(this);
@@ -33,16 +33,28 @@ export class Imovel extends Component {
   }
 
   onFetchCEP = dataAddress => {
-    this.grupo.map(item => this.onFetchGrupoCreche(item[0], dataAddress));
+    this.onFetchGrupoCreche(dataAddress);
   };
 
-  onFetchGrupoCreche(grupo, endereco) {
+  onFetchGrupoCreche(endereco) {
+    const authToken = {
+      Authorization: `Token 4fcce3bb12805893514061555474d867adc85329`,
+      "Content-Type": "application/json"
+    };
     const { longitude, latitude } = endereco;
-    fetch(`${API_FILACRECHE.demanda_endoint}/${longitude}/${latitude}/${grupo}`)
+    fetch(`${API_IMOVEIS_DEMANDA}/${latitude}/${longitude}`, {
+      headers: authToken
+    })
       .then(response => response.json())
       .then(json => {
+        const grupo = this.grupo;
         let data = {};
-        data[grupo] = json.results.wait;
+        grupo.forEach((faixa, key) => {
+          let faixaCorrespondente = json.results.find(
+            result => result["cd_serie_ensino"] === faixa[0]
+          );
+          data[faixa[0]] = faixaCorrespondente ? faixaCorrespondente.total : 0;
+        });
         this.setState(data);
       });
   }
