@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
-import ReactGA from "react-ga";
 
 import Home from "./components/Home/Home";
 import CadastroImovel from "./components/CadastroImovel";
-import { CODE_GA } from "./constants/endPonts.constants";
 
 // Style
 import "./styles/styles.scss";
 import "./App.scss";
 
-ReactGA.initialize(CODE_GA);
+import ReactGA from "react-ga";
+ReactGA.initialize("UA-153279384-1");
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 export default class App extends Component {
