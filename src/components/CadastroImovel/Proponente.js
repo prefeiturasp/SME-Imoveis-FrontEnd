@@ -19,7 +19,7 @@ export class Proponente extends Component {
             options={TIPO_PROPONENTE}
             placeholder="Selecione um Tipo"
             label="Tipo"
-            name="endereco.tipo"
+            name="proponente.tipo"
           />
           <Field component={InputText} label="Nome" name="proponente.nome" />
           <Field
