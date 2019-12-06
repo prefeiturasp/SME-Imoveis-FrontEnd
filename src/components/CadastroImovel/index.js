@@ -71,7 +71,7 @@ export class CadastroImovel extends Component {
       values.endereco.longitude = this.state.longitude;
       values.endereco.latitude = this.state.latitude;
       values.contato.telefone = values.contato.telefone.replace("_", "");
-      if (values.proponente.telefone) {
+      if (values.proponente && values.proponente.telefone) {
         values.proponente.telefone = values.proponente.telefone.replace(
           "_",
           ""
