@@ -18,6 +18,8 @@ import "../../styles/styles.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ModalConfirmacaoCadastro } from "./components/ModalConfirmacaoCadastro";
 import { toastError } from "components/Toast/dialogs";
+import { getError } from "helpers/utils";
+import { validarForm } from "./validate";
 
 const ENTER = 13;
 
@@ -29,6 +31,8 @@ export class CadastroImovel extends Component {
       AddressSelected: false,
       endereco: "",
       bairro: "",
+      latitude: "",
+      longitude: "",
       selectCEP: [],
       cep: "",
       numero: "",
@@ -56,22 +60,39 @@ export class CadastroImovel extends Component {
   }
 
   onSubmit(values) {
-    const sub_endereco = values.endereco.endereco;
-    delete values.endereco.endereco;
-    values.endereco.cep = this.state.cep;
-    values.endereco.bairro = this.state.bairro;
-    values.endereco.numero = this.state.numero;
-    values["endereco"] = { ...values.endereco, ...sub_endereco };
-    this.setState({ labelBotao: "Aguarde..." });
-    ImovelService.create(values)
-      .then(resp => {
-        this.resetForm();
-        this.setState({ showModal: true, protocolo: resp.protocolo, labelBotao: 'Enviar' });
-      })
-      .catch(error => {
-        toastError(`Erro ao efetuar cadastro`);
-        this.setState({ labelBotao: "Enviar" });
-      });
+    const erro = validarForm(values);
+    if (erro) {
+      toastError(erro);
+    } else {
+      values.endereco.endereco = this.state.endereco;
+      values.endereco.cep = this.state.cep;
+      values.endereco.bairro = this.state.bairro;
+      values.endereco.numero = this.state.numero;
+      values.endereco.longitude = this.state.longitude;
+      values.endereco.latitude = this.state.latitude;
+      values.contato.telefone = values.contato.telefone.replace("_", "");
+      if (values.proponente.telefone) {
+        values.proponente.telefone = values.proponente.telefone.replace(
+          "_",
+          ""
+        );
+      }
+      values["endereco"] = { ...values.endereco };
+      this.setState({ labelBotao: "Aguarde..." });
+      ImovelService.create(values)
+        .then(resp => {
+          this.resetForm();
+          this.setState({
+            showModal: true,
+            protocolo: resp.protocolo,
+            labelBotao: "Enviar"
+          });
+        })
+        .catch(error => {
+          toastError(getError(error));
+          this.setState({ labelBotao: "Enviar" });
+        });
+    }
   }
 
   resetForm = () => {
@@ -91,7 +112,10 @@ export class CadastroImovel extends Component {
       AddressSelected: value,
       cep: address.cep,
       bairro: address.bairro,
-      numero: address.numero
+      numero: address.numero,
+      endereco: address.endereco,
+      latitude: address.latitude,
+      longitude: address.longitude
     });
   }
 
@@ -152,7 +176,9 @@ export class CadastroImovel extends Component {
                     <button
                       type="submit"
                       className="btn btn-primary"
-                      disabled={pristine || submitting || labelBotao === 'Aguarde...'}
+                      disabled={
+                        pristine || submitting || labelBotao === "Aguarde..."
+                      }
                     >
                       {labelBotao}
                     </button>
