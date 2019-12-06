@@ -25,7 +25,9 @@ export const getKey = obj => {
 
 export const getError = obj => {
   let result = "Erro ao cadastrar Imóvel";
-  if (
+  if (!obj[getKey(obj)]) {
+    return "Erro ao cadastrar Imóvel";
+  } else if (
     (obj[getKey(obj)][0] !== undefined &&
       typeof obj[getKey(obj)][0] !== "string") ||
     typeof obj[getKey(obj)] !== "string"
