@@ -12,31 +12,21 @@ function handleErrors(response) {
 
 class ImovelClass {
   create(values) {
+    let status = 0;
     return fetch(`${endPont.API_URL}/${endPont.IMOVEIS}/`, {
       method: "POST",
       headers: authHeader,
       body: JSON.stringify(values)
     })
-      .then(handleErrors)
-      .then(res => {
-        let data = res.json();
-        data["status"] = res.status;
-        return data;
+      .then(response => {
+        status = response.status;
+        return response.json();
       })
-      .catch(err => {
-        if (false === err instanceof Error && err.type) {
-          switch (err.type) {
-            case "cors":
-              return err.json().then(errorMessage => {
-                throw errorMessage;
-              });
-            case "unparsable":
-              throw err.body;
-            default:
-              throw err;
-          }
-        }
-        throw err.toString();
+      .then(data => {
+        return { data: data, status: status };
+      })
+      .catch(error => {
+        return error.json();
       });
   }
 }

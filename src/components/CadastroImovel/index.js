@@ -81,12 +81,23 @@ export class CadastroImovel extends Component {
       this.setState({ labelBotao: "Aguarde..." });
       ImovelService.create(values)
         .then(resp => {
-          this.resetForm();
-          this.setState({
-            showModal: true,
-            protocolo: resp.protocolo,
-            labelBotao: "Enviar"
-          });
+          if (resp.status === 201) {
+            this.resetForm();
+            this.setState({
+              showModal: true,
+              protocolo: resp.data.protocolo,
+              labelBotao: "Enviar"
+            });
+          } else if (resp.status === 400) {
+            toastError(getError(resp.data));
+            this.setState({ labelBotao: "Enviar" });
+          } else if (resp.status === 413) {
+            toastError(getError("Tamanho máximo dos arquivos excedido"));
+            this.setState({ labelBotao: "Enviar" });
+          } else {
+            toastError(getError("Erro ao efetuar cadastro de Imóvel"));
+            this.setState({ labelBotao: "Enviar" });
+          }
         })
         .catch(error => {
           console.log(error);
