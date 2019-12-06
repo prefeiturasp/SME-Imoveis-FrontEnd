@@ -26,6 +26,7 @@ class ImovelClass {
         return { data: data, status: status };
       })
       .catch(error => {
+        console.log(error);
         return error.json();
       });
   }
