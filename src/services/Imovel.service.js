@@ -19,8 +19,6 @@ class ImovelClass {
       body: JSON.stringify(values)
     })
       .then(response => {
-        console.log("response");
-        console.log(response);
         status = response.status;
         return response.json();
       })

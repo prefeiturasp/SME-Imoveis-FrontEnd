@@ -81,7 +81,6 @@ export class CadastroImovel extends Component {
       this.setState({ labelBotao: "Aguarde..." });
       ImovelService.create(values)
         .then(resp => {
-          console.log(resp);
           if (resp.status === 201) {
             this.resetForm();
             this.setState({
@@ -101,7 +100,6 @@ export class CadastroImovel extends Component {
           }
         })
         .catch(error => {
-          console.log(error);
           toastError(getError(error));
           this.setState({ labelBotao: "Enviar" });
         });
