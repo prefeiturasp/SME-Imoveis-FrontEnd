@@ -123,3 +123,7 @@ export const validarCNPJ = cnpj => {
 
   return true;
 };
+
+export const hasNumber = myString => {
+  return /\d/.test(myString);
+};

@@ -1,6 +1,10 @@
 
 const TIPO_PROPONENTE = [
     {
+        value: "",
+        label: "Selecione um tipo"
+    },
+    {
         value: 1,
         label: "Imobiliária"
     },
