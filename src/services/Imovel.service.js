@@ -27,6 +27,8 @@ class ImovelClass {
       })
       .catch(error => {
         console.log(error);
+        console.log(error.status);
+        console.log(error.statusCode);
         return error.json();
       });
   }
