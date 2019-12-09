@@ -19,7 +19,7 @@ class ImovelClass {
       body: JSON.stringify(values)
     })
       .then(response => {
-        console.log('response');
+        console.log("response");
         console.log(response);
         status = response.status;
         return response.json();
@@ -28,11 +28,14 @@ class ImovelClass {
         return { data: data, status: status };
       })
       .catch(error => {
-        console.log(error);
-        console.log('error.text: ' +  error.text())
-        console.log(error.status);
-        console.log(error.statusCode);
-        return error.json();
+        if (status === 413) {
+          return {
+            data: "O tamanho total máximo dos arquivos é 10MB",
+            status: status
+          };
+        } else {
+          return error.json();
+        }
       });
   }
 }
