@@ -35,38 +35,71 @@ export class AutoSuggestAddress extends Component {
     }
   }
 
+  fetchSuggestions = async (value, endpoint) => {
+    let response = await fetch(
+      `https://georef.sme.prefeitura.sp.gov.br/v1/${endpoint}?text=${value.trim()}&layers=address&boundary.gid=whosonfirst:locality:101965533`
+    );
+    let json = await response.json();
+    return json.features;
+  }
+
+  fetchCep = async (endereco) => {
+    const param = endereco.replace(' ', '+');
+    let response = await fetch(
+      `https://viacep.com.br/ws/SP/Sao%20Paulo/${param}/json/`
+    );
+    let json = await response.json();
+    return json[0].cep;
+  }
+
   onSuggestionsFetchRequested = async ({ value }) => {
     if (value.length >= 4) {
-      const response = await fetch(
-        `https://georef.sme.prefeitura.sp.gov.br/v1/autocomplete?text=${value.trim()}&layers=address&boundary.gid=whosonfirst:locality:101965533`
-      );
-      const json = await response.json();
-      this.setState({ suggestions: json.features });
+      let features = await this.fetchSuggestions(value, 'autocomplete');
+      if (features.length === 0){
+        const re = /\d+/;
+        const execResp = re.exec(value);
+        const somenumber = execResp ? execResp[0] : undefined;
+        const labelRegex = /^([^,]+),\s/;
+        features = await this.fetchSuggestions(value, 'search');
+        const promises = features.map(async (s) => {
+          let { label, housenumber, postalcode, ...rest } = s.properties;
+          if (!housenumber && somenumber){
+            housenumber = somenumber;
+            label = label.replace(labelRegex, `$1 ${somenumber}, `);
+          }
+          if (!postalcode){
+            postalcode = s.properties.street ? await this.fetchCep(s.properties.street) : undefined;
+          }
+          s.properties = { label, housenumber, postalcode, ...rest };
+          return s;
+        })
+        features = await Promise.all(promises);
+      }
+      this.setState({ suggestions: features });
     }
   };
+
+  suggestionToString = (suggestion) => {
+    const { street, housenumber, neighbourhood, postalcode, region, country } = suggestion.properties;
+    let value = "";
+    if (street){
+      value += street;
+    } 
+    if (street && housenumber){
+      value += ` ${housenumber}`;
+    }
+    value += ", ";
+    if (neighbourhood) value += `${neighbourhood}, `;
+    if (postalcode) value += `${postalcode}, `;
+    if (region) value += `${region}, `;
+    if (country) value += country;
+    return value;
+  }
 
   getSuggestionValue = suggestion => {
     this.setState({ addressObject: suggestion });
     this.props.onAddressSelected(suggestion);
-    return `${
-      suggestion.properties.street ? suggestion.properties.street + ", " : ""
-    }${
-      suggestion.properties.housenumber
-        ? suggestion.properties.housenumber + ", "
-        : ""
-    }${
-      suggestion.properties.neighbourhood
-        ? suggestion.properties.neighbourhood + ", "
-        : ""
-    }${
-      suggestion.properties.postalcode
-        ? suggestion.properties.postalcode + ", "
-        : ""
-    }${
-      suggestion.properties.region ? suggestion.properties.region + ", " : ""
-    }${
-      suggestion.properties.country ? suggestion.properties.country : ""
-    }`;
+    return this.suggestionToString(suggestion);
   };
 
   onSuggestionsClearRequested = () => {
@@ -75,27 +108,9 @@ export class AutoSuggestAddress extends Component {
     });
   };
 
-  renderSuggestion(suggestion) {
+  renderSuggestion = (suggestion) => {
     return (
-      <span>{`${
-        suggestion.properties.street ? suggestion.properties.street + ", " : ""
-      }${
-        suggestion.properties.housenumber
-          ? suggestion.properties.housenumber + ", "
-          : ""
-      }${
-        suggestion.properties.neighbourhood
-          ? suggestion.properties.neighbourhood + ", "
-          : ""
-      }${
-        suggestion.properties.postalcode
-          ? suggestion.properties.postalcode + ", "
-          : ""
-      }${
-        suggestion.properties.region ? suggestion.properties.region + ", " : ""
-      }${
-        suggestion.properties.country ? suggestion.properties.country : ""
-      }`}</span>
+      <span>{this.suggestionToString(suggestion)}</span>
     );
   }
 

@@ -73,15 +73,14 @@ export class Imovel extends Component {
   }
 
   onAddressBlur(event) {
+    let helpText = "";
     if (this.state.cep === "") {
-      this.setState({
-        helpText: "Endereço inválido. Selecione um resultado da lista."
-      });
-    } else {
-      this.setState({
-        helpText: ""
-      });
+      helpText = "Endereço inválido. Selecione um resultado da lista.";
+    } 
+    if (this.state.numero === undefined) {
+      helpText = "É necessário informar o número do imóvel no endereço.";
     }
+    this.setState({ helpText });
   }
 
   render() {
