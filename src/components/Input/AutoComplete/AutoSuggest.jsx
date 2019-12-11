@@ -52,28 +52,40 @@ export class AutoSuggestAddress extends Component {
     return json[0].cep;
   }
 
+  fetchSuggestionsSearch = async (value, numberFound) => {
+    const labelRegex = /^([^,]+),\s/;
+    const features = await this.fetchSuggestions(value, 'search');
+    const promises = features.map(async (s) => {
+      let { label, housenumber, postalcode, ...rest } = s.properties;
+      if (!housenumber && numberFound){
+        housenumber = numberFound;
+        label = label.replace(labelRegex, `$1 ${numberFound}, `);
+      }
+      if (!postalcode){
+        postalcode = s.properties.street ? await this.fetchCep(s.properties.street) : undefined;
+      }
+      s.properties = { label, housenumber, postalcode, ...rest };
+      return s;
+    })
+    return await Promise.all(promises);
+  }
+
   onSuggestionsFetchRequested = async ({ value }) => {
     if (value.length >= 4) {
-      let features = await this.fetchSuggestions(value, 'autocomplete');
-      if (features.length === 0){
-        const re = /\d+/;
-        const execResp = re.exec(value);
-        const somenumber = execResp ? execResp[0] : undefined;
-        const labelRegex = /^([^,]+),\s/;
-        features = await this.fetchSuggestions(value, 'search');
-        const promises = features.map(async (s) => {
-          let { label, housenumber, postalcode, ...rest } = s.properties;
-          if (!housenumber && somenumber){
-            housenumber = somenumber;
-            label = label.replace(labelRegex, `$1 ${somenumber}, `);
-          }
-          if (!postalcode){
-            postalcode = s.properties.street ? await this.fetchCep(s.properties.street) : undefined;
-          }
-          s.properties = { label, housenumber, postalcode, ...rest };
-          return s;
-        })
-        features = await Promise.all(promises);
+      const re = /\d+/;
+      const execResp = re.exec(value);
+      let features;
+      if (execResp) {
+        features = await this.fetchSuggestionsSearch(value, execResp[0]);
+        if (features.length === 0){
+          features = await this.fetchSuggestions(value, 'autocomplete');
+        }
+      }
+      else{
+        features = await this.fetchSuggestions(value, 'autocomplete');
+        if (features.length === 0){
+          features = await this.fetchSuggestionsSearch(value);
+        }
       }
       this.setState({ suggestions: features });
     }
