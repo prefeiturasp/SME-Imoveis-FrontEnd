@@ -76,10 +76,33 @@ export class AutoSuggestAddress extends Component {
       const execResp = re.exec(value);
       let features;
       if (execResp) {
-        features = await this.fetchSuggestionsSearch(value, execResp[0]);
+        const numeroBuscado = execResp[0];
+        features = await this.fetchSuggestionsSearch(value, numeroBuscado);
         if (features.length === 0){
           features = await this.fetchSuggestions(value, 'autocomplete');
         }
+        //Verifica se pelo menos uma das sugestões tem o número buscado
+        let sugestaoBoa;
+        features = features.filter((s) => {
+          if (s.properties.housenumber === numeroBuscado){
+            sugestaoBoa = s;
+          } 
+          else {
+            return s;
+          }
+        })
+        if (!sugestaoBoa){
+          const novaSugestao = features[0];
+          let { housenumber, label, name, ...rest } = novaSugestao.properties;
+          housenumber = numeroBuscado;
+          label = label.replace(re, numeroBuscado);
+          name = name.replace(re, numeroBuscado);
+          sugestaoBoa = {
+            ...novaSugestao,
+            properties: { housenumber, label, name, ...rest }
+          };
+        }
+        features.unshift(sugestaoBoa);
       }
       else{
         features = await this.fetchSuggestions(value, 'autocomplete');
