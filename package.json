@@ -62,6 +62,8 @@
         "enzyme": "^3.10.0",
         "enzyme-adapter-react-16": "^1.12.1",
         "enzyme-to-json": "^3.3.5",
+        "fetch-mock": "^8.0.1",
+        "node-fetch": "^2.6.0",
         "redux-mock-store": "^1.5.3"
     },
     "jest": {

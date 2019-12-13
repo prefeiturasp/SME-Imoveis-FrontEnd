@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Autosuggest from "react-autosuggest";
+import CorreiosService from "../../../services/Correios.service"
 
 export class AutoSuggestAddress extends Component {
   constructor() {
@@ -9,6 +10,7 @@ export class AutoSuggestAddress extends Component {
       addressObject: "",
       suggestions: []
     };
+    this.correiosService = new CorreiosService()
   }
 
   componentDidMount() {
@@ -44,12 +46,8 @@ export class AutoSuggestAddress extends Component {
   }
 
   fetchCep = async (endereco) => {
-    const param = endereco.replace(' ', '+');
-    let response = await fetch(
-      `https://viacep.com.br/ws/SP/Sao%20Paulo/${param}/json/`
-    );
-    let json = await response.json();
-    return json[0].cep;
+    console.log(`AutoSuggestAddress::fetchCep(${endereco})`)
+    return await this.correiosService.buscaCep(endereco, true);
   }
 
   fetchSuggestionsSearch = async (value, numberFound) => {
@@ -62,7 +60,7 @@ export class AutoSuggestAddress extends Component {
         label = label.replace(labelRegex, `$1 ${numberFound}, `);
       }
       if (!postalcode){
-        postalcode = s.properties.street ? await this.fetchCep(s.properties.street) : undefined;
+        postalcode = await this.correiosService.buscaCep(s.properties.street, true);
       }
       s.properties = { label, housenumber, postalcode, ...rest };
       return s;
