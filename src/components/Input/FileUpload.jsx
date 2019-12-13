@@ -18,6 +18,17 @@ class CustomFileUploadPR extends FileUploadPR {
     });
     onUploadChange(data);
   }
+  async remove(index) {
+    this.clearInputElement();
+
+    const currentFiles = this.state.files.filter((v, i) => {
+      if (i !== index) return v;
+    });
+
+    this.setState({
+      files: currentFiles
+    }, this.upload);
+  }
 }
 
 export class FileUpload extends React.Component {
