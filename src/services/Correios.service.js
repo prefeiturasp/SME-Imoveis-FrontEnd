@@ -1,8 +1,8 @@
 export default class CorreiosService {
     cache = {}
-    filtraEndereco(endereco) {
+    filtraLogradouro(logradouro) {
         // Remove acentos...
-        return endereco.normalize('NFD')
+        return logradouro.normalize('NFD')
         .replace(/[\u0300-\u036f]/g, "")
             // ... pontuação ...
             .replace(/[^\w\s]+/g, " ")
@@ -11,7 +11,7 @@ export default class CorreiosService {
             .trim()
     }
     async obtemDadosApi(logradouro) {
-        let param = this.filtraEndereco(logradouro)
+        let param = this.filtraLogradouro(logradouro)
         param = param.replace(/\s/g, '+')
         if (param in this.cache){
             return this.cache[param]
@@ -19,13 +19,13 @@ export default class CorreiosService {
         let response = await fetch(
             `https://viacep.com.br/ws/SP/Sao%20Paulo/${param}/json/`
         )
-        const leResposta = await response.json()
-        this.cache[param] = leResposta
-        return leResposta
+        const resp = await response.json()
+        this.cache[param] = resp
+        return resp
     }
     async buscaInfo(logradouro, numero=undefined) {
         const dadosApi = await this.obtemDadosApi(logradouro)
-        if (dadosApi.length == 1 || numero === undefined) {
+        if (dadosApi.length === 1 || numero === undefined) {
             return dadosApi[0]
         }
         const resultadosNumerosFixos = [], resultadosFaixa = [];
@@ -42,58 +42,54 @@ export default class CorreiosService {
                 return resultado;
         }
     }
-    async buscaCep(logradouro, numero=undefined) {
-        const info = await this.buscaInfo(logradouro, numero)
-        return info.cep
-    }
-    filtraNumeroDoComplemento(numeroDoComplemento) {
-        let execResp = /(\d+)\/(\d+)/.exec(numeroDoComplemento)
+    filtraNumeroDaFaixa(numeroDaFaixa) {
+        const execResp = /(\d+)\/(\d+)/.exec(numeroDaFaixa)
         if (execResp){
             return [parseInt(execResp[1]), parseInt(execResp[2])]
         }
         else {
-            return [parseInt(numeroDoComplemento)]
+            return [parseInt(numeroDaFaixa)]
         }
     }
-    filtraComplementoFaixa(complemento) {
-        if (complemento === ""){
+    filtraFaixaDoComplemento(textoFaixa) {
+        if (textoFaixa === ""){
             return [0, Infinity]
         }
-        let execResp = /^até (.+)$/.exec(complemento)
+        let execResp = /^até (.+)$/.exec(textoFaixa)
         if (execResp) {
-            const filtrado = this.filtraNumeroDoComplemento(execResp[1])
+            const filtrado = this.filtraNumeroDaFaixa(execResp[1])
             return [0, Math.max(...filtrado)]
         }
-        execResp = /^de (.+) a (.+)$/.exec(complemento)
+        execResp = /^de (.+) a (.+)$/.exec(textoFaixa)
         if (execResp) {
-            const filtradoMenor = this.filtraNumeroDoComplemento(execResp[1])
-            const filtradoMaior = this.filtraNumeroDoComplemento(execResp[2])
+            const filtradoMenor = this.filtraNumeroDaFaixa(execResp[1])
+            const filtradoMaior = this.filtraNumeroDaFaixa(execResp[2])
             return [Math.min(...filtradoMenor), Math.max(...filtradoMaior)]
         }
-        execResp = /^de (.+) ao fim$/.exec(complemento)
+        execResp = /^de (.+) ao fim$/.exec(textoFaixa)
         if (execResp) {
-            const filtrado = this.filtraNumeroDoComplemento(execResp[1])
+            const filtrado = this.filtraNumeroDaFaixa(execResp[1])
             return [Math.min(...filtrado), Infinity]
         }
     }
-    filtraFaixa(textoFaixa) {
+    filtraComplemento(complemento) {
         let faixa, parOuImpar;
-        let execResp = /^lado (par|ímpar)$/.exec(textoFaixa)
+        let execResp = /^lado (par|ímpar)$/.exec(complemento)
         if (execResp) {
             return { faixa, parOuImpar: execResp[1] }
         }
-        execResp = /^(.+)( - lado (par|ímpar))$/.exec(textoFaixa)
+        execResp = /^(.+)( - lado (par|ímpar))$/.exec(complemento)
         if (execResp) {
             faixa = execResp[1]
             parOuImpar = execResp[3]
         }
         else {
-            const ehFaixa = /^(de|até) \d+(\/\d+)?( (a \d+(\/\d+)?|ao fim))?$/.exec(textoFaixa)
+            const ehFaixa = /^(de|até) \d+(\/\d+)?( (a \d+(\/\d+)?|ao fim))?$/.exec(complemento)
             if (ehFaixa) {
-                faixa = textoFaixa
+                faixa = complemento
             }
             else {
-                throw "Faixa inválida: " + textoFaixa
+                throw new Error("Faixa inválida: " + complemento)
             }
         }
         return { faixa, parOuImpar }
@@ -101,12 +97,12 @@ export default class CorreiosService {
     numeroEstaNoComplemento(numero, complemento) {
         let execResp = /^\d+$/.exec(complemento);
         if (execResp) {
-            return parseInt(execResp[0]) == numero
+            return parseInt(execResp[0]) === numero
         }
-        const complementoFiltrado = this.filtraFaixa(complemento)
+        const complementoFiltrado = this.filtraComplemento(complemento)
         if (complementoFiltrado.faixa) {
-            const faixa = this.filtraComplementoFaixa(complementoFiltrado.faixa)
-            const estaNaFaixa = this.numeroEstaNaFaixa(numero, faixa)
+            const faixa = this.filtraFaixaDoComplemento(complementoFiltrado.faixa)
+            const estaNaFaixa = numero >= faixa[0] && numero <= faixa[1]
             if (!estaNaFaixa) return false
         }
         switch (complementoFiltrado.parOuImpar){
@@ -119,9 +115,6 @@ export default class CorreiosService {
             default:
                 throw new Error("Valor inválido para parOuImpar: " + complementoFiltrado.parOuImpar)
         }
-    }
-    numeroEstaNaFaixa(numero, faixa){
-        return numero >= faixa[0] && numero <= faixa[1]
     }
     limpaCache(){
         this.cache = {}

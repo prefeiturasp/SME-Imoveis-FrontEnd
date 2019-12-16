@@ -52,16 +52,16 @@ describe("test buscaInfo", () => {
     })
 })
 
-describe("test filtraEndereco", () => {
+describe("test filtraLogradouro", () => {
     it("remove acentos", () => {
         const frase = "ÀàÊéÍíÓõÚü";
         const retorno = "AaEeIiOoUu";
-        expect(cs.filtraEndereco(frase)).toBe(retorno);
+        expect(cs.filtraLogradouro(frase)).toBe(retorno);
     })
     it("remove pontuação", () => {
         const frase = "  Abobrinha,maçã     abacaxi.{} ";
         const retorno = "Abobrinha maca abacaxi";
-        expect(cs.filtraEndereco(frase)).toBe(retorno);
+        expect(cs.filtraLogradouro(frase)).toBe(retorno);
     })
 })
 
@@ -85,107 +85,85 @@ describe("test obtemDadosApi", () => {
     })
 })
 
-describe("test buscaCep", () => {
-    beforeEach(() => {
-        cs.limpaCache()
-        fetchMock.resetHistory()
-    })
-    it("funfa", async () => {
-        const endereco = "Rua Doutor Diogo De Faria"
-        let cep = await cs.buscaCep(endereco)
-        expect(cep).toEqual("04037-000")
-    })
-    it("modo preciso", async () => {
-        const endereco = "Rua Doutor Diogo De Faria"
-        let cep = await cs.buscaCep(endereco, undefined, true)
-        expect(cep).toEqual("04037-000")
-    })
-    it("com número", async () => {
-        const endereco = "Rua Doutor Diogo De Faria"
-        let cep = await cs.buscaCep(endereco, 600, true)
-        expect(cep).toEqual("04037-002")
-    })
-})
-
-describe("test filtraNumeroDoComplemento", () => {
+describe("test filtraNumeroDaFaixa", () => {
     it("X", async () => {
         const numeroDoComplemento = "315"
-        let numero = cs.filtraNumeroDoComplemento(numeroDoComplemento)
+        let numero = cs.filtraNumeroDaFaixa(numeroDoComplemento)
         expect(numero).toEqual([315])
     })
     it("X/X", async () => {
         const numeroDoComplemento = "315/316"
-        let faixa = cs.filtraNumeroDoComplemento(numeroDoComplemento)
+        let faixa = cs.filtraNumeroDaFaixa(numeroDoComplemento)
         expect(faixa).toEqual([315, 316])
     })
 })
 
-describe("test filtraComplementoFaixa", () => {
+describe("test filtraFaixaDoComplemento", () => {
     it("vazio vale tudo", async () => {
         const complemento = ""
-        let faixa = cs.filtraComplementoFaixa(complemento)
+        let faixa = cs.filtraFaixaDoComplemento(complemento)
         expect(faixa).toEqual([0, Infinity])
     })
     it("até X", async () => {
         const complemento = "até 580"
-        let faixa = cs.filtraComplementoFaixa(complemento)
+        let faixa = cs.filtraFaixaDoComplemento(complemento)
         expect(faixa).toEqual([0, 580])
     })
     it("até X/X", async () => {
         const complemento = "até 315/316"
-        let faixa = cs.filtraComplementoFaixa(complemento)
+        let faixa = cs.filtraFaixaDoComplemento(complemento)
         expect(faixa).toEqual([0, 316])
     })
     // it("até X - lado par/ímpar", async () => {
     //     const complemento = "até 580 - lado par"
-    //     let faixa = cs.filtraComplementoFaixa(complemento)
+    //     let faixa = cs.filtraFaixaDoComplemento(complemento)
     //     expect(faixa).toEqual([0, 316])
     // })
     it("de X/X a X/X", async () => {
         const complemento = "de 841/842 a 1115/1116"
-        let faixa = cs.filtraComplementoFaixa(complemento)
+        let faixa = cs.filtraFaixaDoComplemento(complemento)
         expect(faixa).toEqual([841, 1116])
     })
     it("de X a X", async () => {
         const complemento = "de 1093 a 1231"
-        let faixa = cs.filtraComplementoFaixa(complemento)
+        let faixa = cs.filtraFaixaDoComplemento(complemento)
         expect(faixa).toEqual([1093, 1231])
     })
     it("de X ao fim", async () => {
         const complemento = "de 1233 ao fim"
-        let faixa = cs.filtraComplementoFaixa(complemento)
+        let faixa = cs.filtraFaixaDoComplemento(complemento)
         expect(faixa).toEqual([1233, Infinity])
     })
     it("de X/X ao fim", async () => {
         const complemento = "de 1251/1252 ao fim"
-        let faixa = cs.filtraComplementoFaixa(complemento)
+        let faixa = cs.filtraFaixaDoComplemento(complemento)
         expect(faixa).toEqual([1251, Infinity])
     })
 })
 
-describe("test filtraFaixa", () => {
+describe("test filtraComplemento", () => {
     it("funciona sem par/ímpar", () => {
-        expect(cs.filtraFaixa("até 315/316")).toEqual(
+        expect(cs.filtraComplemento("até 315/316")).toEqual(
             { faixa: "até 315/316", parOuImpar: undefined})
-        expect(cs.filtraFaixa("de 841/842 a 1115/1116")).toEqual(
+        expect(cs.filtraComplemento("de 841/842 a 1115/1116")).toEqual(
             { faixa: "de 841/842 a 1115/1116", parOuImpar: undefined})
-        expect(cs.filtraFaixa("de 1251/1252 ao fim")).toEqual(
+        expect(cs.filtraComplemento("de 1251/1252 ao fim")).toEqual(
             { faixa: "de 1251/1252 ao fim", parOuImpar: undefined})
     })
 
     it("funciona com par/ímpar", () => {
-        expect(cs.filtraFaixa("até 580 - lado par")).toEqual(
+        expect(cs.filtraComplemento("até 580 - lado par")).toEqual(
             { faixa: "até 580", parOuImpar: "par"})
-        expect(cs.filtraFaixa("de 1093 a 1231 - lado ímpar")).toEqual(
+        expect(cs.filtraComplemento("de 1093 a 1231 - lado ímpar")).toEqual(
             { faixa: "de 1093 a 1231", parOuImpar: "ímpar"})
-        expect(cs.filtraFaixa("de 1233 ao fim - lado ímpar")).toEqual(
+        expect(cs.filtraComplemento("de 1233 ao fim - lado ímpar")).toEqual(
             { faixa: "de 1233 ao fim", parOuImpar: "ímpar"})
     })
 
     it("funciona com apenas par/ímpar, se faixa", () => {
-        expect(cs.filtraFaixa("lado par")).toEqual(
+        expect(cs.filtraComplemento("lado par")).toEqual(
             { faixa: undefined, parOuImpar: "par"})
-        expect(cs.filtraFaixa("lado ímpar")).toEqual(
+        expect(cs.filtraComplemento("lado ímpar")).toEqual(
             { faixa: undefined, parOuImpar: "ímpar"})
     })
 })
@@ -241,23 +219,5 @@ describe("test numeroEstaNoComplemento", () => {
         const complemento = "lado ímpar"
         expect(cs.numeroEstaNoComplemento(1501, complemento)).toBeTruthy()
         expect(cs.numeroEstaNoComplemento(998, complemento)).toBeFalsy()
-    })
-})
-describe("test numeroEstaNaFaixa", () => {
-    it("de 0 a X", async () => {
-        let faixa = [0, 200]
-        expect(cs.numeroEstaNaFaixa(100, faixa)).toBeTruthy()
-        expect(cs.numeroEstaNaFaixa(300, faixa)).toBeFalsy()
-    })
-    it("de X a Y", async () => {
-        let faixa = [1000, 3000]
-        expect(cs.numeroEstaNaFaixa(2000, faixa)).toBeTruthy()
-        expect(cs.numeroEstaNaFaixa(300, faixa)).toBeFalsy()
-    })
-    it("de X a Infinito", async () => {
-        let faixa = [300, Infinity]
-        expect(cs.numeroEstaNaFaixa(400, faixa)).toBeTruthy()
-        expect(cs.numeroEstaNaFaixa(100, faixa)).toBeFalsy()
-        expect(cs.numeroEstaNaFaixa(999999, faixa)).toBeTruthy()
     })
 })
