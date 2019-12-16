@@ -46,20 +46,13 @@ export class AutoSuggestAddress extends Component {
   }
 
   fetchSuggestionsSearch = async (value, numberFound) => {
-    const labelRegex = /^([^,]+),\s/;
-    const features = await this.fetchSuggestions(value, 'search');
-    const promises = features.map(async (s) => {
-      let { label, housenumber, postalcode, ...rest } = s.properties;
+    const suggestions = await this.fetchSuggestions(value, 'search');
+    const promises = suggestions.map(async (s) => {
+      let { housenumber, ...rest } = s.properties;
       if (!housenumber && numberFound){
         housenumber = numberFound;
-        label = label.replace(labelRegex, `$1 ${numberFound}, `);
       }
-      if (!postalcode){
-        const info = await this.correiosService.buscaInfo(
-          s.properties.street, housenumber);
-        postalcode = info.cep
-      }
-      s.properties = { label, housenumber, postalcode, ...rest };
+      s.properties = { housenumber, ...rest };
       return s;
     })
     return await Promise.all(promises);
@@ -67,18 +60,17 @@ export class AutoSuggestAddress extends Component {
 
   onSuggestionsFetchRequested = async ({ value }) => {
     if (value.length >= 4) {
-      const re = /\d+/;
-      const execResp = re.exec(value);
-      let features;
+      const execResp = /\d+/.exec(value);
+      let suggestions;
       if (execResp) {
         const numeroBuscado = execResp[0];
-        features = await this.fetchSuggestionsSearch(value, numeroBuscado);
-        if (features.length === 0){
-          features = await this.fetchSuggestions(value, 'autocomplete');
+        suggestions = await this.fetchSuggestionsSearch(value, numeroBuscado);
+        if (suggestions.length === 0){
+          suggestions = await this.fetchSuggestions(value, 'autocomplete');
         }
         //Verifica se pelo menos uma das sugestões tem o número buscado
         let sugestaoBoa;
-        features = features.filter((s) => {
+        suggestions = suggestions.filter((s) => {
           if (s.properties.housenumber === numeroBuscado){
             sugestaoBoa = s;
           } 
@@ -86,26 +78,36 @@ export class AutoSuggestAddress extends Component {
             return s;
           }
         })
-        if (features.length > 0 && !sugestaoBoa){
-          const novaSugestao = features[0];
+        if (suggestions.length > 0 && !sugestaoBoa){
+          const novaSugestao = suggestions[0];
           let { housenumber, label, name, ...rest } = novaSugestao.properties;
           housenumber = numeroBuscado;
-          label = label.replace(re, numeroBuscado);
-          name = name.replace(re, numeroBuscado);
+          label = label.replace(/\d+/, numeroBuscado);
+          name = name.replace(/\d+/, numeroBuscado);
           sugestaoBoa = {
             ...novaSugestao,
             properties: { housenumber, label, name, ...rest }
           };
         }
-        features.unshift(sugestaoBoa);
+        suggestions.unshift(sugestaoBoa);
       }
       else{
-        features = await this.fetchSuggestions(value, 'autocomplete');
-        if (features.length === 0){
-          features = await this.fetchSuggestionsSearch(value);
+        suggestions = await this.fetchSuggestions(value, 'autocomplete');
+        if (suggestions.length === 0){
+          suggestions = await this.fetchSuggestionsSearch(value);
         }
       }
-      this.setState({ suggestions: features });
+      const promises = suggestions.map(async (s) => {
+        let { postalcode, neighbourhood, ...rest } = s.properties;
+        const info = await this.correiosService.buscaInfo(
+          s.properties.street, s.properties.housenumber);
+        postalcode = info.cep
+        neighbourhood = info.bairro
+        s.properties = { postalcode, neighbourhood, ...rest };
+        return s;
+      })
+      suggestions = await Promise.all(promises);
+      this.setState({ suggestions });
     }
   };
 
