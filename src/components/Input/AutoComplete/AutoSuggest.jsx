@@ -45,11 +45,6 @@ export class AutoSuggestAddress extends Component {
     return json.features;
   }
 
-  fetchCep = async (endereco) => {
-    console.log(`AutoSuggestAddress::fetchCep(${endereco})`)
-    return await this.correiosService.buscaCep(endereco, true);
-  }
-
   fetchSuggestionsSearch = async (value, numberFound) => {
     const labelRegex = /^([^,]+),\s/;
     const features = await this.fetchSuggestions(value, 'search');
@@ -60,7 +55,9 @@ export class AutoSuggestAddress extends Component {
         label = label.replace(labelRegex, `$1 ${numberFound}, `);
       }
       if (!postalcode){
-        postalcode = await this.correiosService.buscaCep(s.properties.street, true);
+        const info = await this.correiosService.buscaInfo(
+          s.properties.street, housenumber);
+        postalcode = info.cep
       }
       s.properties = { label, housenumber, postalcode, ...rest };
       return s;
@@ -89,7 +86,7 @@ export class AutoSuggestAddress extends Component {
             return s;
           }
         })
-        if (!sugestaoBoa){
+        if (features.length > 0 && !sugestaoBoa){
           const novaSugestao = features[0];
           let { housenumber, label, name, ...rest } = novaSugestao.properties;
           housenumber = numeroBuscado;
