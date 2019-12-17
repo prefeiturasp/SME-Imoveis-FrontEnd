@@ -85,7 +85,7 @@ export class Imovel extends Component {
 
   render() {
     const { AddressSelected } = this.props;
-    const { endereco, helpText } = this.state;
+    const { bairro, endereco, helpText } = this.state;
     return (
       <div className="card">
         <div className="card-body">
@@ -136,7 +136,9 @@ export class Imovel extends Component {
               {AddressSelected && (
                 <div>
                   <Card title="Endereço Selecionado">
-                    <b>Endereço:</b> <span>{endereco}</span>
+                    <b>Endereço:</b> <span>{endereco.replace(', São Paulo, Brasil', '')}</span>
+                    <br />
+                    <b>Bairro:</b> <span>{bairro}</span>
                     <br />
                     <b>Cidade:</b> <span>São Paulo </span>
                     <b>Estado:</b> <span>SP</span>
