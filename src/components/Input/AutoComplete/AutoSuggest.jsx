@@ -47,12 +47,13 @@ export class AutoSuggestAddress extends Component {
 
   fetchSuggestionsSearch = async (value, numberFound) => {
     const suggestions = await this.fetchSuggestions(value, 'search');
-    const promises = suggestions.map(async (s) => {
-      let { housenumber, ...rest } = s.properties;
+    const promises = suggestions.filter((s) => {
+      let { housenumber, street, ...rest } = s.properties;
+      if (!street) return;
       if (!housenumber && numberFound){
         housenumber = numberFound;
       }
-      s.properties = { housenumber, ...rest };
+      s.properties = { housenumber, street, ...rest };
       return s;
     })
     return await Promise.all(promises);
@@ -68,28 +69,30 @@ export class AutoSuggestAddress extends Component {
         if (suggestions.length === 0){
           suggestions = await this.fetchSuggestions(value, 'autocomplete');
         }
-        //Verifica se pelo menos uma das sugestões tem o número buscado
-        let sugestaoBoa;
-        suggestions = suggestions.filter((s) => {
-          if (s.properties.housenumber === numeroBuscado){
-            sugestaoBoa = s;
-          } 
-          else {
-            return s;
+        if (suggestions.length !== 0){
+          //Verifica se pelo menos uma das sugestões tem o número buscado
+          let sugestaoBoa;
+          suggestions = suggestions.filter((s) => {
+            if (s.properties.housenumber === numeroBuscado){
+              sugestaoBoa = s;
+            } 
+            else {
+              return s;
+            }
+          })
+          if (suggestions.length > 0 && !sugestaoBoa){
+            const novaSugestao = suggestions[0];
+            let { housenumber, label, name, ...rest } = novaSugestao.properties;
+            housenumber = numeroBuscado;
+            label = label.replace(/\d+/, numeroBuscado);
+            name = name.replace(/\d+/, numeroBuscado);
+            sugestaoBoa = {
+              ...novaSugestao,
+              properties: { housenumber, label, name, ...rest }
+            };
           }
-        })
-        if (suggestions.length > 0 && !sugestaoBoa){
-          const novaSugestao = suggestions[0];
-          let { housenumber, label, name, ...rest } = novaSugestao.properties;
-          housenumber = numeroBuscado;
-          label = label.replace(/\d+/, numeroBuscado);
-          name = name.replace(/\d+/, numeroBuscado);
-          sugestaoBoa = {
-            ...novaSugestao,
-            properties: { housenumber, label, name, ...rest }
-          };
+          suggestions.unshift(sugestaoBoa);
         }
-        suggestions.unshift(sugestaoBoa);
       }
       else{
         suggestions = await this.fetchSuggestions(value, 'autocomplete');
