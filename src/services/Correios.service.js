@@ -95,6 +95,7 @@ export default class CorreiosService {
         return { faixa, parOuImpar }
     }
     numeroEstaNoComplemento(numero, complemento) {
+        if (complemento === '') return true;
         let execResp = /^\d+$/.exec(complemento);
         if (execResp) {
             return parseInt(execResp[0]) === numero

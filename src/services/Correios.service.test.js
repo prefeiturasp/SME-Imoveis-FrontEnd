@@ -169,6 +169,11 @@ describe("test filtraComplemento", () => {
 })
 
 describe("test numeroEstaNoComplemento", () => {
+    it("número sempre está num complemento vazio", () => {
+        const complemento = ""
+        expect(cs.numeroEstaNoComplemento(451, complemento)).toBeTruthy()
+        expect(cs.numeroEstaNoComplemento(154, complemento)).toBeTruthy()
+    })
     it("funfa com número fixo", () => {
         const complemento = "451"
         expect(cs.numeroEstaNoComplemento(451, complemento)).toBeTruthy()
