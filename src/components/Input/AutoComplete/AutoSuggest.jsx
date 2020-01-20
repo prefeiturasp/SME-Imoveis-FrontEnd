@@ -8,7 +8,9 @@ export class AutoSuggestAddress extends Component {
     this.state = {
       value: "",
       addressObject: "",
-      suggestions: []
+      suggestions: [],
+      loading: false,
+      tentativasViaCep: 0
     };
     this.correiosService = new CorreiosService()
   }
@@ -61,6 +63,9 @@ export class AutoSuggestAddress extends Component {
 
   onSuggestionsFetchRequested = async ({ value }) => {
     if (value.length >= 4) {
+      this.setState({
+        loading: true
+      })
       const execResp = /\d+/.exec(value);
       let suggestions;
       if (execResp) {
@@ -100,17 +105,30 @@ export class AutoSuggestAddress extends Component {
           suggestions = await this.fetchSuggestionsSearch(value);
         }
       }
-      const promises = suggestions.map(async (s) => {
-        let { postalcode, neighbourhood, ...rest } = s.properties;
-        const info = await this.correiosService.buscaInfo(
-          s.properties.street, s.properties.housenumber);
-        postalcode = info.cep
-        neighbourhood = info.bairro
-        s.properties = { postalcode, neighbourhood, ...rest };
-        return s;
-      })
-      suggestions = await Promise.all(promises);
-      this.setState({ suggestions });
+      if (this.state.tentativasViaCep < 3) {
+        const promises = suggestions.map(async (s) => {
+          let { postalcode, neighbourhood, ...rest } = s.properties;
+          let info;
+          try {
+            info = await this.correiosService.buscaInfo(
+              s.properties.street, s.properties.housenumber);
+          }
+          catch (e) {
+            console.error("Viacep provavelmente está fora do ar")
+            console.error(e)
+            this.setState({
+              tentativasViaCep: this.state.tentativasViaCep + 1
+            })
+            return s;
+          }
+          postalcode = info.cep
+          neighbourhood = info.bairro
+          s.properties = { postalcode, neighbourhood, ...rest };
+          return s;
+        })
+        suggestions = await Promise.all(promises);
+      }
+      this.setState({ suggestions, loading: false });
     }
   };
 
@@ -132,6 +150,7 @@ export class AutoSuggestAddress extends Component {
   }
 
   getSuggestionValue = suggestion => {
+    if (this.state.loading) return;
     this.setState({ addressObject: suggestion });
     this.props.onAddressSelected(suggestion);
     return this.suggestionToString(suggestion);
@@ -144,13 +163,16 @@ export class AutoSuggestAddress extends Component {
   };
 
   renderSuggestion = (suggestion) => {
+    if (this.state.loading) {
+      return <span>Carregando...</span>
+    }
     return (
       <span>{this.suggestionToString(suggestion)}</span>
     );
   }
 
   render() {
-    const { value, suggestions } = this.state;
+    const { value, suggestions, loading } = this.state;
     const inputProps = {
       placeholder: "Ex: Rua Doutor Diogo de Faria",
       value,
@@ -163,14 +185,17 @@ export class AutoSuggestAddress extends Component {
     };
 
     return (
-      <Autosuggest
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderSuggestion}
-        inputProps={inputProps}
-      />
+      <div>
+        <Autosuggest
+          suggestions={loading ? [] : suggestions}
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          inputProps={inputProps}
+        />
+        { loading ? <span>Carregando...</span> : ''}
+      </div>
     );
   }
 }
