@@ -93,7 +93,7 @@ export default class Home extends Component {
                     className="btn btn-primary"
                     download
                   >
-                    Mapa da Demanda
+                    Relação dos Bairros
                   </a>
                 </BlocoTexto>
                 <div className="mt-5">
