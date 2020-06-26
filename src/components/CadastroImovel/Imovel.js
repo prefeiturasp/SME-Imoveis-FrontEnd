@@ -126,7 +126,7 @@ export class Imovel extends Component {
                 id="planta_fotos"
                 accept="file/pdf"
                 className="form-control-file"
-                label="Fotos / Planta Baixa"
+                label="Inserir arquivos com: Ambientes internos e externos, Cópia IPTU, Fachada, Planta ou Croqui"
                 required
                 validate={required}
                 {...this.props}
