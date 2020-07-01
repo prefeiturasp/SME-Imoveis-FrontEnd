@@ -5,6 +5,8 @@ import { InputErroMensagem } from "./InputErroMensagem";
 import { HelpText } from "components/HelpText";
 import { asyncForEach, readerFile } from "helpers/utils";
 
+import "./FileUpload.scss";
+
 class CustomFileUploadPR extends FileUploadPR {
   async upload() {
     const { onUploadChange } = this.props;
@@ -71,7 +73,7 @@ export class FileUpload extends React.Component {
       required
     } = this.props;
     return (
-      <div className="input">
+      <div className="input input-file-upload">
         {label && [
           required && !esconderAsterisco && (
             <span key={1} className="required-asterisk">
