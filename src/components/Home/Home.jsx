@@ -57,7 +57,7 @@ export default class Home extends Component {
               <div className="col-lg-6 o-que-e-necessario">
                 <BlocoTexto title="O que é necessário?">
                   <div className="justify-content-lg-end justify-content-center">
-                    <b>Condições básicas do imóvel:</b> prédio de alvenaria, bem
+                    <b>Condições básicas do imóvel:</b> prédio de alvenaria, com no mínimo 200m², bem
                     ventilado, que receba iluminação natural, banheiros com
                     possibilidade de adaptação para fraldário/vasos sanitários infantis,
                     cozinha ampla, com espaço para refeitório e despensa, espaço
