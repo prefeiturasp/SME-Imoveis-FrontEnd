@@ -100,7 +100,9 @@ export default class Home extends Component {
                 <div className="mt-5">
                   <BlocoTexto title="O que acontece depois do cadastro?">
                     Você receberá um número de protocolo para identificação da
-                    solicitação.
+                    solicitação. A área técnica da Secretaria Municipal de
+                    Educação analisará as condições do imóvel e demanda
+                    cadastrada na região.
                     <br />
                     <div className="duvidas">
                       Dúvidas? Entre em contato conosco através do e-mail:
