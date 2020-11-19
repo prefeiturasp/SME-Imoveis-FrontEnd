@@ -57,11 +57,12 @@ export default class Home extends Component {
               <div className="col-lg-6 o-que-e-necessario">
                 <BlocoTexto title="O que é necessário?">
                   <div className="justify-content-lg-end justify-content-center">
-                    <b>Condições básicas do imóvel:</b> prédio de alvenaria, com no mínimo 200m², bem
-                    ventilado, que receba iluminação natural, banheiros com
-                    possibilidade de adaptação para fraldário/vasos sanitários infantis,
-                    cozinha ampla, com espaço para refeitório e despensa, espaço
-                    externo para instalação de playground e solário.
+                    <b>Condições básicas do imóvel:</b> prédio de alvenaria, com
+                    no mínimo 200m², bem ventilado, que receba iluminação
+                    natural, banheiros com possibilidade de adaptação para
+                    fraldário/vasos sanitários infantis, cozinha ampla, com
+                    espaço para refeitório e despensa, espaço externo para
+                    instalação de playground e solário.
                     <a
                       href="http://portal.sme.prefeitura.sp.gov.br/Portals/1/Files/35746.pdf"
                       download
@@ -99,9 +100,9 @@ export default class Home extends Component {
                 <div className="mt-5">
                   <BlocoTexto title="O que acontece depois do cadastro?">
                     Você receberá um número de protocolo para identificação da
-                    solicitação. No prazo de 30 dias, um novo e-mail será enviado
-                    com o resultado da análise da área técnica quanto à
-                    possibilidade de vistoria no imóvel.
+                    solicitação. A área técnica da Secretaria Municipal de
+                    Educação analisará as condições do imóvel e demanda
+                    cadastrada na região.
                     <br />
                     <div className="duvidas">
                       Dúvidas? Entre em contato conosco através do e-mail:
