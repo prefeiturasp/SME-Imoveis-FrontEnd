@@ -9,6 +9,7 @@ import "./styles/styles.scss";
 import "./App.scss";
 
 import ReactGA from "react-ga";
+import { Login } from "pages/Login";
 ReactGA.initialize("UA-153279384-1");
 ReactGA.pageview(window.location.pathname + window.location.search);
 
@@ -24,7 +25,7 @@ export default class App extends Component {
         (localStorage.getItem("alterarContraste") &&
           localStorage.getItem("alterarContraste") === "true") ||
         false,
-      focusBuscaAtributo: false
+      focusBuscaAtributo: false,
     };
     this.alterarFonte = this.alterarFonte.bind(this);
     this.alterarContraste = this.alterarContraste.bind(this);
@@ -64,7 +65,7 @@ export default class App extends Component {
           <Route
             path="/"
             exact
-            render={props => (
+            render={(props) => (
               <Home
                 {...props}
                 alterarFonte={this.alterarFonte}
@@ -77,11 +78,25 @@ export default class App extends Component {
           />
           <Route
             path="/form"
-            render={props => (
+            render={(props) => (
               <CadastroImovel
                 {...props}
                 alterarFonte={this.alterarFonte}
                 alterarContraste={this.alterarContraste}
+              />
+            )}
+          />
+          <Route
+            path="/login"
+            exact
+            render={(props) => (
+              <Login
+                {...props}
+                alterarFonte={this.alterarFonte}
+                alterarContraste={this.alterarContraste}
+                focusBusca={this.focusBusca}
+                focusBuscaAtributo={focusBuscaAtributo}
+                esconderLinkBuscaEscola
               />
             )}
           />

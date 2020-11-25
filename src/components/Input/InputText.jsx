@@ -51,8 +51,8 @@ export class InputText extends React.Component {
           name={name}
           placeholder={placeholder}
           required={required}
-          type={type}
           maxLength={maxLength}
+          type={input.type}
           {...(() => {
             if (customChange) {
               return {
