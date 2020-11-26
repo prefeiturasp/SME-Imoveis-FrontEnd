@@ -12,9 +12,7 @@ import "./style.scss";
 
 export default class Menu extends Component {
   render() {
-    const {
-      esconderLinkBuscaEscola
-    } = this.props;
+    const { esconderLinkBuscaEscola } = this.props;
     return (
       <div>
         <div className="header-acessibilidade">
@@ -140,14 +138,6 @@ export default class Menu extends Component {
                     </Link>
                   </li>
                 )}
-                <li className="nav-item">
-                  <Link
-                    className="nav-link text-secondary mb-1 pb-0"
-                    to="/form"
-                  >
-                    Oferta de Imóveis
-                  </Link>
-                </li>
 
                 <li className="nav-item">
                   <a

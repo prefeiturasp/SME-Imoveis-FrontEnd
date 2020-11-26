@@ -2,9 +2,16 @@ import PropTypes from "prop-types";
 import React from "react";
 import { InputErroMensagem } from "./InputErroMensagem";
 import { HelpText } from "components/HelpText";
+import { OverlayTrigger, Popover, Image } from "react-bootstrap";
 import "./style.scss";
-
+import imgTooltipQuestion from "img/tooltip-question.svg";
 export class InputText extends React.Component {
+  popover = msg => (
+    <Popover id="popover-basic">
+      <Popover.Content>{msg}</Popover.Content>
+    </Popover>
+  );
+
   render() {
     const {
       className,
@@ -22,7 +29,8 @@ export class InputText extends React.Component {
       type,
       maxLength,
       customChange,
-      autoFocus
+      autoFocus,
+      tooltipMessage
     } = this.props;
     return (
       <div className="input">
@@ -38,19 +46,28 @@ export class InputText extends React.Component {
             className={`col-form-label ${labelClassName}`}
           >
             {label}
-          </label>
+          </label>,
+          tooltipMessage && (
+            <OverlayTrigger
+              trigger="click"
+              placement="right"
+              overlay={this.popover(tooltipMessage)}
+            >
+              <Image src={imgTooltipQuestion} fluid className="mb-1 ml-1" />
+            </OverlayTrigger>
+          )
         ]}
         <input
           {...input}
           autoFocus={autoFocus}
-          className={`form-control ${className} ${meta.touched &&
-            meta.error &&
+          className={`form-control ${className} ${meta &&
+            meta.touched &&
+            (meta.error || meta.warning) &&
             "invalid-field"}`}
           disabled={disabled}
           min={min}
           name={name}
           placeholder={placeholder}
-          required={required}
           type={type}
           maxLength={maxLength}
           {...(() => {

@@ -23,3 +23,33 @@ export const phoneNumber = value =>
   value && !/^(0|[1-9][0-9]{9})$/i.test(value)
     ? "Invalid phone number, must be 10 digits"
     : undefined;
+
+export const minLength = min => value =>
+  value && value.length < min
+    ? `Deve ter ao menos ${min} caracteres(s)`
+    : undefined;
+
+export const telValidate = value => {
+  if (value) {
+    const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
+    if (cleanedValue.length < 10 || cleanedValue.length > 11)
+      return "Telefone inválido";
+    return undefined;
+  }
+  return undefined;
+};
+
+export const celValidate = value => {
+  if (value) {
+    const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
+    if (cleanedValue.length !== 11) return "Celular inválido";
+    return undefined;
+  }
+  return undefined;
+};
+
+export const nameValidate = value =>
+  value && !/^[a-zA-Z]+. +[a-zA-Z]/.test(value) ? "Nome inválido" : undefined;
+
+export const composeValidators = (...validators) => value =>
+  validators.reduce((error, validator) => error || validator(value), undefined);

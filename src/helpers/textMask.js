@@ -1,4 +1,5 @@
 import { createTextMask } from "redux-form-input-masks";
+import formatString from "format-string-by-pattern";
 
 export const fieldCPF_CNPJ = value => {
   if (value.length <= 11) {
@@ -32,3 +33,12 @@ export const fieldCel = createTextMask({
   guide: true,
   stripMask: false
 });
+
+export const telCelMask = value => {
+  const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
+  if (cleanedValue.length <= 10) {
+    return formatString("(99) 9999-9999", value);
+  } else {
+    return formatString("(99) 9 9999-9999", value);
+  }
+};

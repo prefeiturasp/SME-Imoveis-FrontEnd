@@ -76,7 +76,7 @@ export class Imovel extends Component {
     let helpText = "";
     if (this.state.cep === "") {
       helpText = "Endereço inválido. Selecione um resultado da lista.";
-    } 
+    }
     if (this.state.numero === undefined) {
       helpText = "É necessário informar o número do imóvel no endereço.";
     }
@@ -136,7 +136,8 @@ export class Imovel extends Component {
               {AddressSelected && (
                 <div>
                   <Card title="Endereço Selecionado">
-                    <b>Endereço:</b> <span>{endereco.replace(', São Paulo, Brasil', '')}</span>
+                    <b>Endereço:</b>{" "}
+                    <span>{endereco.replace(", São Paulo, Brasil", "")}</span>
                     <br />
                     <b>Bairro:</b> <span>{bairro}</span>
                     <br />
