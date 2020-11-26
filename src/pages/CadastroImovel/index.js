@@ -7,16 +7,20 @@ import Proponente from "./components/Proponente";
 
 const onSubmit = async () => {};
 
-const CadastroImovel = () => (
-  <BaseHome>
-    <Wizard onSubmit={onSubmit}>
-      <Wizard.Page>
-        <Proponente />
-      </Wizard.Page>
-      <Wizard.Page></Wizard.Page>
-      <Wizard.Page></Wizard.Page>
-    </Wizard>
-  </BaseHome>
-);
+const CadastroImovel = () => {
+  return (
+    <BaseHome>
+      <div className="container">
+        <Wizard onSubmit={onSubmit}>
+          <Wizard.Page>
+            <Proponente />
+          </Wizard.Page>
+          <Wizard.Page></Wizard.Page>
+          <Wizard.Page></Wizard.Page>
+        </Wizard>
+      </div>
+    </BaseHome>
+  );
+};
 
 export default CadastroImovel;

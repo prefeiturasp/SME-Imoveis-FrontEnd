@@ -56,7 +56,7 @@ const Proponente = () => {
             label="Tipo"
             name="proponente.tipo"
             tooltipMessage={
-              "Proprietário do Imóvel e/ou Representante legal do imóvel."
+              "Proprietário do Imóvel ou Representante legal do imóvel."
             }
             required
             validate={required}

@@ -1,10 +1,10 @@
 const TIPO_PROPONENTE = [
   {
-    value: 5,
+    value: 1,
     label: "Proprietário"
   },
   {
-    value: 6,
+    value: 2,
     label: "Representante legal"
   }
 ];
