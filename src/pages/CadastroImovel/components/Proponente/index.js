@@ -9,7 +9,8 @@ import {
   composeValidators,
   telValidate,
   celValidate,
-  nameValidate
+  nameValidate,
+  cpfCnpjValidate
 } from "helpers/fieldValidators";
 import { TIPO_PROPONENTE } from "constants/choices.constants";
 
@@ -28,7 +29,7 @@ const Proponente = () => {
               "O CPF deverá conter 11 caracteres e ser válido, e o CNPJ deverá conter 14 caracteres e ser válido."
             }
             required
-            validate={required}
+            validate={composeValidators(required, cpfCnpjValidate)}
           />
         </div>
       </div>
