@@ -3,9 +3,17 @@ import React from "react";
 import { InputErroMensagem } from "./InputErroMensagem";
 import { HelpText } from "components/HelpText";
 import { Dropdown } from "primereact/dropdown";
+import imgTooltipQuestion from "img/tooltip-question.svg";
+import { OverlayTrigger, Popover, Image } from "react-bootstrap";
 import "./style.scss";
 
 export class SelectText extends React.Component {
+  popover = msg => (
+    <Popover id="popover-basic">
+      <Popover.Content>{msg}</Popover.Content>
+    </Popover>
+  );
+
   render() {
     const {
       className,
@@ -19,7 +27,8 @@ export class SelectText extends React.Component {
       options,
       name,
       placeholder,
-      required
+      required,
+      tooltipMessage
     } = this.props;
     return (
       <div className="input">
@@ -35,7 +44,16 @@ export class SelectText extends React.Component {
             className={`col-form-label ${labelClassName}`}
           >
             {label}
-          </label>
+          </label>,
+          tooltipMessage && (
+            <OverlayTrigger
+              trigger="click"
+              placement="right"
+              overlay={this.popover(tooltipMessage)}
+            >
+              <Image src={imgTooltipQuestion} fluid className="mb-1 ml-1" />
+            </OverlayTrigger>
+          )
         ]}
         <Dropdown
           {...input}
@@ -46,7 +64,6 @@ export class SelectText extends React.Component {
             "invalid-field"}`}
           disabled={disabled}
           placeholder={placeholder}
-          required={required}
         />
         <HelpText helpText={helpText} />
         <InputErroMensagem meta={meta} />

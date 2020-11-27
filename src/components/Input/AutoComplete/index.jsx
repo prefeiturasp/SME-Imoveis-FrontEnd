@@ -63,7 +63,7 @@ export class AutoComplete extends React.Component {
           {...this.props}
         />
 
-        <HelpText helpText={helpText} red/>
+        <HelpText helpText={helpText} red />
         <InputErroMensagem meta={meta} />
       </div>
     );

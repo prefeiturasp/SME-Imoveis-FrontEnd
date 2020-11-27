@@ -3,13 +3,6 @@ const authHeader = {
   "Content-Type": "application/json"
 };
 
-function handleErrors(response) {
-  if (!response.ok) {
-    throw response;
-  }
-  return response;
-}
-
 class ImovelClass {
   create(values) {
     let status = 0;

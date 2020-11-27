@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import Home from "./components/Home/Home";
-import CadastroImovel from "./components/CadastroImovel";
+import Home from "./pages/Home";
+import CadastroImovel from "./pages/CadastroImovel";
 
 // Style
 import "./styles/styles.scss";
@@ -76,7 +77,7 @@ export default class App extends Component {
             )}
           />
           <Route
-            path="/form"
+            path="/cadastro-imovel"
             render={props => (
               <CadastroImovel
                 {...props}
