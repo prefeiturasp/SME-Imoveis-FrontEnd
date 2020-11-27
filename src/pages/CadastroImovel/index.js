@@ -15,8 +15,12 @@ const CadastroImovel = () => {
           <Wizard.Page>
             <Proponente />
           </Wizard.Page>
-          <Wizard.Page></Wizard.Page>
-          <Wizard.Page></Wizard.Page>
+          <Wizard.Page>
+            <div></div>
+          </Wizard.Page>
+          <Wizard.Page>
+            <div></div>
+          </Wizard.Page>
         </Wizard>
       </div>
     </BaseHome>

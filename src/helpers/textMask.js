@@ -2,14 +2,11 @@ import { createTextMask } from "redux-form-input-masks";
 import formatString from "format-string-by-pattern";
 
 export const fieldCPF_CNPJ = value => {
-  if (value.length <= 11) {
-    return value
-      .replace(/\D/g, "")
-      .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
+  const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
+  if (cleanedValue.length <= 11) {
+    return formatString("999.999.999-99", value);
   } else {
-    return value
-      .replace(/\D/g, "")
-      .replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, "$1.$2.$3/$4-$5");
+    return formatString("99.999.999/9999-99", value);
   }
 };
 
