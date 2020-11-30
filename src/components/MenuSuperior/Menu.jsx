@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import logoEducacaoSP from "../../img/educacao_sp.png";
+import logo from "../../img/Logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebookSquare,
@@ -12,9 +12,7 @@ import "./style.scss";
 
 export default class Menu extends Component {
   render() {
-    const {
-      esconderLinkBuscaEscola
-    } = this.props;
+    const { esconderLinkBuscaEscola } = this.props;
     return (
       <div>
         <div className="header-acessibilidade">
@@ -120,11 +118,7 @@ export default class Menu extends Component {
             <div className="col-lg-3 col-sm-12 d-flex justify-content-lg-start justify-content-center align-items-end mb-4 mb-lg-0">
               <h1 className="m-0">
                 <a href="https://educacao.sme.prefeitura.sp.gov.br/">
-                  <img
-                    src={logoEducacaoSP}
-                    alt="Escola Aberta"
-                    className="img-fluid"
-                  />
+                  <img src={logo} alt="Escola Aberta" className="img-fluid" />
                 </a>
               </h1>
             </div>
@@ -140,14 +134,6 @@ export default class Menu extends Component {
                     </Link>
                   </li>
                 )}
-                <li className="nav-item">
-                  <Link
-                    className="nav-link text-secondary mb-1 pb-0"
-                    to="/form"
-                  >
-                    Oferta de Imóveis
-                  </Link>
-                </li>
 
                 <li className="nav-item">
                   <a

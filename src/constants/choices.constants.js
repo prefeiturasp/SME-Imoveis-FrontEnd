@@ -1,27 +1,14 @@
-
 const TIPO_PROPONENTE = [
-    {
-        value: "",
-        label: "Selecione um tipo"
-    },
-    {
-        value: 1,
-        label: "Imobiliária"
-    },
-    {
-        value: 2,
-        label: "Procurador"
-    },
-    {
-        value: 3,
-        label: "ONG"
-    },
-    {
-        value: 4,
-        label: "Outro"
-    },
-]
+  {
+    value: 1,
+    label: "Proprietário"
+  },
+  {
+    value: 2,
+    label: "Representante legal"
+  }
+];
 
 module.exports = {
-    TIPO_PROPONENTE: TIPO_PROPONENTE
+  TIPO_PROPONENTE: TIPO_PROPONENTE
 };
