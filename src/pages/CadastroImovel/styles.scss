@@ -45,3 +45,14 @@ div.cadastro-imovel {
     }
   }
 }
+
+.p-dropdown {
+  min-width: 0;
+  border: 1px solid #ced4da !important;
+  border-radius: 4px;
+}
+
+.form-check-label {
+  font-size: 14px;
+  color: $gray;
+}

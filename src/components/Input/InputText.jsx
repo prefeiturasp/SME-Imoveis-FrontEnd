@@ -68,7 +68,7 @@ export class InputText extends React.Component {
           min={min}
           name={name}
           placeholder={placeholder}
-          type={type}
+          type={input.type}
           maxLength={maxLength}
           {...(() => {
             if (customChange) {

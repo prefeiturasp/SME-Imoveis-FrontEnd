@@ -4,6 +4,8 @@ import "./styles.scss";
 import Wizard from "./Wizard";
 import BaseHome from "components/BaseHome";
 import Proponente from "./components/Proponente";
+import { Imovel } from "./components/Imovel";
+import { FormSpy } from "react-final-form";
 
 const onSubmit = async () => {};
 
@@ -16,7 +18,9 @@ const CadastroImovel = () => {
             <Proponente />
           </Wizard.Page>
           <Wizard.Page>
-            <div></div>
+            <FormSpy>
+              {({ form, values }) => <Imovel form={form} values={values} />}
+            </FormSpy>
           </Wizard.Page>
           <Wizard.Page>
             <div></div>
