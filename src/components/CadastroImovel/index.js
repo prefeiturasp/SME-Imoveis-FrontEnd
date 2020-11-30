@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Form, reduxForm } from "redux-form";
 import { Messages } from "primereact/messages";
 
-import BasePage from "components/Base/BasePage";
+import BaseHome from "components/BaseHome";
 import { Imovel as ImovelService } from "services/Imovel.service";
 
 import { Proponente } from "./Proponente";
@@ -15,7 +15,6 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "../../styles/styles.scss";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { ModalConfirmacaoCadastro } from "./components/ModalConfirmacaoCadastro";
 import { toastError } from "components/Toast/dialogs";
 import { getError } from "helpers/utils";
@@ -134,7 +133,7 @@ export class CadastroImovel extends Component {
     const { labelBotao, protocolo, showModal } = this.state;
     const { handleSubmit, pristine, submitting } = this.props;
     return (
-      <BasePage>
+      <BaseHome>
         <ModalConfirmacaoCadastro
           protocolo={protocolo}
           showModal={showModal}
@@ -199,7 +198,7 @@ export class CadastroImovel extends Component {
             </div>
           </div>
         </div>
-      </BasePage>
+      </BaseHome>
     );
   }
 }

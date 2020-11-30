@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Autosuggest from "react-autosuggest";
-import CorreiosService from "../../../services/Correios.service"
+import CorreiosService from "../../../services/Correios.service";
 
 export class AutoSuggestAddress extends Component {
   constructor() {
@@ -12,7 +12,7 @@ export class AutoSuggestAddress extends Component {
       loading: false,
       tentativasViaCep: 0
     };
-    this.correiosService = new CorreiosService()
+    this.correiosService = new CorreiosService();
   }
 
   componentDidMount() {
@@ -45,47 +45,47 @@ export class AutoSuggestAddress extends Component {
     );
     let json = await response.json();
     return json.features;
-  }
+  };
 
   fetchSuggestionsSearch = async (value, numberFound) => {
-    const suggestions = await this.fetchSuggestions(value, 'search');
-    const promises = suggestions.filter((s) => {
+    const suggestions = await this.fetchSuggestions(value, "search");
+    const promises = suggestions.filter(s => {
       let { housenumber, street, ...rest } = s.properties;
-      if (!street) return;
-      if (!housenumber && numberFound){
+      if (!street) return s;
+      if (!housenumber && numberFound) {
         housenumber = numberFound;
       }
       s.properties = { housenumber, street, ...rest };
       return s;
-    })
+    });
     return await Promise.all(promises);
-  }
+  };
 
   onSuggestionsFetchRequested = async ({ value }) => {
     if (value.length >= 4) {
       this.setState({
         loading: true
-      })
+      });
       const execResp = /\d+/.exec(value);
       let suggestions;
       if (execResp) {
         const numeroBuscado = execResp[0];
         suggestions = await this.fetchSuggestionsSearch(value, numeroBuscado);
-        if (suggestions.length === 0){
-          suggestions = await this.fetchSuggestions(value, 'autocomplete');
+        if (suggestions.length === 0) {
+          suggestions = await this.fetchSuggestions(value, "autocomplete");
         }
-        if (suggestions.length !== 0){
+        if (suggestions.length !== 0) {
           //Verifica se pelo menos uma das sugestões tem o número buscado
           let sugestaoBoa;
-          suggestions = suggestions.filter((s) => {
-            if (s.properties.housenumber === numeroBuscado){
+          suggestions = suggestions.filter(s => {
+            if (s.properties.housenumber === numeroBuscado) {
               sugestaoBoa = s;
-            } 
-            else {
+              return s;
+            } else {
               return s;
             }
-          })
-          if (suggestions.length > 0 && !sugestaoBoa){
+          });
+          if (suggestions.length > 0 && !sugestaoBoa) {
             const novaSugestao = suggestions[0];
             let { housenumber, label, name, ...rest } = novaSugestao.properties;
             housenumber = numeroBuscado;
@@ -98,47 +98,54 @@ export class AutoSuggestAddress extends Component {
           }
           suggestions.unshift(sugestaoBoa);
         }
-      }
-      else{
-        suggestions = await this.fetchSuggestions(value, 'autocomplete');
-        if (suggestions.length === 0){
+      } else {
+        suggestions = await this.fetchSuggestions(value, "autocomplete");
+        if (suggestions.length === 0) {
           suggestions = await this.fetchSuggestionsSearch(value);
         }
       }
       if (this.state.tentativasViaCep < 3) {
-        const promises = suggestions.map(async (s) => {
+        const promises = suggestions.map(async s => {
           let { postalcode, neighbourhood, ...rest } = s.properties;
           let info;
           try {
             info = await this.correiosService.buscaInfo(
-              s.properties.street, s.properties.housenumber);
-          }
-          catch (e) {
-            console.error("Viacep provavelmente está fora do ar")
-            console.error(e)
+              s.properties.street,
+              s.properties.housenumber
+            );
+          } catch (e) {
+            console.error("Viacep provavelmente está fora do ar");
+            console.error(e);
             this.setState({
               tentativasViaCep: this.state.tentativasViaCep + 1
-            })
+            });
             return s;
           }
-          postalcode = info.cep
-          neighbourhood = info.bairro
+          postalcode = info.cep;
+          neighbourhood = info.bairro;
           s.properties = { postalcode, neighbourhood, ...rest };
           return s;
-        })
+        });
         suggestions = await Promise.all(promises);
       }
       this.setState({ suggestions, loading: false });
     }
   };
 
-  suggestionToString = (suggestion) => {
-    const { street, housenumber, neighbourhood, postalcode, region, country } = suggestion.properties;
+  suggestionToString = suggestion => {
+    const {
+      street,
+      housenumber,
+      neighbourhood,
+      postalcode,
+      region,
+      country
+    } = suggestion.properties;
     let value = "";
-    if (street){
+    if (street) {
       value += street;
-    } 
-    if (street && housenumber){
+    }
+    if (street && housenumber) {
       value += ` ${housenumber}`;
     }
     value += ", ";
@@ -147,7 +154,7 @@ export class AutoSuggestAddress extends Component {
     if (region) value += `${region}, `;
     if (country) value += country;
     return value;
-  }
+  };
 
   getSuggestionValue = suggestion => {
     if (this.state.loading) return;
@@ -162,14 +169,12 @@ export class AutoSuggestAddress extends Component {
     });
   };
 
-  renderSuggestion = (suggestion) => {
+  renderSuggestion = suggestion => {
     if (this.state.loading) {
-      return <span>Carregando...</span>
+      return <span>Carregando...</span>;
     }
-    return (
-      <span>{this.suggestionToString(suggestion)}</span>
-    );
-  }
+    return <span>{this.suggestionToString(suggestion)}</span>;
+  };
 
   render() {
     const { value, suggestions, loading } = this.state;
@@ -194,7 +199,7 @@ export class AutoSuggestAddress extends Component {
           renderSuggestion={this.renderSuggestion}
           inputProps={inputProps}
         />
-        { loading ? <span>Carregando...</span> : ''}
+        {loading ? <span>Carregando...</span> : ""}
       </div>
     );
   }

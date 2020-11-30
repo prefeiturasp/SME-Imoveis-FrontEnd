@@ -7,7 +7,6 @@ import { fieldCPF_CNPJ, fieldTel } from "helpers/textMask";
 import { email } from "helpers/fieldValidators";
 import { TIPO_PROPONENTE } from "constants/choices.constants";
 
-
 export class Proponente extends Component {
   render() {
     return (

@@ -1,0 +1,47 @@
+@import "styles/variaveis.scss";
+
+div.cadastro-imovel {
+  .container {
+    h1 {
+      color: $corAzulPortal;
+      font-style: normal;
+      font-weight: bold;
+      line-height: 41px;
+    }
+    div.tabs {
+      font-weight: bold;
+      text-align: center;
+      font-size: 24px;
+      line-height: 28px;
+      cursor: pointer;
+
+      .tab {
+        padding-bottom: 5px;
+        border-radius: 1px;
+        &.active {
+          color: $corAzulPortal;
+          border-bottom: 5px solid $corAzulPortal;
+        }
+        &.inactive {
+          color: $corAzulDisabled;
+          border-bottom: 5px solid $corAzulDisabled;
+        }
+        &.enabled {
+          color: $blueEnabled;
+          border-bottom: 5px solid $blueEnabled;
+        }
+      }
+    }
+
+    form {
+      max-width: 800px;
+      margin: 10px auto;
+      border: 1px solid #ccc;
+      padding: 20px;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+      border-radius: 3px;
+      position: relative;
+      background: #ffffff;
+    }
+  }
+}
