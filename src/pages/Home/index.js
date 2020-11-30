@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import BasePage from "components/BaseHome/BaseHome";
+import BaseHome from "components/BaseHome";
 import BlocoTexto from "components/BlocoTexto";
 
 import listaDeSubdistritos from "files/lista_de_subdistritos.pdf";
@@ -13,13 +13,13 @@ export default class Home extends Component {
   }
 
   irParaFormulario() {
-    let path = `/form`;
+    let path = `/cadastro-imovel`;
     this.props.history.push(path);
   }
 
   render() {
     return (
-      <BasePage>
+      <BaseHome>
         <div className="w-100 oferta-imoveis position-relative">
           <div className="container">
             <div className="conteudo">
@@ -100,9 +100,9 @@ export default class Home extends Component {
                 <div className="mt-5">
                   <BlocoTexto title="O que acontece depois do cadastro?">
                     Você receberá um número de protocolo para identificação da
-                    solicitação. A área técnica da Secretaria Municipal de
-                    Educação analisará as condições do imóvel e demanda
-                    cadastrada na região.
+                    solicitação. No prazo de 30 dias, um novo e-mail será
+                    enviado com o resultado da análise da área técnica quanto à
+                    possibilidade de vistoria no imóvel.
                     <br />
                     <div className="duvidas">
                       Dúvidas? Entre em contato conosco através do e-mail:
@@ -141,7 +141,7 @@ export default class Home extends Component {
             </div>
           </div>
         </div>
-      </BasePage>
+      </BaseHome>
     );
   }
 }

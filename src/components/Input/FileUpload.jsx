@@ -24,12 +24,15 @@ class CustomFileUploadPR extends FileUploadPR {
     this.clearInputElement();
 
     const currentFiles = this.state.files.filter((v, i) => {
-      if (i !== index) return v;
+      return i !== index;
     });
 
-    this.setState({
-      files: currentFiles
-    }, this.upload);
+    this.setState(
+      {
+        files: currentFiles
+      },
+      this.upload
+    );
   }
 }
 
