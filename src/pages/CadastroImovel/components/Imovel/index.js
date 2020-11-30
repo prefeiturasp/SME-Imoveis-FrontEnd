@@ -168,7 +168,7 @@ export const Imovel = ({ form, values }) => {
       {values.nao_possui_iptu && (
         <Field
           component={TextArea}
-          label="Observações"
+          label="Campo para preenchimento do ITR (Imposto Territorial Rural) ou Observações"
           name="obs"
           required
           placeholder="Por que o imóvel não possui IPTU?"
