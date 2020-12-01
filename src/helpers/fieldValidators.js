@@ -18,6 +18,9 @@ export const alphaNumeric = value =>
 
 export const numericInteger = value =>
   value && /[^0-9 ]/i.test(value) ? "Somente números" : undefined;
+  
+export const numerosEPontos = value =>
+  value && /[^0-9.]/i.test(value) ? "Somente números" : undefined;
 
 export const phoneNumber = value =>
   value && !/^(0|[1-9][0-9]{9})$/i.test(value)
@@ -142,4 +145,9 @@ export const cnpjValidate = value => {
   if (resultado !== parseInt(digitos.charAt(1))) return "CNPJ inválido";
 
   return undefined;
+};
+
+export const validaCEP = (value) => {
+  let numero = value.replace("-", "").replace(/_/g, "");
+  return numero.length === 8 ? undefined : "Necessário CEP válido!";
 };
