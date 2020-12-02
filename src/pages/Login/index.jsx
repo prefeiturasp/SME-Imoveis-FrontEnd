@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import HTTP_STATUS from "http-status-codes";
+import logo from "../../img/Logo.png";
 import { Form, Field } from "react-final-form";
 import Botao from "components/Botao";
 import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
@@ -36,23 +37,11 @@ export const Login = () => {
         }
       });
     } else {
-      const { rf, password } = values;
-      if (rf && password) {
-        authService.login(rf, password).then((response) => {
+      const { login, senha } = values;
+      if (login && senha) {
+        authService.login(login, senha).then((response) => {
           if (response.status === HTTP_STATUS.OK) {
-            setUsuario(response.data);
-            localStorage.setItem("status", response.data.proponente.status);
-            localStorage.setItem(
-              "razao_social",
-              response.data.proponente.razao_social
-            );
-            localStorage.setItem("cnpj", response.data.proponente.cnpj);
-            localStorage.setItem("uuid", response.data.proponente.uuid);
-            if (!response.data.last_login) {
-              setExibirResetSenha(true);
-            } else {
-              history.push("/adm-fornecedor");
-            }
+            history.push("/sem-permissao");
           }
         });
       }
@@ -64,7 +53,9 @@ export const Login = () => {
       <div className="login-bg" />
       <div className="right-half">
         <div className="container my-auto">
-          <div className="logo-sigpae">Login - Admin do Portal de Imóveis</div>
+          <div className="logo-sigpae">
+            <img src={logo} />
+          </div>
           <div className="form">
             <Form
               onSubmit={onSubmit}
@@ -82,18 +73,21 @@ export const Login = () => {
                         component={InputText}
                         esconderAsterisco
                         label="RF"
-                        name="username"
+                        name="login"
                         placeholder={"Seu RF (somente números)"}
                         required
                         type="text"
                         maxLength="7"
+                        tooltipMessage={
+                          "Digite seu RF. Para usuários externos, insira seus dados de usuário. Caso não possua, procure a SMEs"
+                        }
                         validate={composeValidators(required, numericInteger)}
                       />
                       <Field
                         component={InputText}
                         esconderAsterisco
                         label="Senha"
-                        name="password"
+                        name="senha"
                         placeholder={"******"}
                         required
                         type="password"
@@ -141,27 +135,7 @@ export const Login = () => {
                       />
                     </Fragment>
                   )}
-                  <p className="mt-3 text-center">
-                    <Link
-                      className="hyperlink"
-                      to="#"
-                      data-cy="esqueci-senha"
-                      onClick={() => history.push("/esqueci-minha-senha")}
-                    >
-                      Primeiro acesso
-                    </Link>
-                  </p>
-                  <p className="text-center">
-                    <Link
-                      className="hyperlink"
-                      to="#"
-                      data-cy="esqueci-senha"
-                      onClick={() => history.push("/esqueci-minha-senha")}
-                    >
-                      Esqueci meu usuário
-                    </Link>
-                  </p>
-                  <p className="text-center">
+                  <p className="text-center pt-3">
                     <Link
                       className="hyperlink"
                       to="#"

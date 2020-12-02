@@ -4,11 +4,11 @@ import { toastError } from "components/Toast/dialogs";
 
 export const TOKEN_ALIAS = "TOKEN_LOGGED3";
 
-const login = async (email, password) => {
+const login = async (login, senha) => {
   try {
-    const response = await fetch(`${endPonts.API_URL}/api-token-auth/`, {
+    const response = await fetch(`${endPonts.API_URL}/login/`, {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ login, senha }),
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -84,9 +84,8 @@ const isValidResponse = (json) => {
     const test2 =
       decoded.user_id !== undefined &&
       decoded.username !== undefined &&
-      decoded.exp !== undefined &&
-      decoded.email !== undefined;
-    const test1 = json.token.length >= 203 ? true : false;
+      decoded.exp !== undefined
+    const test1 = json.token.length >= 193 ? true : false;
     return test1 && test2;
   } catch (error) {
     return false;
