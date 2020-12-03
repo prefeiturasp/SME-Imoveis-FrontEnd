@@ -35,7 +35,6 @@ export const TextArea = props => {
         disabled={disabled}
         name={name}
         placeholder={placeholder}
-        required={required}
       />
       <div className="help-text">{helpText}</div>
       <InputErroMensagem meta={meta} />

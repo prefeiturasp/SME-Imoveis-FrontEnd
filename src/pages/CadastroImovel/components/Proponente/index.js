@@ -3,6 +3,7 @@ import { Field } from "react-final-form";
 import { InputText } from "components/Input/InputText";
 import { SelectText } from "components/Input/SelectText";
 import { fieldCPF_CNPJ, telCelMask } from "helpers/textMask";
+import Wizard from "../../Wizard";
 import {
   email,
   required,
@@ -16,7 +17,8 @@ import { TIPO_PROPONENTE } from "constants/choices.constants";
 
 const Proponente = () => {
   return (
-    <>
+    <Wizard.Page>
+      <div className="title mb-3">Dados do cadastrante</div>
       <div className="row">
         <div className="col-6">
           <Field
@@ -100,7 +102,7 @@ const Proponente = () => {
           />
         </div>
       </div>
-    </>
+    </Wizard.Page>
   );
 };
 

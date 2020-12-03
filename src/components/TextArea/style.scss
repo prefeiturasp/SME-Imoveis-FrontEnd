@@ -16,7 +16,7 @@ div.textarea {
     &::placeholder {
       color: $grayPlaceholder;
     }
-    &.invalid-field:not(:focus):invalid {
+    &.invalid-field:not(:focus) {
       box-shadow: none;
       border-color: $red;
     }

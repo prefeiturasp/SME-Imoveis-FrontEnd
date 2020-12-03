@@ -127,3 +127,21 @@ export const validarCNPJ = cnpj => {
 export const hasNumber = myString => {
   return /\d/.test(myString);
 };
+
+export const truncarString = (str, numeroMaximoChars) => {
+  if (str.length > numeroMaximoChars) {
+    return str.slice(0, numeroMaximoChars) + "...";
+  } else {
+    return str;
+  }
+};
+
+export const tamanhoMaximoAnexos = (anexos, tamanho) => {
+  let tamanhoAnexos = 0;
+  anexos.forEach(anexo => {
+    tamanhoAnexos += anexo.size;
+  });
+  console.log(tamanhoAnexos);
+  if (tamanhoAnexos >= tamanho) return true;
+  return false;
+};

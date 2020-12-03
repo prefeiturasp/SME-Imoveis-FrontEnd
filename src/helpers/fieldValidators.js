@@ -18,7 +18,6 @@ export const alphaNumeric = value =>
 
 export const numericInteger = value =>
   value && /[^0-9 ]/i.test(value) ? "Somente números" : undefined;
-  
 export const numerosEPontos = value =>
   value && /[^0-9.]/i.test(value) ? "Somente números" : undefined;
 
@@ -147,7 +146,16 @@ export const cnpjValidate = value => {
   return undefined;
 };
 
-export const validaCEP = (value) => {
+export const validaCEP = value => {
   let numero = value.replace("-", "").replace(/_/g, "");
   return numero.length === 8 ? undefined : "Necessário CEP válido!";
+};
+
+export const requiredMultiselect = value => {
+  if (Array.isArray(value)) {
+    if (!value.length) return "Campo obrigatório";
+  } else {
+    return "Campo obrigatório";
+  }
+  return undefined;
 };

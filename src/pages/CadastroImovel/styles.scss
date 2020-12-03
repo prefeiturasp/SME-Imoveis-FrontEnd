@@ -8,6 +8,12 @@ div.cadastro-imovel {
       font-weight: bold;
       line-height: 41px;
     }
+    .title {
+      font-size: 20px;
+      top: calc(50% - 34px / 2 - 679px);
+      color: $corPretoTitulo;
+      font-weight: bold;
+    }
     div.tabs {
       font-weight: bold;
       text-align: center;
