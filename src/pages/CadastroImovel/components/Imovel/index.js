@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import HTTP_STATUS from "http-status-codes";
 import { Field } from "react-final-form";
 import { InputText } from "components/Input/InputText";
@@ -8,8 +8,9 @@ import { OnChange } from "react-final-form-listeners";
 import { iptuMask } from "helpers/textMask";
 import {
   composeValidators,
+  iptuLength,
   required,
-  validaCEP
+  validaCEP,
 } from "helpers/fieldValidators";
 import { toastError } from "components/Toast/dialogs";
 import { getEnderecoPorCEP } from "services/cep.service";
@@ -18,6 +19,7 @@ import { SelectText } from "components/Input/SelectText";
 import { TextArea } from "components/TextArea/TextArea";
 
 const Imovel = () => {
+  const [apiFora, setApiFora] = useState(false);
   return (
     <FormSpy>
       {({ form, values }) => (
@@ -60,6 +62,8 @@ const Imovel = () => {
                         form.change("uf", response.data.uf);
                         form.change("bairro", response.data.bairro);
                       }
+                    } else {
+                      setApiFora(true);
                     }
                   }
                 }}
@@ -71,6 +75,7 @@ const Imovel = () => {
                 label="Bairro"
                 name="bairro"
                 required
+                disabled={!apiFora}
                 validate={required}
               />
             </div>
@@ -82,6 +87,7 @@ const Imovel = () => {
                 label="Endereço"
                 name="endereco"
                 required
+                disabled={!apiFora}
                 validate={required}
               />
             </div>
@@ -111,6 +117,7 @@ const Imovel = () => {
                 maxlength={100}
                 label="Cidade"
                 name="cidade"
+                disabled={!apiFora}
                 required
                 validate={required}
               />
@@ -121,6 +128,7 @@ const Imovel = () => {
                 name="uf"
                 label="UF"
                 options={ESTADOS}
+                disabled={!apiFora}
                 required
                 validate={required}
                 naoDesabilitarPrimeiraOpcao
@@ -135,7 +143,9 @@ const Imovel = () => {
                 label="Número do IPTU"
                 name="iptu"
                 required={!values.nao_possui_iptu ? true : false}
+                disabled={values.nao_possui_iptu}
                 tooltipMessage={"Número de IPTU do imóvel."}
+                validate={!values.nao_possui_iptu && iptuLength}
                 placeholder="Digite o Número do IPTU"
               />
             </div>
@@ -160,6 +170,13 @@ const Imovel = () => {
                 className="form-check-input"
                 type="checkbox"
               />
+              <OnChange name="nao_possui_iptu">
+                {async (value, previous) => {
+                  if (value) {
+                    values.iptu = null;
+                  }
+                }}
+              </OnChange>
               <label className="form-check-label">Imóvel não tem IPTU</label>
             </div>
           </div>
