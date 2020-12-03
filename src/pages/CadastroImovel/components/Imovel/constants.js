@@ -25,5 +25,5 @@ export const ESTADOS = [
   { nome_extenso: "Santa Catarina", value: "SC", label: "SC" },
   { nome_extenso: "São Paulo", value: "SP", label: "SP" },
   { nome_extenso: "Sergipe", value: "SE", label: "SE" },
-  { nome_extenso: "Tocantins", value: "TO", label: "TO" },
+  { nome_extenso: "Tocantins", value: "TO", label: "TO" }
 ];

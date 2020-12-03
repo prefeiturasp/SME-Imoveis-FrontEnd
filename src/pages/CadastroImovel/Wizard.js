@@ -14,7 +14,7 @@ export default class Wizard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
+      page: 0,
       values: props.initialValues || {},
       showAlert: false
     };
@@ -25,9 +25,10 @@ export default class Wizard extends React.Component {
       values
     }));
 
-  previous = () =>
+  previous = values =>
     this.setState(state => ({
-      page: Math.max(state.page - 1, 0)
+      page: Math.max(state.page - 1, 0),
+      values: values
     }));
 
   validate = values => {
@@ -75,9 +76,23 @@ export default class Wizard extends React.Component {
     else this.setState({ showAlert: false });
   };
 
+  showSecondPageAlert = values => {
+    if (!values.cep) this.setState({ showAlert: true });
+    else if (!values.bairro) this.setState({ showAlert: true });
+    else if (!values.endereco) this.setState({ showAlert: true });
+    else if (!values.numero) this.setState({ showAlert: true });
+    else if (!values.cidade) this.setState({ showAlert: true });
+    else if (!values.uf) this.setState({ showAlert: true });
+    else if (!values.area_construida) this.setState({ showAlert: true });
+    else if (!values.nao_possui_iptu) {
+      if (!values.iptu) this.setState({ showAlert: true });
+    } else this.setState({ showAlert: false });
+  };
+
   showAlertPage = values => {
     const { page } = this.state;
     if (page === 0) this.showFirstPageAlert(values);
+    if (page === 1) this.showSecondPageAlert(values);
   };
 
   render() {
@@ -88,7 +103,14 @@ export default class Wizard extends React.Component {
     const { persistDecorator, clear, isPersisted } = createPersistDecorator({
       name: "cadastroImovelPersist",
       debounceTime: 500,
-      whitelist: []
+      whitelist: [],
+      blacklist: [
+        "anexos_fachada",
+        "anexos_ambiente_interno",
+        "anexos_area_externa",
+        "anexos_iptu",
+        "anexos_planta"
+      ]
     });
     this.checkPersistExpire(isPersisted(), clear);
     return (
@@ -162,7 +184,7 @@ export default class Wizard extends React.Component {
                         type="button"
                         variant="outline-primary"
                         className="ml-3 float-right"
-                        onClick={this.previous}
+                        onClick={() => this.previous(values)}
                       >
                         « Voltar
                       </Button>
@@ -170,6 +192,7 @@ export default class Wizard extends React.Component {
                   </div>
                 </div>
                 {this.checkPersistExpire(isPersisted(), clear)}
+                {console.log(values)}
               </form>
             )}
           </Form>
