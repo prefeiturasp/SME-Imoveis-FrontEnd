@@ -3,6 +3,7 @@ import { Field } from "react-final-form";
 import { FormSpy } from "react-final-form";
 import { FileUpload } from "components/Input/FileUpload";
 import { Alert } from "react-bootstrap";
+import { required } from "helpers/fieldValidators";
 import "./styles.scss";
 
 const Anexos = () => {
@@ -143,11 +144,22 @@ const Anexos = () => {
                   name="declaracao_responsabilidade"
                   type="checkbox"
                   className="mr-1"
+                  validate={required}
                 />
                 <label className="form-check-label check-align ">
                   Declaro responsabilidade pelas informações prestadas, estando
                   ciente de que a falsidade implicará nas penalidades cabíveis.
                 </label>
+                <br />
+                <Field
+                  name={"declaracao_responsabilidade"}
+                  subscribe={{ touched: true, error: true }}
+                  render={({ meta: { touched, error } }) =>
+                    touched && error ? (
+                      <span className="error-message">{error}</span>
+                    ) : null
+                  }
+                />
               </div>
             </div>
           </div>
@@ -159,9 +171,7 @@ const Anexos = () => {
                 subscribe={{ touched: true, error: true }}
                 render={({ meta: { touched, error } }) =>
                   error ? (
-                    <span className="limite-tamanho-anexos-error float-right">
-                      {error}
-                    </span>
+                    <span className="error-message float-right">{error}</span>
                   ) : null
                 }
               />

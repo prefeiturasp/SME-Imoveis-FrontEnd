@@ -63,6 +63,8 @@ const CadastroImovel = () => {
         errors.limiteTamanhoError = "Você ultrapassou o limite de 15MB.";
       }
     }
+    if (!values.declaracao_responsabilidade)
+      errors.declaracao_responsabilidade = "Campo obrigatório";
     return errors;
   };
 
