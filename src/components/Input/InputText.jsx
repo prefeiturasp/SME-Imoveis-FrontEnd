@@ -26,7 +26,6 @@ export class InputText extends React.Component {
       name,
       placeholder,
       required,
-      type,
       maxLength,
       customChange,
       autoFocus,
@@ -68,7 +67,7 @@ export class InputText extends React.Component {
           min={min}
           name={name}
           placeholder={placeholder}
-          type={type}
+          type={input.type}
           maxLength={maxLength}
           {...(() => {
             if (customChange) {

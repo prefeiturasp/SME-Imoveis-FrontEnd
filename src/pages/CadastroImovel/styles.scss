@@ -8,6 +8,12 @@ div.cadastro-imovel {
       font-weight: bold;
       line-height: 41px;
     }
+    .title {
+      font-size: 20px;
+      top: calc(50% - 34px / 2 - 679px);
+      color: $corPretoTitulo;
+      font-weight: bold;
+    }
     div.tabs {
       font-weight: bold;
       text-align: center;
@@ -44,4 +50,16 @@ div.cadastro-imovel {
       background: #ffffff;
     }
   }
+}
+
+.p-dropdown {
+  min-width: 0;
+  border: 1px solid #ced4da !important;
+  border-radius: 4px;
+}
+
+.form-check-label {
+  font-size: 14px;
+  color: $gray;
+  display: inline;
 }
