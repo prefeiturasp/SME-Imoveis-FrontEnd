@@ -79,7 +79,9 @@ const CadastroImovel = () => {
     <BaseHome>
       <div className="container">
         <Wizard onSubmit={onSubmit}>
-          <Proponente />
+          <Wizard.Page>
+            <Proponente />
+          </Wizard.Page>
 
           <Wizard.Page validate={validateImovel}>
             <Imovel />
