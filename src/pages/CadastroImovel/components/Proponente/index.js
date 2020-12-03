@@ -17,6 +17,7 @@ import { TIPO_PROPONENTE } from "constants/choices.constants";
 const Proponente = () => {
   return (
     <>
+      <div className="title mb-3">Dados do cadastrante</div>
       <div className="row">
         <div className="col-6">
           <Field

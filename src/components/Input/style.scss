@@ -10,6 +10,12 @@ div.input {
     font-weight: 500;
     color: $gray;
   }
+  .title {
+    font-size: 20px;
+    top: calc(50% - 34px / 2 - 679px);
+    color: $corPretoTitulo;
+    font-weight: bold;
+  }
   input {
     font-size: 14px;
     color: $blackInput;
@@ -33,6 +39,14 @@ div.input {
     &.invalid-field:not(:focus) {
       box-shadow: none;
       border-color: $red !important;
+      .p-fileupload-buttonbar {
+        box-shadow: none;
+        border-color: $red !important;
+      }
+      .p-fileupload-content {
+        box-shadow: none;
+        border-color: $red !important;
+      }
     }
   }
 }

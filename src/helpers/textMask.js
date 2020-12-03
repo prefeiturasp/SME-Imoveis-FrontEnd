@@ -39,3 +39,8 @@ export const telCelMask = value => {
     return formatString("(99) 9 9999-9999", value);
   }
 };
+
+export const iptuMask = value => {
+  const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
+  return formatString("999.999.9999.9", cleanedValue);
+};

@@ -4,12 +4,77 @@ import "./styles.scss";
 import Wizard from "./Wizard";
 import BaseHome from "components/BaseHome";
 import Proponente from "./components/Proponente";
-import { Imovel } from "./components/Imovel";
-import { FormSpy } from "react-final-form";
-
-const onSubmit = async () => {};
+import Imovel from "./components/Imovel";
+import Anexos from "./components/Anexos";
+import { tamanhoMaximoAnexos } from "helpers/utils";
 
 const CadastroImovel = () => {
+  const onSubmit = async () => {};
+
+  const validateAnexos = values => {
+    const errors = {};
+    const anexos = [];
+
+    if (values.anexos_fachada && values.anexos_fachada.length) {
+      values.anexos_fachada.forEach(anexo => {
+        anexos.push(anexo.originalFile);
+      });
+    } else {
+      errors.anexos_fachada = "Campo obrigatório";
+    }
+
+    if (
+      values.anexos_ambiente_interno &&
+      values.anexos_ambiente_interno.length
+    ) {
+      values.anexos_ambiente_interno.forEach(anexo => {
+        anexos.push(anexo.originalFile);
+      });
+    } else {
+      errors.anexos_ambiente_interno = "Campo obrigatório";
+    }
+
+    if (values.anexos_area_externa && values.anexos_area_externa.length) {
+      values.anexos_area_externa.forEach(anexo => {
+        anexos.push(anexo.originalFile);
+      });
+    } else {
+      errors.anexos_area_externa = "Campo obrigatório";
+    }
+
+    if (values.anexos_iptu && values.anexos_iptu.length) {
+      values.anexos_iptu.forEach(anexo => {
+        anexos.push(anexo.originalFile);
+      });
+    } else {
+      errors.anexos_iptu = "Campo obrigatório";
+    }
+
+    if (values.anexos_planta && values.anexos_planta.length) {
+      values.anexos_planta.forEach(anexo => {
+        anexos.push(anexo.originalFile);
+      });
+    } else {
+      errors.anexos_planta = "Campo obrigatório";
+    }
+
+    if (anexos.length) {
+      if (tamanhoMaximoAnexos(anexos, 15728640)) {
+        errors.limiteTamanhoError = "Você ultrapassou o limite de 15MB.";
+      }
+    }
+    return errors;
+  };
+
+  const validateImovel = values => {
+    const errors = {};
+
+    if (!values.nao_possui_iptu)
+      if (!values.iptu) errors.iptu = "Campo obrigatório";
+
+    return errors;
+  };
+
   return (
     <BaseHome>
       <div className="container">
@@ -17,13 +82,13 @@ const CadastroImovel = () => {
           <Wizard.Page>
             <Proponente />
           </Wizard.Page>
-          <Wizard.Page>
-            <FormSpy>
-              {({ form, values }) => <Imovel form={form} values={values} />}
-            </FormSpy>
+
+          <Wizard.Page validate={validateImovel}>
+            <Imovel />
           </Wizard.Page>
-          <Wizard.Page>
-            <div></div>
+
+          <Wizard.Page validate={validateAnexos}>
+            <Anexos />
           </Wizard.Page>
         </Wizard>
       </div>

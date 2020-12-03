@@ -26,7 +26,6 @@ export class InputText extends React.Component {
       name,
       placeholder,
       required,
-      type,
       maxLength,
       customChange,
       autoFocus,

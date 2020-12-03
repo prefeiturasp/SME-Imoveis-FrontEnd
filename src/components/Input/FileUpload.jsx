@@ -4,18 +4,36 @@ import { FileUpload as FileUploadPR } from "primereact/fileupload";
 import { InputErroMensagem } from "./InputErroMensagem";
 import { HelpText } from "components/HelpText";
 import { asyncForEach, readerFile } from "helpers/utils";
+import { OverlayTrigger, Popover, Image } from "react-bootstrap";
+import imgTooltipQuestion from "img/tooltip-question.svg";
 
 import "./FileUpload.scss";
 
 class CustomFileUploadPR extends FileUploadPR {
+  async componentDidMount() {
+    const { initialFiles } = this.props;
+    if (initialFiles) {
+      this.setState(
+        {
+          files: initialFiles
+        },
+        this.upload
+      );
+    }
+  }
   async upload() {
-    const { onUploadChange } = this.props;
+    const { onUploadChange, tipoDocumento, tipoArquivo } = this.props;
     const { files } = this.state;
     let data = [];
 
     await asyncForEach(files, async file => {
       await readerFile(file).then(v => {
-        data.push(v);
+        data.push({
+          ...v,
+          originalFile: file,
+          tipo_documento: tipoDocumento,
+          tipo_arquivo: tipoArquivo
+        });
       });
     });
     onUploadChange(data);
@@ -59,6 +77,12 @@ export class FileUpload extends React.Component {
     }
   }
 
+  popover = msg => (
+    <Popover id="popover-basic">
+      <Popover.Content>{msg}</Popover.Content>
+    </Popover>
+  );
+
   render() {
     const {
       input: { value, ...inputProps },
@@ -73,7 +97,12 @@ export class FileUpload extends React.Component {
       meta,
       name,
       placeholder,
-      required
+      required,
+      initialFiles,
+      title,
+      tipoDocumento,
+      tipoArquivo,
+      tooltipMessage
     } = this.props;
     return (
       <div className="input input-file-upload">
@@ -92,6 +121,21 @@ export class FileUpload extends React.Component {
           </label>
         ]}
 
+        {title && [
+          <label key={2} htmlFor={name} className={"title"}>
+            {title}
+          </label>,
+          tooltipMessage && (
+            <OverlayTrigger
+              trigger="click"
+              placement="right"
+              overlay={this.popover(tooltipMessage)}
+            >
+              <Image src={imgTooltipQuestion} fluid className="mb-1 ml-1" />
+            </OverlayTrigger>
+          )
+        ]}
+
         <CustomFileUploadPR
           ref={this.fileUpload}
           disabled={disabled}
@@ -105,12 +149,14 @@ export class FileUpload extends React.Component {
           accept={accept}
           auto={true}
           multiple={true}
-          maxFileSize={10485760}
           invalidFileSizeMessageSummary={"Erro ao dar upload:"}
           invalidFileSizeMessageDetail={"O tamanho máximo de um arquivo é 10MB"}
           chooseLabel="Selecione os arquivos"
           cancelLabel="Cancelar"
           onUploadChange={this.onChange}
+          initialFiles={initialFiles}
+          tipoDocumento={tipoDocumento}
+          tipoArquivo={tipoArquivo}
         />
         <HelpText helpText={helpText} />
         <InputErroMensagem meta={meta} />
