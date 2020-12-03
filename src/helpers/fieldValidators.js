@@ -159,14 +159,3 @@ export const requiredMultiselect = (value) => {
   }
   return undefined;
 };
-
-export const iptuLength = (value) => {
-  return value && value.length === 14
-    ? undefined
-    : "Necessário IPTU na seguinte máscara: 000.000.0000.0";
-};
-
-export const iptuExisteValidator = (iptu_existe) => (value) => {
-  console.log(iptu_existe)
-  return iptu_existe ? `Número de IPTU já está cadastrado` : undefined;
-};
