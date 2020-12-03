@@ -10,6 +10,8 @@ import "./styles/styles.scss";
 import "./App.scss";
 
 import ReactGA from "react-ga";
+import { Login } from "pages/Login";
+import { SemPermissao } from "pages/SemPermissao";
 ReactGA.initialize("UA-153279384-1");
 ReactGA.pageview(window.location.pathname + window.location.search);
 
@@ -80,6 +82,26 @@ export default class App extends Component {
             path="/cadastro-imovel"
             render={props => (
               <CadastroImovel
+                {...props}
+                alterarFonte={this.alterarFonte}
+                alterarContraste={this.alterarContraste}
+              />
+            )}
+          />
+          <Route
+            path="/login"
+            render={props => (
+              <Login
+                {...props}
+                alterarFonte={this.alterarFonte}
+                alterarContraste={this.alterarContraste}
+              />
+            )}
+          />
+          <Route
+            path="/sem-permissao"
+            render={props => (
+              <SemPermissao
                 {...props}
                 alterarFonte={this.alterarFonte}
                 alterarContraste={this.alterarContraste}

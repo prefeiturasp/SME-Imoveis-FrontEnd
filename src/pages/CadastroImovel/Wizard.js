@@ -14,7 +14,7 @@ export default class Wizard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 0,
+      page: 1,
       values: props.initialValues || {},
       showAlert: false
     };
