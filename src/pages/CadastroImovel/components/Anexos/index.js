@@ -137,6 +137,23 @@ const Anexos = () => {
 
           <div className="row mt-3">
             <div className="col">
+              <div className="text-left">
+                <Field
+                  component={"input"}
+                  name="declaracao_responsabilidade"
+                  type="checkbox"
+                  className="mr-1"
+                />
+                <label className="form-check-label check-align ">
+                  Declaro responsabilidade pelas informações prestadas, estando
+                  ciente de que a falsidade implicará nas penalidades cabíveis.
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="row mt-3">
+            <div className="col">
               <Field
                 name={"limiteTamanhoError"}
                 subscribe={{ touched: true, error: true }}
