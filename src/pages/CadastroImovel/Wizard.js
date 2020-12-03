@@ -192,7 +192,6 @@ export default class Wizard extends React.Component {
                   </div>
                 </div>
                 {this.checkPersistExpire(isPersisted(), clear)}
-                {console.log(values)}
               </form>
             )}
           </Form>

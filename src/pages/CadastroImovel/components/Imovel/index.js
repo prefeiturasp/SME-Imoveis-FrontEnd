@@ -8,7 +8,6 @@ import { OnChange } from "react-final-form-listeners";
 import { iptuMask } from "helpers/textMask";
 import {
   composeValidators,
-  iptuLength,
   required,
   validaCEP,
 } from "helpers/fieldValidators";
@@ -20,6 +19,7 @@ import { TextArea } from "components/TextArea/TextArea";
 
 const Imovel = () => {
   const [apiFora, setApiFora] = useState(false);
+  
   return (
     <FormSpy>
       {({ form, values }) => (
@@ -145,7 +145,6 @@ const Imovel = () => {
                 required={!values.nao_possui_iptu ? true : false}
                 disabled={values.nao_possui_iptu}
                 tooltipMessage={"Número de IPTU do imóvel."}
-                validate={!values.nao_possui_iptu && iptuLength}
                 placeholder="Digite o Número do IPTU"
               />
             </div>
