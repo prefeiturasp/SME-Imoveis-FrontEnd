@@ -53,7 +53,7 @@ export default class Rodape extends Component {
                         href="https://www.facebook.com/PrefSP/"
                       >
                         <img
-                          src="https://hom-portal.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/09/icone-facebook-topo.png"
+                          src="https://educacao.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/09/icone-facebook-topo.png"
                           alt="Ir para Facebook da Secerataria Muncipal de Educação de São Paulo"
                         />
                       </a>
@@ -64,7 +64,7 @@ export default class Rodape extends Component {
                         href="https://twitter.com/prefsp"
                       >
                         <img
-                          src="https://hom-portal.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/09/icone-twitter-topo.png"
+                          src="https://educacao.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/09/icone-twitter-topo.png"
                           alt="Ir para Twitter da Secerataria Muncipal de Educação de São Paulo"
                         />
                       </a>
@@ -75,7 +75,7 @@ export default class Rodape extends Component {
                         href="https://www.youtube.com/user/prefeiturasaopaulo"
                       >
                         <img
-                          src="https://hom-portal.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/09/icone-youtube-topo.png"
+                          src="https://educacao.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/09/icone-youtube-topo.png"
                           alt="Ir para YouTube da Secerataria Muncipal de Educação de São Paulo"
                         />
                       </a>
@@ -85,7 +85,7 @@ export default class Rodape extends Component {
                     <a href="http://www.docidadesp.imprensaoficial.com.br/">
                       <img
                         alt="Logo diário oficial"
-                        src="https://hom-portal.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/09/logotipo-diario-oficial.png"
+                        src="https://educacao.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/09/logotipo-diario-oficial.png"
                       />
                     </a>
                   </li>
@@ -435,7 +435,7 @@ export default class Rodape extends Component {
                 <figure>
                   <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR">
                     <img
-                      src="https://hom-portal.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/07/by-nc-sa-2.png"
+                      src="https://educacao.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/07/by-nc-sa-2.png"
                       alt="Copyright"
                     />
                   </a>
