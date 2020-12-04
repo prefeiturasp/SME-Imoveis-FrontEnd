@@ -147,8 +147,9 @@ const Anexos = () => {
                   validate={required}
                 />
                 <label className="form-check-label check-align ">
-                  * Declaro responsabilidade pelas informações prestadas, estando
-                  ciente de que a falsidade implicará nas penalidades cabíveis.
+                  * Declaro responsabilidade pelas informações prestadas,
+                  estando ciente de que a falsidade implicará nas penalidades
+                  cabíveis.
                 </label>
                 <br />
                 <Field
