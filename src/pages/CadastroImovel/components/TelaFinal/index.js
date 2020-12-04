@@ -25,12 +25,13 @@ const TelaFinal = ({ protocoloCadastro }) => {
       <br />
       <br />
 
-      <div className="row">
-        <div className="col">
+      <div className="d-flex flex-row-reverse">
+        <div className="col-3">
           <Button
             type="button"
             variant="primary"
             className="ml-3 float-right mb-3"
+            block
             onClick={() => history.go(0)}
           >
             Início
