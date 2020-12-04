@@ -1,37 +1,37 @@
-export const required = (value) =>
+export const required = value =>
   value !== undefined ? undefined : "Campo obrigatório";
 
-export const email = (value) =>
+export const email = value =>
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
     ? "Email inválido"
     : undefined;
 
-export const prefeituraEmail = (value) =>
+export const prefeituraEmail = value =>
   value && /.+@\prefeitura.sp.gov.br/.test(value)
     ? undefined
     : "Somente emails da prefeitura de São Paulo";
 
-export const alphaNumeric = (value) =>
+export const alphaNumeric = value =>
   value && /[^a-zA-Z0-9 ]/i.test(value)
     ? "Only alphanumeric characters"
     : undefined;
 
-export const numericInteger = (value) =>
+export const numericInteger = value =>
   value && /[^0-9 ]/i.test(value) ? "Somente números" : undefined;
-export const numerosEPontos = (value) =>
+export const numerosEPontos = value =>
   value && /[^0-9.]/i.test(value) ? "Somente números" : undefined;
 
-export const phoneNumber = (value) =>
+export const phoneNumber = value =>
   value && !/^(0|[1-9][0-9]{9})$/i.test(value)
     ? "Invalid phone number, must be 10 digits"
     : undefined;
 
-export const minLength = (min) => (value) =>
+export const minLength = min => value =>
   value && value.length < min
     ? `Deve ter ao menos ${min} caracteres(s)`
     : undefined;
 
-export const telValidate = (value) => {
+export const telValidate = value => {
   if (value) {
     const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
     if (cleanedValue.length < 10 || cleanedValue.length > 11)
@@ -41,7 +41,7 @@ export const telValidate = (value) => {
   return undefined;
 };
 
-export const celValidate = (value) => {
+export const celValidate = value => {
   if (value) {
     const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
     if (cleanedValue.length !== 11) return "Celular inválido";
@@ -50,16 +50,15 @@ export const celValidate = (value) => {
   return undefined;
 };
 
-export const nameValidate = (value) =>
+export const nameValidate = value =>
   value && !/^[a-zA-Z]+. +[a-zA-Z]/.test(value) ? "Nome inválido" : undefined;
 
-export const composeValidators = (...validators) => (value) =>
+export const composeValidators = (...validators) => value =>
   validators.reduce((error, validator) => error || validator(value), undefined);
 
-export const cpfCnpjValidate = (value) => {
+export const cpfCnpjValidate = value => {
   if (value) {
     const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
-    console.log(cleanedValue);
     if (cleanedValue.length === 11) return cpfValidate(cleanedValue);
     else if (cleanedValue.length === 14) return cnpjValidate(cleanedValue);
     else return "O CPF/CNPJ é um número inválido";
@@ -67,7 +66,7 @@ export const cpfCnpjValidate = (value) => {
   return undefined;
 };
 
-export const cpfValidate = (value) => {
+export const cpfValidate = value => {
   if (!value) return undefined;
 
   let soma;
@@ -98,7 +97,7 @@ export const cpfValidate = (value) => {
   return undefined;
 };
 
-export const cnpjValidate = (value) => {
+export const cnpjValidate = value => {
   let cnpj = value.replace(/[^\d]+/g, "");
   if (cnpj === "") return "CNPJ inválido";
 
@@ -130,7 +129,6 @@ export const cnpjValidate = (value) => {
   }
   let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
   if (resultado !== parseInt(digitos.charAt(0))) return "CNPJ inválido";
-  console.log("chegou aqui");
 
   tamanho = tamanho + 1;
   numeros = cnpj.substring(0, tamanho);
@@ -146,16 +144,22 @@ export const cnpjValidate = (value) => {
   return undefined;
 };
 
-export const validaCEP = (value) => {
+export const validaCEP = value => {
   let numero = value.replace("-", "").replace(/_/g, "");
   return numero.length === 8 ? undefined : "Necessário CEP válido!";
 };
 
-export const requiredMultiselect = (value) => {
+export const requiredMultiselect = value => {
   if (Array.isArray(value)) {
     if (!value.length) return "Campo obrigatório";
   } else {
     return "Campo obrigatório";
   }
   return undefined;
+};
+
+export const iptuLength = value => {
+  return value && value.length === 14
+    ? undefined
+    : "Necessário IPTU na seguinte máscara: 000.000.0000.0";
 };
