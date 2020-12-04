@@ -14,7 +14,7 @@ import TelaFinal from "./components/TelaFinal";
 
 const CadastroImovel = () => {
   const [showTelaFinal, setShowTelaFinal] = useState(false);
-  const [protocoloCadastro, setProtocoloCadastro] = useState("");
+  const [dadosCadastro, setDadosCadastro] = useState({});
 
   const onSubmit = (values, form) => {
     let payload = { ...values };
@@ -52,7 +52,7 @@ const CadastroImovel = () => {
     cadastrarImovel(payload)
       .then(res => {
         setTimeout(() => form.restart());
-        setProtocoloCadastro(res.data.protocolo);
+        setDadosCadastro(res.data);
         setShowTelaFinal(true);
       })
       .catch(() => {
@@ -166,7 +166,7 @@ const CadastroImovel = () => {
             </Wizard.Page>
           </Wizard>
         ) : (
-          <TelaFinal protocoloCadastro={protocoloCadastro} />
+          <TelaFinal dadosCadastro={dadosCadastro} />
         )}
       </div>
     </BaseHome>

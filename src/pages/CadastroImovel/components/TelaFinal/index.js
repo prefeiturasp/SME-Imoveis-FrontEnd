@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
-const TelaFinal = ({ protocoloCadastro }) => {
+const TelaFinal = ({ dadosCadastro }) => {
   const history = useHistory();
 
   return (
@@ -20,8 +20,16 @@ const TelaFinal = ({ protocoloCadastro }) => {
       <br />
       <br />
       <div className="d-flex justify-content-center">
-        <div className="protocolo-box">{protocoloCadastro}</div>
+        <div className="protocolo-box">{dadosCadastro.protocolo}</div>
       </div>
+      <br />
+      <br />
+
+      <p>
+        E-mail para onde as informações de cadastro foram enviadas:{" "}
+        <b>{dadosCadastro.proponente.email}</b>
+      </p>
+
       <br />
       <br />
 
