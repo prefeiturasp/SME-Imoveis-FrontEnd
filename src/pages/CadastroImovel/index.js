@@ -55,10 +55,8 @@ const CadastroImovel = () => {
         setDadosCadastro(res.data);
         setShowTelaFinal(true);
       })
-      .catch(() => {
-        toastError(
-          "Houve um problema ao realizar o cadastro, tente novamente mais tarde."
-        );
+      .catch(error => {
+        console.log(error);
       });
   };
 

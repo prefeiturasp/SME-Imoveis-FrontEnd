@@ -6,6 +6,7 @@ import { HelpText } from "components/HelpText";
 import { asyncForEach, readerFile } from "helpers/utils";
 import { OverlayTrigger, Popover, Image } from "react-bootstrap";
 import imgTooltipQuestion from "img/tooltip-question.svg";
+import { toastError } from "components/Toast/dialogs";
 
 import "./FileUpload.scss";
 
@@ -22,19 +23,34 @@ class CustomFileUploadPR extends FileUploadPR {
     }
   }
   async upload() {
-    const { onUploadChange, tipoDocumento, tipoArquivo } = this.props;
+    const {
+      onUploadChange,
+      tipoDocumento,
+      tipoArquivo,
+      customAccept
+    } = this.props;
     const { files } = this.state;
     let data = [];
 
     await asyncForEach(files, async file => {
-      await readerFile(file).then(v => {
-        data.push({
-          ...v,
-          originalFile: file,
-          tipo_documento: tipoDocumento,
-          tipo_arquivo: tipoArquivo
+      if (customAccept && customAccept.includes(file.type)) {
+        await readerFile(file).then(v => {
+          data.push({
+            ...v,
+            originalFile: file,
+            tipo_documento: tipoDocumento,
+            tipo_arquivo: tipoArquivo
+          });
         });
-      });
+      } else {
+        toastError("Formato de arquivo inválido");
+        const currentFiles = this.state.files.filter(v => {
+          return v.name !== file.name;
+        });
+        this.setState({
+          files: currentFiles
+        });
+      }
     });
     onUploadChange(data);
   }
@@ -102,7 +118,8 @@ export class FileUpload extends React.Component {
       title,
       tipoDocumento,
       tipoArquivo,
-      tooltipMessage
+      tooltipMessage,
+      customAccept
     } = this.props;
     return (
       <div className="input input-file-upload">
@@ -157,6 +174,7 @@ export class FileUpload extends React.Component {
           initialFiles={initialFiles}
           tipoDocumento={tipoDocumento}
           tipoArquivo={tipoArquivo}
+          customAccept={customAccept}
         />
         <HelpText helpText={helpText} />
         <InputErroMensagem meta={meta} />

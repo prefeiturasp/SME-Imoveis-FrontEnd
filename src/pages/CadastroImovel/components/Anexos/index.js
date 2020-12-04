@@ -30,6 +30,7 @@ const Anexos = () => {
                 name="anexos_fachada"
                 id="anexos_fachada"
                 accept=".jpeg, .pdf"
+                customAccept={["image/jpeg", "application/pdf"]}
                 className="form-control-file"
                 tooltipMessage="Extensões permitidas: jpeg e pdf"
                 required
@@ -51,6 +52,7 @@ const Anexos = () => {
                 name="anexos_ambiente_interno"
                 id="anexos_ambiente_interno"
                 accept=".jpeg, .pdf"
+                customAccept={["image/jpeg", "application/pdf"]}
                 tooltipMessage="Extensões permitidas: jpeg e pdf"
                 className="form-control-file"
                 required
@@ -75,6 +77,7 @@ const Anexos = () => {
                 name="anexos_area_externa"
                 id="anexos_area_externa"
                 accept=".jpeg, .pdf"
+                customAccept={["image/jpeg", "application/pdf"]}
                 tooltipMessage="Extensões permitidas: jpeg e pdf"
                 className="form-control-file"
                 required
@@ -99,6 +102,7 @@ const Anexos = () => {
                 name="anexos_iptu"
                 id="anexos_iptu"
                 accept=".jpeg, .pdf"
+                customAccept={["image/jpeg", "application/pdf"]}
                 tooltipMessage="Extensões permitidas: jpeg e pdf"
                 className="form-control-file"
                 required
@@ -121,6 +125,7 @@ const Anexos = () => {
                 name="anexos_planta"
                 id="anexos_planta"
                 accept=".jpeg, .pdf"
+                customAccept={["image/jpeg", "application/pdf"]}
                 tooltipMessage="Extensões permitidas: jpeg e pdf"
                 className="form-control-file"
                 required
