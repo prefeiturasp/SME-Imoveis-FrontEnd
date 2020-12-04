@@ -1,6 +1,5 @@
 import axios from "axios";
 import endPont from "../constants/endPonts.constants";
-import { useHistory } from "react-router-dom";
 
 const api = axios.create({
   baseURL: endPont.API_URL
@@ -26,14 +25,7 @@ api.interceptors.response.use(
   },
   function(error) {
     const originalRequest = error.config;
-    const history = useHistory();
-    if (
-      error.response.status === 401 &&
-      originalRequest.url === `${endPont}/api-token-auth/`
-    ) {
-      history.push("/login");
-      return Promise.reject(error);
-    }
+  
 
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;

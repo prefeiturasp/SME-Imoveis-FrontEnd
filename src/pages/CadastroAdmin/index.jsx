@@ -17,8 +17,8 @@ export const CadastroAdmin = () => {
 
   const history = useHistory();
 
-  const onSubmit = (values) => {
-    recuperaSenha(values.email).then((resp) => {
+  const onSubmit = values => {
+    recuperaSenha(values.email).then(resp => {
       if (resp.status === HTTP_STATUS.OK) {
         setEmailRecuperacao(resp.data.email);
         setRenderRecuperacaoOK(true);
@@ -45,7 +45,7 @@ export const CadastroAdmin = () => {
                   form,
                   submitting,
                   pristine,
-                  values,
+                  values
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <h3 className="mt-3 font-weight-bold text-center">

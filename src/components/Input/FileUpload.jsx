@@ -150,7 +150,7 @@ export class FileUpload extends React.Component {
           auto={true}
           multiple={true}
           invalidFileSizeMessageSummary={"Erro ao dar upload:"}
-          invalidFileSizeMessageDetail={"O tamanho máximo de um arquivo é 10MB"}
+          invalidFileSizeMessageDetail={"O tamanho máximo de um arquivo é 15MB"}
           chooseLabel="Selecione os arquivos"
           cancelLabel="Cancelar"
           onUploadChange={this.onChange}
