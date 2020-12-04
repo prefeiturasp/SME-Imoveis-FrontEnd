@@ -16,7 +16,7 @@ const CadastroImovel = () => {
   const [showTelaFinal, setShowTelaFinal] = useState(false);
   const [dadosCadastro, setDadosCadastro] = useState({});
 
-  const onSubmit = (values, form) => {
+  const onSubmit = async (values, form) => {
     let payload = { ...values };
     let anexos = [];
     const contato = {};
@@ -49,15 +49,10 @@ const CadastroImovel = () => {
 
     payload = { ...payload, anexos, contato };
 
-    cadastrarImovel(payload)
-      .then(res => {
-        setTimeout(() => form.restart());
-        setDadosCadastro(res.data);
-        setShowTelaFinal(true);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    const res = await cadastrarImovel(payload);
+    setTimeout(() => form.restart());
+    setDadosCadastro(res.data);
+    setShowTelaFinal(true);
   };
 
   const validateAnexos = values => {
