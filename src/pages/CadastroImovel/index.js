@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React from "react";
+import React, { useState } from "react";
 import "./styles.scss";
+import { toastError } from "components/Toast/dialogs";
 import Wizard from "./Wizard";
 import BaseHome from "components/BaseHome";
 import Proponente from "./components/Proponente";
@@ -8,16 +9,65 @@ import Imovel from "./components/Imovel";
 import Anexos from "./components/Anexos";
 import { tamanhoMaximoAnexos } from "helpers/utils";
 import { checaEnderecoImovel, checaNumeroIPTU } from "services/step2.service";
+import { cadastrarImovel } from "services/Imovel.service";
+import TelaFinal from "./components/TelaFinal";
 
 const CadastroImovel = () => {
-  const onSubmit = async () => {};
+  const [showTelaFinal, setShowTelaFinal] = useState(false);
+  const [protocoloCadastro, setProtocoloCadastro] = useState("");
 
-  const validateAnexos = (values) => {
+  const onSubmit = (values, form) => {
+    let payload = { ...values };
+    let anexos = [];
+    const contato = {};
+
+    anexos.push.apply(anexos, payload.anexos_fachada);
+    anexos.push.apply(anexos, payload.anexos_ambiente_interno);
+    anexos.push.apply(anexos, payload.anexos_area_externa);
+    anexos.push.apply(anexos, payload.anexos_iptu);
+    anexos.push.apply(anexos, payload.anexos_planta);
+
+    anexos = anexos.map(anexo => {
+      return {
+        arquivo: anexo.arquivo,
+        tipo_documento: anexo.tipo_documento,
+        tipo_arquivo: anexo.tipo_arquivo
+      };
+    });
+
+    contato.nome = payload.proponente.nome;
+    contato.cpf_cnpj = payload.proponente.cpf_cnpj;
+    contato.email = payload.proponente.email;
+    contato.telefone = payload.proponente.telefone;
+    contato.celular = payload.proponente.celular;
+
+    delete payload.anexos_fachada;
+    delete payload.anexos_ambiente_interno;
+    delete payload.anexos_area_externa;
+    delete payload.anexos_iptu;
+    delete payload.anexos_planta;
+
+    payload = { ...payload, anexos, contato };
+
+    cadastrarImovel(payload)
+      .then(res => {
+        setTimeout(() => form.restart());
+        setProtocoloCadastro(res.data.protocolo);
+        setShowTelaFinal(true);
+      })
+      .catch(() => {
+        toastError(
+          "Houve um problema ao realizar o cadastro, tente novamente mais tarde."
+        );
+      });
+  };
+
+  const validateAnexos = values => {
     const errors = {};
     const anexos = [];
 
     if (values.anexos_fachada && values.anexos_fachada.length) {
-      values.anexos_fachada.forEach((anexo) => {
+      values.anexos_fachada.forEach(anexo => {
         anexos.push(anexo.originalFile);
       });
     } else {
@@ -28,7 +78,7 @@ const CadastroImovel = () => {
       values.anexos_ambiente_interno &&
       values.anexos_ambiente_interno.length
     ) {
-      values.anexos_ambiente_interno.forEach((anexo) => {
+      values.anexos_ambiente_interno.forEach(anexo => {
         anexos.push(anexo.originalFile);
       });
     } else {
@@ -36,7 +86,7 @@ const CadastroImovel = () => {
     }
 
     if (values.anexos_area_externa && values.anexos_area_externa.length) {
-      values.anexos_area_externa.forEach((anexo) => {
+      values.anexos_area_externa.forEach(anexo => {
         anexos.push(anexo.originalFile);
       });
     } else {
@@ -44,7 +94,7 @@ const CadastroImovel = () => {
     }
 
     if (values.anexos_iptu && values.anexos_iptu.length) {
-      values.anexos_iptu.forEach((anexo) => {
+      values.anexos_iptu.forEach(anexo => {
         anexos.push(anexo.originalFile);
       });
     } else {
@@ -52,7 +102,7 @@ const CadastroImovel = () => {
     }
 
     if (values.anexos_planta && values.anexos_planta.length) {
-      values.anexos_planta.forEach((anexo) => {
+      values.anexos_planta.forEach(anexo => {
         anexos.push(anexo.originalFile);
       });
     } else {
@@ -69,27 +119,28 @@ const CadastroImovel = () => {
     return errors;
   };
 
-  const validateImovel = async (values) => {
+  const validateImovel = async values => {
     const errors = {};
 
     if (!values.nao_possui_iptu) {
-      if (!values.iptu) {
-        errors.iptu = "Campo obrigatório";
-      } else if (values.iptu && values.iptu.length !== 14) {
-        errors.iptu = "IPTU precisa estar na seguinte máscara: 000.000.0000.0";
+      if (!values.numero_iptu) {
+        errors.numero_iptu = "Campo obrigatório";
+      } else if (values.iptu && values.numero_iptu.length !== 14) {
+        errors.numero_iptu =
+          "IPTU precisa estar na seguinte máscara: 000.000.0000.0";
       } else {
-        const response = await checaNumeroIPTU(values.iptu);
+        const response = await checaNumeroIPTU(values.numero_iptu);
         if (response.data.iptu_existe)
-          errors.iptu = "Este IPTU já está cadastrado";
+          errors.numero_iptu = "Este IPTU já está cadastrado";
         else if (!response.data.iptu_valido) {
-          errors.iptu = "Número de IPTU inválido";
+          errors.numero_iptu = "Número de IPTU inválido";
         }
       }
     }
 
     if (values.cep && values.numero && values.endereco && values.bairro) {
       const response = await checaEnderecoImovel(values);
-      if (response.data.endereco_existe) {
+      if (response.data && response.data.endereco_existe) {
         errors.numero = "Este imóvel já possui cadastro em nossa base de dados";
       }
     }
@@ -100,19 +151,23 @@ const CadastroImovel = () => {
   return (
     <BaseHome>
       <div className="container">
-        <Wizard onSubmit={onSubmit}>
-          <Wizard.Page>
-            <Proponente />
-          </Wizard.Page>
+        {!showTelaFinal ? (
+          <Wizard onSubmit={onSubmit}>
+            <Wizard.Page>
+              <Proponente />
+            </Wizard.Page>
 
-          <Wizard.Page validate={validateImovel}>
-            <Imovel />
-          </Wizard.Page>
+            <Wizard.Page validate={validateImovel}>
+              <Imovel />
+            </Wizard.Page>
 
-          <Wizard.Page validate={validateAnexos}>
-            <Anexos />
-          </Wizard.Page>
-        </Wizard>
+            <Wizard.Page validate={validateAnexos}>
+              <Anexos />
+            </Wizard.Page>
+          </Wizard>
+        ) : (
+          <TelaFinal protocoloCadastro={protocoloCadastro} />
+        )}
       </div>
     </BaseHome>
   );

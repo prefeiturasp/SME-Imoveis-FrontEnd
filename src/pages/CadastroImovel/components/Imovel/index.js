@@ -9,7 +9,7 @@ import { iptuMask } from "helpers/textMask";
 import {
   composeValidators,
   required,
-  validaCEP,
+  validaCEP
 } from "helpers/fieldValidators";
 import { toastError } from "components/Toast/dialogs";
 import { getEnderecoPorCEP } from "services/cep.service";
@@ -19,7 +19,6 @@ import { TextArea } from "components/TextArea/TextArea";
 
 const Imovel = () => {
   const [apiFora, setApiFora] = useState(false);
-  
   return (
     <FormSpy>
       {({ form, values }) => (
@@ -141,7 +140,7 @@ const Imovel = () => {
                 component={InputText}
                 customChange={iptuMask}
                 label="Número do IPTU"
-                name="iptu"
+                name="numero_iptu"
                 required={!values.nao_possui_iptu ? true : false}
                 disabled={values.nao_possui_iptu}
                 tooltipMessage={"Número de IPTU do imóvel."}
@@ -172,7 +171,7 @@ const Imovel = () => {
               <OnChange name="nao_possui_iptu">
                 {async (value, previous) => {
                   if (value) {
-                    values.iptu = null;
+                    values.numero_iptu = undefined;
                   }
                 }}
               </OnChange>
@@ -183,7 +182,7 @@ const Imovel = () => {
             <Field
               component={TextArea}
               label="Campo para preenchimento do ITR (Imposto Territorial Rural) ou Observações"
-              name="obs"
+              name="observacoes"
               required
               validate={composeValidators(required)}
               placeholder="Por que o imóvel não possui IPTU?"
