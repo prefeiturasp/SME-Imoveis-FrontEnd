@@ -63,3 +63,34 @@ div.cadastro-imovel {
   color: $gray;
   display: inline;
 }
+
+.tela-final-cadastro-imovel {
+  max-width: 800px;
+  margin: 10px auto;
+  height: max-content;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  position: relative;
+  background: #ffffff;
+  margin-top: 150px;
+  bottom: 20px;
+
+  h5 {
+    color: $corAzulPortal;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 41px;
+  }
+}
+
+.protocolo-box {
+  background: #ebebeb;
+  padding: 10px;
+  width: 180px;
+  height: 55px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 25px;
+}

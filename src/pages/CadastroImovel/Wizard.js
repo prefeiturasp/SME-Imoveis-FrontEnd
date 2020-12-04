@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import { Form } from "react-final-form";
 import { createPersistDecorator } from "final-form-persist";
 import { Button, Alert } from "react-bootstrap";
+import Spin from "antd/es/spin";
+import "antd/es/spin/style/css";
 
 export default class Wizard extends React.Component {
   static propTypes = {
@@ -38,12 +40,12 @@ export default class Wizard extends React.Component {
     return activePage.props.validate ? activePage.props.validate(values) : {};
   };
 
-  handleSubmit = values => {
+  handleSubmit = (values, form) => {
     const { children, onSubmit } = this.props;
     const { page } = this.state;
     const isLastPage = page === React.Children.count(children) - 1;
     if (isLastPage) {
-      return onSubmit(values);
+      return onSubmit(values, form);
     } else {
       this.next(values);
     }
@@ -71,7 +73,8 @@ export default class Wizard extends React.Component {
     else if (!values.proponente.email) this.setState({ showAlert: true });
     else if (!values.proponente.nome) this.setState({ showAlert: true });
     else if (!values.proponente.cpf_cnpj) this.setState({ showAlert: true });
-    else if (!values.proponente.tipo) this.setState({ showAlert: true });
+    else if (!values.proponente.tipo_proponente)
+      this.setState({ showAlert: true });
     else if (!values.proponente.celular) this.setState({ showAlert: true });
     else this.setState({ showAlert: false });
   };
@@ -85,7 +88,7 @@ export default class Wizard extends React.Component {
     else if (!values.uf) this.setState({ showAlert: true });
     else if (!values.area_construida) this.setState({ showAlert: true });
     else if (!values.nao_possui_iptu) {
-      if (!values.iptu) this.setState({ showAlert: true });
+      if (!values.numero_iptu) this.setState({ showAlert: true });
     } else this.setState({ showAlert: false });
   };
 
@@ -144,55 +147,58 @@ export default class Wizard extends React.Component {
             onSubmit={this.handleSubmit}
           >
             {({ handleSubmit, submitting, values }) => (
-              <form onSubmit={handleSubmit}>
-                <Alert
-                  show={showAlert}
-                  onClose={() => this.setState({ showAlert: false })}
-                  variant="info"
-                  transation={true}
-                  dismissible
-                >
-                  Os campos obrigatórios não foram preenchidos, favor preencher.
-                </Alert>
-                {activePage}
-                <div className="row mt-5">
-                  <div className="col">
-                    {isLastPage && (
-                      <Button
-                        type="submit"
-                        variant="primary"
-                        className="ml-3 float-right"
-                        disabled={submitting}
-                        onClick={() => clear()}
-                      >
-                        Enviar Cadastro
-                      </Button>
-                    )}
-                    {!isLastPage && (
-                      <Button
-                        type="submit"
-                        variant="primary"
-                        className="ml-3 float-right"
-                        onClick={() => this.showAlertPage(values)}
-                      >
-                        Avançar »
-                      </Button>
-                    )}
+              <Spin spinning={submitting}>
+                <form onSubmit={handleSubmit}>
+                  <Alert
+                    show={showAlert}
+                    onClose={() => this.setState({ showAlert: false })}
+                    variant="info"
+                    transation={true}
+                    dismissible
+                  >
+                    Os campos obrigatórios não foram preenchidos, favor
+                    preencher.
+                  </Alert>
+                  {activePage}
+                  <div className="row mt-5">
+                    <div className="col">
+                      {isLastPage && (
+                        <Button
+                          type="submit"
+                          variant="primary"
+                          className="ml-3 float-right"
+                          disabled={submitting}
+                          onClick={() => clear()}
+                        >
+                          Enviar Cadastro
+                        </Button>
+                      )}
+                      {!isLastPage && (
+                        <Button
+                          type="submit"
+                          variant="primary"
+                          className="ml-3 float-right"
+                          onClick={() => this.showAlertPage(values)}
+                        >
+                          Avançar »
+                        </Button>
+                      )}
 
-                    {page > 0 && (
-                      <Button
-                        type="button"
-                        variant="outline-primary"
-                        className="ml-3 float-right"
-                        onClick={() => this.previous(values)}
-                      >
-                        « Voltar
-                      </Button>
-                    )}
+                      {page > 0 && (
+                        <Button
+                          type="button"
+                          variant="outline-primary"
+                          className="ml-3 float-right"
+                          onClick={() => this.previous(values)}
+                        >
+                          « Voltar
+                        </Button>
+                      )}
+                    </div>
                   </div>
-                </div>
-                {this.checkPersistExpire(isPersisted(), clear)}
-              </form>
+                  {this.checkPersistExpire(isPersisted(), clear)}
+                </form>
+              </Spin>
             )}
           </Form>
         </div>

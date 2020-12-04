@@ -13,6 +13,7 @@ import {
   cpfCnpjValidate
 } from "helpers/fieldValidators";
 import { TIPO_PROPONENTE } from "constants/choices.constants";
+import "antd/es/spin/style/css";
 
 const Proponente = () => {
   return (
@@ -56,7 +57,7 @@ const Proponente = () => {
             options={TIPO_PROPONENTE}
             placeholder="Selecione um Tipo"
             label="Tipo"
-            name="proponente.tipo"
+            name="proponente.tipo_proponente"
             tooltipMessage={
               "Proprietário do Imóvel ou Representante legal do imóvel."
             }
