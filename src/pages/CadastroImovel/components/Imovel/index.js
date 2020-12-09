@@ -156,7 +156,7 @@ const Imovel = () => {
                 required
                 tooltipMessage={"Área construída do imóvel em m²."}
                 validate={composeValidators(required)}
-                placeholder="Digite o Número do IPTU"
+                placeholder="Digite a Área construída do imóvel"
               />
             </div>
           </div>
