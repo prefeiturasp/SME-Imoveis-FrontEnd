@@ -15,7 +15,7 @@ const PrivateRouter = (
   <Route
     {...rest}
     render={(props) =>
-      authService.isLoggedIn() ? (
+      authService.isLoggedIn() && localStorage.getItem("perfil") ? (
         <Component {...props} />
       ) : (
         <Redirect

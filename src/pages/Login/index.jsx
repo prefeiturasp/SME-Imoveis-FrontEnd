@@ -8,7 +8,7 @@ import { Link, useHistory } from "react-router-dom";
 import {
   composeValidators,
   required,
-  numericInteger
+  numericInteger,
 } from "helpers/fieldValidators";
 import { InputText } from "components/Input/InputText";
 import logoSME from "img/logo-sme.svg";
@@ -24,9 +24,9 @@ export const Login = () => {
 
   const history = useHistory();
 
-  const onSubmit = values => {
+  const onSubmit = (values) => {
     if (values.senha1) {
-      atualizarSenha(usuario.id, usuario.token, values).then(response => {
+      atualizarSenha(usuario.id, usuario.token, values).then((response) => {
         if (response.status === HTTP_STATUS.OK) {
           toastSuccess("Senha atualizada com sucesso");
           setTimeout(() => {
@@ -39,9 +39,15 @@ export const Login = () => {
     } else {
       const { login, senha } = values;
       if (login && senha) {
-        authService.login(login, senha).then(response => {
+        authService.login(login, senha).then((response) => {
           if (response.status === HTTP_STATUS.OK) {
-            history.push("/sem-permissao");
+            if (response.data.perfil) {
+              localStorage.setItem("perfil", response.data.perfil.nome);
+              localStorage.setItem("nome", response.data.nome);
+              history.push("/adm-imoveis");
+            } else {
+              history.push("/sem-permissao");
+            }
           }
         });
       }
@@ -64,7 +70,7 @@ export const Login = () => {
                 form,
                 submitting,
                 pristine,
-                values
+                values,
               }) => (
                 <form onSubmit={handleSubmit}>
                   {!exibirResetSenha && (

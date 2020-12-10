@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./style.scss";
 import "./sb-admin-2.css";
+import { EH_PERFIL_ADMIN, getNome, getPerfil } from "helpers/utils";
 
 export class Sidebar extends Component {
   constructor(props) {
@@ -31,13 +32,22 @@ export class Sidebar extends Component {
               }
             />
           </p>
+          <div className="justify-content-center mx-auto align-items-center sidebar-brand-text mx-3 pt-2">
+            <div className="nav-item">
+              {!toggled && (
+                <div className="sidebar-brand-text text-center">
+                  <span className="d-none d-lg-inline text-bold text-white small border border-light rounded-pill p-1">
+                    {getNome()}
+                  </span>
+                  <br />
+                  <span className="d-none d-lg-inline text-bold text-white small p-1">
+                    {getPerfil()}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
           <div className="sidebar-wrapper div-submenu">
-            <li className="nav-item">
-              <NavLink className={`nav-link collapsed`} to="/adm-fornecedor">
-                <i className="fas fa-list-alt" />
-                <span>Avisos | Irregularidades</span>
-              </NavLink>
-            </li>
             <li className="nav-item">
               <Link
                 className={`nav-link collapsed`}
@@ -48,7 +58,7 @@ export class Sidebar extends Component {
                 aria-controls="collapseTwo"
               >
                 <i className="fas fa-user-edit" />
-                <span>Cadastro</span>
+                <span>Cadastros</span>
               </Link>
               <div
                 id="collapseCadastro"
@@ -60,16 +70,9 @@ export class Sidebar extends Component {
                   <NavLink
                     activeClassName="active"
                     className="collapse-item"
-                    to="/adm-fornecedor/dados-empresa"
+                    to="/adm-fornecedor/cadastros-realizados"
                   >
-                    Dados da empresa, lojas e preços
-                  </NavLink>
-                  <NavLink
-                    activeClassName="active"
-                    className="collapse-item"
-                    to="/adm-fornecedor/anexos"
-                  >
-                    Anexos
+                    Cadastros realizados
                   </NavLink>
                 </div>
               </div>
@@ -79,15 +82,15 @@ export class Sidebar extends Component {
                 className={`nav-link collapsed`}
                 href="#teste"
                 data-toggle="collapse"
-                data-target="#collapseConfig"
+                data-target="#collapseRelatorios"
                 aria-expanded="false"
                 aria-controls="collapseTwo"
               >
-                <i className="fas fa-cog" />
-                <span>Configurações</span>
+                <i className="fas fa-file" />
+                <span>Relatórios</span>
               </Link>
               <div
-                id="collapseConfig"
+                id="collapseRelatorios"
                 className={`collapse`}
                 aria-labelledby="headingConfig"
                 data-parent="#accordionSidebar"
@@ -96,13 +99,44 @@ export class Sidebar extends Component {
                   <NavLink
                     activeClassName="active"
                     className="collapse-item"
-                    to="/adm-fornecedor/alterar-senha"
+                    to="/adm-fornecedor/cadastros-realizados"
                   >
-                    Alterar senha
+                    Relatórios Gerenciais
                   </NavLink>
                 </div>
               </div>
             </li>
+            {EH_PERFIL_ADMIN && (
+              <li className="nav-item">
+                <Link
+                  className={`nav-link collapsed`}
+                  href="#teste"
+                  data-toggle="collapse"
+                  data-target="#collapseConfig"
+                  aria-expanded="false"
+                  aria-controls="collapseTwo"
+                >
+                  <i className="fas fa-cog" />
+                  <span>Gestão</span>
+                </Link>
+                <div
+                  id="collapseConfig"
+                  className={`collapse`}
+                  aria-labelledby="headingConfig"
+                  data-parent="#accordionSidebar"
+                >
+                  <div className="bg-white py-2 collapse-inner rounded">
+                    <NavLink
+                      activeClassName="active"
+                      className="collapse-item"
+                      to="/adm-fornecedor/permissionamento"
+                    >
+                      Permissionamento
+                    </NavLink>
+                  </div>
+                </div>
+              </li>
+            )}
           </div>
           {!toggled && (
             <div className="text-center page-footer mt-auto justify-content-center mb-3 pb-2">

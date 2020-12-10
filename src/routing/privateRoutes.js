@@ -1,4 +1,4 @@
-import { PaginaInicialAdministrador } from "pages/AreaLogada/PaginaInicialAdministrador";
+import { PaginaInicialAdministrador } from "pages/CadastroAdmin/PaginaInicialAdministrador";
 
 export const privateRoutes = [
   {

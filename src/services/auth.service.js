@@ -11,8 +11,8 @@ const login = async (login, senha) => {
       body: JSON.stringify({ login, senha }),
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
-      }
+        Accept: "application/json",
+      },
     });
     const json = await response.json();
     const isValid = isValidResponse(json);
@@ -23,17 +23,17 @@ const login = async (login, senha) => {
         method: "GET",
         headers: {
           Authorization: `JWT ${json.token}`,
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       })
-        .then(res => {
+        .then((res) => {
           status = res.status;
           return res.json();
         })
-        .then(data => {
+        .then((data) => {
           return { data: data, status: status };
         })
-        .catch(error => {
+        .catch((error) => {
           return error;
         });
     } else {
@@ -47,13 +47,9 @@ const login = async (login, senha) => {
 
 const logout = () => {
   localStorage.removeItem(TOKEN_ALIAS);
-  localStorage.removeItem("uuid");
-  localStorage.removeItem("status");
-  localStorage.removeItem("razao_social");
-  localStorage.removeItem("cnpj");
-  window.location.href = process.env.PUBLIC_URL
-    ? `/${process.env.PUBLIC_URL}/login`
-    : "/login";
+  localStorage.removeItem("perfil");
+  localStorage.removeItem("nome");
+  window.location.href = "/login";
 };
 
 export const getToken = () => {
@@ -61,7 +57,7 @@ export const getToken = () => {
   if (token) {
     if (isTokenExpired(token)) logout();
     if (needsToRefreshToken(token)) {
-      refreshToken(token).then(json => {
+      refreshToken(token).then((json) => {
         if (isValidResponse(json))
           localStorage.setItem(TOKEN_ALIAS, json.token);
       });
@@ -79,7 +75,7 @@ const isLoggedIn = () => {
   return false;
 };
 
-const isValidResponse = json => {
+const isValidResponse = (json) => {
   try {
     const decoded = decode(json.token);
     const test2 =
@@ -93,14 +89,14 @@ const isValidResponse = json => {
   }
 };
 
-export const refreshToken = async token => {
+export const refreshToken = async (token) => {
   try {
     const response = await fetch(`${endPonts.API_URL}/api-token-refresh/`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ token })
+      body: JSON.stringify({ token }),
     });
     const json = await response.json();
     return json;
@@ -109,14 +105,14 @@ export const refreshToken = async token => {
   }
 };
 
-const needsToRefreshToken = token => {
+const needsToRefreshToken = (token) => {
   const secondsLeft = calculateTokenSecondsLeft(token);
   if (secondsLeft < 3000) {
     return true;
   } else return false;
 };
 
-export const isTokenExpired = token => {
+export const isTokenExpired = (token) => {
   try {
     const secondsLeft = calculateTokenSecondsLeft(token);
     if (secondsLeft <= 0) {
@@ -128,7 +124,7 @@ export const isTokenExpired = token => {
   }
 };
 
-export const calculateTokenSecondsLeft = token => {
+export const calculateTokenSecondsLeft = (token) => {
   const decoded = decode(token);
   const dateToken = new Date(decoded.exp * 1000);
   const dateVerify = new Date(Date.now());
@@ -141,7 +137,7 @@ const authService = {
   logout,
   getToken,
   isLoggedIn,
-  isValidResponse
+  isValidResponse,
 };
 
 export default authService;
