@@ -67,3 +67,24 @@ export const getSecretarias = () => {
     });
 };
 
+export const getUsuarios = () => {
+  const url = `${endPonts.API_URL}/usuarios/`;
+  let status = 0;
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `JWT ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+};

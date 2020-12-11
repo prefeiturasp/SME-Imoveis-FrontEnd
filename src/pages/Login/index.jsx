@@ -60,7 +60,7 @@ export const Login = () => {
       <div className="right-half">
         <div className="container my-auto">
           <div className="logo-sigpae">
-            <img src={logo} />
+            <img src={logo} alt="logo" />
           </div>
           <div className="form">
             <Form
