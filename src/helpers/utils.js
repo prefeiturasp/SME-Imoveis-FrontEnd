@@ -154,11 +154,24 @@ export const getPerfil = () => {
 };
 
 export const normalizarOptions = (options) => {
-  const options_ = [];
+  const options_ = [{ label: "Selecione", value: undefined }];
   options.forEach((option) => {
     options_.push({ label: option.nome, value: option.id });
   });
   return options_;
 };
+
+
+export const normalizarPerfis = (options) => {
+  const options_ = [
+    { label: "Selecione", value: undefined },
+    { label: "SEM PERMISSAO", value: "SEM PERMISSAO" },
+  ];
+  options.forEach((option) => {
+    options_.push({ label: option.nome, value: option.id });
+  });
+  return options_;
+};
+
 
 export const EH_PERFIL_ADMIN = localStorage.getItem("perfil") === "ADMIN";

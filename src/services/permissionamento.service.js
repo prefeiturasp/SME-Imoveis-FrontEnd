@@ -67,14 +67,15 @@ export const getSecretarias = () => {
     });
 };
 
-export const getUsuarios = () => {
-  const url = `${endPonts.API_URL}/usuarios/`;
+export const getUsuarios = (queryParams) => {
+  const url = `${endPonts.API_URL}/usuarios/${queryParams}`;
   let status = 0;
   return fetch(url, {
     method: "GET",
     headers: {
       Authorization: `JWT ${getToken()}`,
       "Content-Type": "application/json",
+      //"Cache-Control": "no-cache", 
     },
   })
     .then((res) => {
