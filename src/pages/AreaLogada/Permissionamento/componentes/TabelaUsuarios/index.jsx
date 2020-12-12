@@ -2,7 +2,7 @@ import Botao from "components/Botao";
 import { BUTTON_ICON, BUTTON_STYLE } from "components/Botao/constants";
 import React from "react";
 
-export const TabelaUsuarios = ({ usuarios }) => {
+export const TabelaUsuarios = ({ usuarios, setShowModal, setUsuario }) => {
   return (
     <>
       {usuarios && usuarios.length === 0 && (
@@ -34,7 +34,14 @@ export const TabelaUsuarios = ({ usuarios }) => {
                     {usuario.perfil ? usuario.perfil.nome : "SEM PERMISSAO"}
                   </td>
                   <td>
-                    <Botao style={BUTTON_STYLE.BLUE} icon={BUTTON_ICON.EDIT} />
+                    <Botao
+                      onClick={() => {
+                        setShowModal(true);
+                        setUsuario(usuario);
+                      }}
+                      style={BUTTON_STYLE.BLUE}
+                      icon={BUTTON_ICON.EDIT}
+                    />
                   </td>
                 </tr>
               );
