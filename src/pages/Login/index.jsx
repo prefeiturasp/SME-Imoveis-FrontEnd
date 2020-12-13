@@ -42,8 +42,12 @@ export const Login = () => {
         authService.login(login, senha).then((response) => {
           if (response.status === HTTP_STATUS.OK) {
             if (response.data.perfil) {
+              console.log("if");
+              localStorage.setItem("perfil",response.data.perfil.nome);
+              localStorage.setItem("nome", response.data.nome);
               window.location.href = "/adm-imoveis";
             } else {
+              console.log("else");
               history.push("/sem-permissao");
             }
           }

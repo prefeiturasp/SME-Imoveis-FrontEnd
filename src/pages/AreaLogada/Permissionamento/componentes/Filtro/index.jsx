@@ -17,7 +17,12 @@ import { formataPaylaodBuscaUsuarios } from "../../helper";
 import Spin from "antd/es/spin";
 import "antd/es/spin/style/css";
 
-export const Filtro = ({ setUsuarios }) => {
+export const Filtro = ({
+  setUsuarios,
+  setSecretariasProps,
+  setPerfisProps,
+  setDresProps,
+}) => {
   const [perfis, setPerfis] = useState(null);
   const [dres, setDres] = useState(null);
   const [secretarias, setSecretarias] = useState(null);
@@ -28,6 +33,7 @@ export const Filtro = ({ setUsuarios }) => {
       .then((response) => {
         if (response.status === HTTP_STATUS.OK) {
           setPerfis(response.data.results);
+          setPerfisProps(response.data.results);
         }
       })
       .catch(() => {
@@ -37,6 +43,7 @@ export const Filtro = ({ setUsuarios }) => {
       .then((response) => {
         if (response.status === HTTP_STATUS.OK) {
           setDres(response.data.results);
+          setDresProps(response.data.results);
         }
       })
       .catch(() => {
@@ -46,6 +53,7 @@ export const Filtro = ({ setUsuarios }) => {
       .then((response) => {
         if (response.status === HTTP_STATUS.OK) {
           setSecretarias(response.data.results);
+          setSecretariasProps(response.data.results);
         }
       })
       .catch(() => {

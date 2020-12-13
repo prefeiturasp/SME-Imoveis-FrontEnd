@@ -9,6 +9,9 @@ const Permissionamento = () => {
   const [usuarios, setUsuarios] = useState(null);
   const [usuario, setUsuario] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [secretarias, setSecretarias] = useState(null);
+  const [perfis, setPerfis] = useState(null);
+  const [dres, setDres] = useState(null);
 
   return (
     <PaginaHeaderSidebar>
@@ -16,17 +19,28 @@ const Permissionamento = () => {
         <div className="card">
           <div className="card-body">
             <h1 className="card-title">Gestão de Permissões</h1>
-            <Filtro setUsuarios={setUsuarios} />
+            <Filtro
+              setUsuarios={setUsuarios}
+              setPerfisProps={setPerfis}
+              setSecretariasProps={setSecretarias}
+              setDresProps={setDres}
+            />
             <TabelaUsuarios
               usuarios={usuarios}
               setShowModal={setShowModal}
               setUsuario={setUsuario}
             />
-            <ModalEditarUsuario
-              usuario={usuario}
-              showModal={showModal}
-              setShowModal={setShowModal}
-            />
+            {perfis && secretarias && dres && (
+              <ModalEditarUsuario
+                usuario={usuario}
+                setUsuarios={setUsuarios}
+                showModal={showModal}
+                setShowModal={setShowModal}
+                perfis={perfis}
+                secretarias={secretarias}
+                dres={dres}
+              />
+            )}
           </div>
         </div>
       </div>

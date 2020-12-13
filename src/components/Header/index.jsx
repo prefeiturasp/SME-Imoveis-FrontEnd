@@ -4,7 +4,6 @@ import authService from "../../services/auth.service";
 import iconeSair from "img/sair.png";
 import logo from "img/Logo.png";
 import iconeAjuda from "img/ajuda.svg";
-import iconePerfil from "img/vinculo.svg";
 import "./style.scss";
 
 export class Header extends Component {
@@ -44,15 +43,6 @@ export class Header extends Component {
                     <img src={iconeAjuda} alt="Ícone de ajuda" />
                   </Link>
                   <p className="title">Ajuda</p>
-                </li>
-                <li className="nav-item">
-                  <Link to="#" className="nav-link">
-                    <img
-                      src={iconePerfil}
-                      alt="Ícone de perfil"
-                    />
-                  </Link>
-                  <p className="title">Vínculo</p>
                 </li>
                 <li onClick={() => authService.logout()} className="nav-item">
                   <Link className="nav-link">

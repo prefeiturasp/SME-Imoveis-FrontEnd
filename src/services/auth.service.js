@@ -31,8 +31,6 @@ const login = async (login, senha) => {
           return res.json();
         })
         .then((data) => {
-          localStorage.setItem("perfil", data.perfil.nome);
-          localStorage.setItem("nome", data.nome);
           return { data: data, status: status };
         })
         .catch((error) => {

@@ -1,6 +1,7 @@
 import Botao from "components/Botao";
 import { BUTTON_ICON, BUTTON_STYLE } from "components/Botao/constants";
 import React from "react";
+import { formataUsuario } from "../../helper";
 
 export const TabelaUsuarios = ({ usuarios, setShowModal, setUsuario }) => {
   return (
@@ -28,7 +29,7 @@ export const TabelaUsuarios = ({ usuarios, setShowModal, setUsuario }) => {
                   <td>{usuario.nome}</td>
                   <td>{usuario.email}</td>
                   <td>{usuario.secretaria && usuario.secretaria.nome}</td>
-                  <td>{usuario.setor && usuario.setor.dre}</td>
+                  <td>{usuario.setor && usuario.setor.dre.sigla}</td>
                   <td>{usuario.setor && usuario.setor.codigo}</td>
                   <td>
                     {usuario.perfil ? usuario.perfil.nome : "SEM PERMISSAO"}
@@ -37,7 +38,7 @@ export const TabelaUsuarios = ({ usuarios, setShowModal, setUsuario }) => {
                     <Botao
                       onClick={() => {
                         setShowModal(true);
-                        setUsuario(usuario);
+                        setUsuario(formataUsuario(usuario));
                       }}
                       style={BUTTON_STYLE.BLUE}
                       icon={BUTTON_ICON.EDIT}
