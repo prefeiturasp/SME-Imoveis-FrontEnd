@@ -70,7 +70,7 @@ export class Sidebar extends Component {
                   <NavLink
                     activeClassName="active"
                     className="collapse-item"
-                    to="/adm-fornecedor/cadastros-realizados"
+                    to="/adm-imoveis/cadastros-realizados"
                   >
                     Cadastros realizados
                   </NavLink>
@@ -99,7 +99,7 @@ export class Sidebar extends Component {
                   <NavLink
                     activeClassName="active"
                     className="collapse-item"
-                    to="/adm-fornecedor/cadastros-realizados"
+                    to="/adm-imoveis/cadastros-realizados"
                   >
                     Relatórios Gerenciais
                   </NavLink>
@@ -129,7 +129,7 @@ export class Sidebar extends Component {
                     <NavLink
                       activeClassName="active"
                       className="collapse-item"
-                      to="/adm-fornecedor/permissionamento"
+                      to="/adm-imoveis/permissionamento"
                     >
                       Permissionamento
                     </NavLink>

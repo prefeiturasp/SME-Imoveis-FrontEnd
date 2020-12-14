@@ -19,8 +19,8 @@ import { getError } from "helpers/utils";
 import "./style.scss";
 
 export const Login = () => {
-  const [exibirResetSenha, setExibirResetSenha] = useState(false);
-  const [usuario, setUsuario] = useState(null);
+  const [exibirResetSenha] = useState(false);
+  const [usuario] = useState(null);
 
   const history = useHistory();
 
@@ -42,10 +42,12 @@ export const Login = () => {
         authService.login(login, senha).then((response) => {
           if (response.status === HTTP_STATUS.OK) {
             if (response.data.perfil) {
-              localStorage.setItem("perfil", response.data.perfil.nome);
+              console.log("if");
+              localStorage.setItem("perfil",response.data.perfil.nome);
               localStorage.setItem("nome", response.data.nome);
-              history.push("/adm-imoveis");
+              window.location.href = "/adm-imoveis";
             } else {
+              console.log("else");
               history.push("/sem-permissao");
             }
           }
@@ -60,7 +62,7 @@ export const Login = () => {
       <div className="right-half">
         <div className="container my-auto">
           <div className="logo-sigpae">
-            <img src={logo} />
+            <img src={logo} alt="logo" />
           </div>
           <div className="form">
             <Form

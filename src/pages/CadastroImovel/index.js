@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState } from "react";
 import "./styles.scss";
-import { toastError } from "components/Toast/dialogs";
 import Wizard from "./Wizard";
 import BaseHome from "components/BaseHome";
 import Proponente from "./components/Proponente";
