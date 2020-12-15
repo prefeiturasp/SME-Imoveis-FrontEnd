@@ -55,7 +55,7 @@ const Imovel = () => {
                           "endereco",
                           response.data.tipo_logradouro +
                             " " +
-                            response.data.logradouro
+                            response.data.logradouro.split(",")[0]
                         );
                         form.change("cidade", response.data.cidade);
                         form.change("uf", response.data.uf);
