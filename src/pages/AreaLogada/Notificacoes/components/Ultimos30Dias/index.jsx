@@ -4,7 +4,9 @@ export const Ultimos30Dias = ({ notificacoes }) => {
   return (
     <div className="card">
       <div className="card-body">
-        <div className="card-title">Status últimos 30 dias</div>
+        <div className="card-title">
+          <i className="fas fa-thumbtack mr-2"></i>Status últimos 30 dias
+        </div>
         <div className="row cards">
           <div className="col-4">
             <div className="card-notificacao">
