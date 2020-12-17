@@ -14,8 +14,11 @@ import "./style.scss";
 export const Notificacoes = () => {
   const [notificacoes, setNotificacoes] = useState(null);
   const [novosCadastros, setNovosCadastros] = useState(null);
+  const [countNovosCadastros, setCountNovosCadastros] = useState(0);
   const [proximosAoVencimento, setProximosAoVencimento] = useState(null);
+  const [countProximosAoVencimento, setCountProximosAoVencimento] = useState(0);
   const [atrasados, setAtrasados] = useState(null);
+  const [countAtrasados, setCountAtrasados] = useState(0);
   const [erro, setErro] = useState(false);
 
   useEffect(() => {
@@ -34,6 +37,7 @@ export const Notificacoes = () => {
       .then((response) => {
         if (response.status === HTTP_STATUS.OK) {
           setNovosCadastros(response.data.results);
+          setCountNovosCadastros(response.data.count);
         } else {
           setErro(true);
         }
@@ -45,6 +49,7 @@ export const Notificacoes = () => {
       .then((response) => {
         if (response.status === HTTP_STATUS.OK) {
           setProximosAoVencimento(response.data.results);
+          setCountProximosAoVencimento(response.data.count);
         } else {
           setErro(true);
         }
@@ -56,6 +61,7 @@ export const Notificacoes = () => {
       .then((response) => {
         if (response.status === HTTP_STATUS.OK) {
           setAtrasados(response.data.results);
+          setCountAtrasados(response.data.count);
         } else {
           setErro(true);
         }
@@ -79,16 +85,20 @@ export const Notificacoes = () => {
             titulo="NOVOS CADASTROS"
             imoveis={novosCadastros}
             status="NOVO CADASTRO"
+            endpointGetImoveis={getImoveisNovosCadastros}
+            count={countNovosCadastros}
           />
           <CardPorStatus
             titulo="PRÓXIMOS AO VENCIMENTO"
             imoveis={proximosAoVencimento}
             status="5 DIAS PARA DEVOLUTIVA"
+            count={countProximosAoVencimento}
           />
           <CardPorStatus
             titulo="ATRASADOS"
             imoveis={atrasados}
             status="ATRASADO"
+            count={countAtrasados}
           />
         </>
       )}

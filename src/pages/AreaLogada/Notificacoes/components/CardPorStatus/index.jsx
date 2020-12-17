@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import Botao from "components/Botao";
 import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
+import { ModalVerTudo } from "../ModalVerTudo";
 
-export const CardPorStatus = ({ imoveis, titulo, status }) => {
+export const CardPorStatus = ({
+  imoveis,
+  titulo,
+  status,
+  endpointGetImoveis,
+  count,
+}) => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="card mt-3">
       <div className="card-body">
-        <div className="card-title notificacoes">Notificações</div>
+        <ModalVerTudo
+          endpointGetImoveis={endpointGetImoveis}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          imoveisProps={imoveis}
+          status={status}
+          count={count}
+        />
+        <div className="card-title notificacoes">
+          <i className="fas fa-thumbtack mr-2"></i>Notificações
+        </div>
         <table className="notificacoes">
           <thead>
             <tr>
@@ -17,6 +36,8 @@ export const CardPorStatus = ({ imoveis, titulo, status }) => {
                   style={BUTTON_STYLE.BLUE}
                   texto="Ver tudo"
                   className="float-right mr-2"
+                  onClick={() => setShowModal(true)}
+                  disabled={!imoveis || imoveis.length === 0}
                 />
               </th>
             </tr>

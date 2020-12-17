@@ -9,10 +9,7 @@ export const Ultimos30Dias = ({ notificacoes }) => {
           <div className="col-4">
             <div className="card-notificacao">
               <div className="titulo">NOVOS CADASTROS</div>
-              <div className="numero">
-                {notificacoes["novos_cadastros"]}
-                <span>Conferir lista</span>
-              </div>
+              <div className="numero">{notificacoes["novos_cadastros"]}</div>
             </div>
           </div>
           <div className="col-4">
@@ -20,17 +17,13 @@ export const Ultimos30Dias = ({ notificacoes }) => {
               <div className="titulo">PRÓXIMOS AO VENCIMENTO</div>
               <div className="numero">
                 {notificacoes["proximos_ao_vencimento"]}
-                <span>Conferir lista</span>
               </div>
             </div>
           </div>
           <div className="col-4">
             <div className="card-notificacao three">
               <div className="titulo">ATRASADOS</div>
-              <div className="numero">
-                {notificacoes["atrasados"]}
-                <span>Conferir lista</span>
-              </div>
+              <div className="numero">{notificacoes["atrasados"]}</div>
             </div>
           </div>
         </div>

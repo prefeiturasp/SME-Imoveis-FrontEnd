@@ -23,8 +23,8 @@ export const getUltimos30dias = () => {
     });
 };
 
-export const getImoveisNovosCadastros = () => {
-  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/novos-cadastros/`;
+export const getImoveisNovosCadastros = (pagina = 1) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/novos-cadastros/?page=${pagina}`;
   let status = 0;
   return fetch(url, {
     method: "GET",
@@ -45,8 +45,8 @@ export const getImoveisNovosCadastros = () => {
     });
 };
 
-export const getImoveisProximosAoVencimento = () => {
-  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/proximos-ao-vencimento/`;
+export const getImoveisProximosAoVencimento = (pagina = 1) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/proximos-ao-vencimento/?page=${pagina}`;
   let status = 0;
   return fetch(url, {
     method: "GET",
@@ -67,8 +67,8 @@ export const getImoveisProximosAoVencimento = () => {
     });
 };
 
-export const getImoveisAtrasados = () => {
-  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/atrasados/`;
+export const getImoveisAtrasados = (pagina = 1) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/atrasados/?page=${pagina}`;
   let status = 0;
   return fetch(url, {
     method: "GET",
