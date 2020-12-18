@@ -1,8 +1,6 @@
 import { Notificacoes } from "pages/AreaLogada/Notificacoes";
 import Permissionamento from "pages/AreaLogada/Permissionamento";
 import Cadastros from "pages/AreaLogada/Cadastros";
-import { PaginaInicialAdministrador } from "pages/CadastroAdmin/PaginaInicialAdministrador";
-
 
 export const privateRoutes = [
   {
