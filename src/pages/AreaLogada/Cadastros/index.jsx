@@ -5,6 +5,7 @@ import { Filtro } from "./componentes/Filtro";
 import { BUTTON_ICON, BUTTON_STYLE } from "components/Botao/constants";
 import "components/Botao/style.scss"
 import "./style.scss";
+import { Link } from "react-router-dom";
 
 const Cadastros = () => {
   const [cadastros, setCadastros] = useState(null);
@@ -15,15 +16,18 @@ const Cadastros = () => {
   return (
     <PaginaHeaderSidebar>
       <div className="cadastros">
-          <a href="/adm-imoveis">
+        <div className="offset-sm-10 col-sm-2 mb-2">
+          <Link to="/adm-imoveis">
             <button
+              className={`general-button ${BUTTON_STYLE.BLUE} col-12`}
+              type='button'
               data-cy="Voltar"
-              className={`general-button ${BUTTON_STYLE.BLUE} offset-10 col-2 mb-3`}
               >
-              <i className={`${BUTTON_ICON.ARROW_LEFT} ${"Voltar" && "text-and-icon"}`} />
-              Voltar
+                <i className={`${BUTTON_ICON.ARROW_LEFT} ${"Voltar" && "text-and-icon"}`} />
+                Voltar
             </button>
-          </a>
+          </Link>
+        </div>
         <div className="card">
           <div className="card-body">
             <h1 className="card-title">Gestão de Cadastros Realizados</h1>
