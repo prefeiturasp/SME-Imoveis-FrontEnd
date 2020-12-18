@@ -161,6 +161,14 @@ export const normalizarOptions = (options) => {
   return options_;
 };
 
+export const normalizarSetores = (options) => {
+  const options_ = [{ label: "Selecione", value: undefined }];
+  options.forEach((option) => {
+    options_.push({ label: option.codigo, value: option.id });
+  });
+  return options_;
+};
+
 
 export const normalizarPerfis = (options) => {
   const options_ = [
