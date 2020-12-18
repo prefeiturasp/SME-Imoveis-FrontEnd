@@ -42,8 +42,8 @@ export const Filtro = ({
     getDres()
       .then((response) => {
         if (response.status === HTTP_STATUS.OK) {
-          setDres(response.data.results);
-          setDresProps(response.data.results);
+          setDres(response.data);
+          setDresProps(response.data);
         }
       })
       .catch(() => {
