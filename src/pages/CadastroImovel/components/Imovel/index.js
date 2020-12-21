@@ -9,13 +9,14 @@ import { iptuMask } from "helpers/textMask";
 import {
   composeValidators,
   required,
-  validaCEP
+  validaCEP,
 } from "helpers/fieldValidators";
 import { toastError } from "components/Toast/dialogs";
 import { getEnderecoPorCEP } from "services/cep.service";
 import { ESTADOS } from "./constants";
 import { SelectText } from "components/Input/SelectText";
 import { TextArea } from "components/TextArea/TextArea";
+import { georef } from "services/step2.service";
 
 const Imovel = () => {
   const [apiFora, setApiFora] = useState(false);
@@ -24,6 +25,8 @@ const Imovel = () => {
       {({ form, values }) => (
         <>
           <div className="title mb-3">Dados do imóvel</div>
+          <Field component="input" name="latitude" hidden />
+          <Field component="input" name="longitude" hidden />
           <div className="row">
             <div className="col-sm-6 col-12">
               <Field
@@ -99,6 +102,23 @@ const Imovel = () => {
                 required
                 validate={composeValidators(required)}
               />
+              <OnChange name="numero">
+                {async (value, previous) => {
+                  if (value) {
+                    const response = await georef(
+                      values.endereco + " " + value
+                    );
+                    form.change(
+                      "longitude",
+                      response.data.features[0].geometry.coordinates[0]
+                    );
+                    form.change(
+                      "latitude",
+                      response.data.features[0].geometry.coordinates[1]
+                    );
+                  }
+                }}
+              </OnChange>
             </div>
             <div className="col-sm-4 col-12">
               <Field
