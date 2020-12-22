@@ -12,16 +12,30 @@ import { formataPaylaodBuscaCadastros } from "../../helper";
 import Spin from "antd/es/spin";
 import "antd/es/spin/style/css";
 
-export const Filtro = ({setCadastros, setDresProps, setDistritosProps, setSetoresProps}) => {
+export const Filtro = ({
+  setCadastros, 
+  setDataToExport, 
+  setTotal,
+  setLastSearchParams, 
+  setDresProps, 
+  setDistritosProps, 
+  setSetoresProps
+}) => {
   const [dres, setDres] = useState(null);
   const [erro, setErro] = useState(false);
   const [distritos, setDistritos] = useState(null);
   const [setores, setSetores] = useState(null);
   const [status, setStatus] = useState([
     { label: 'Selecione', value: undefined },
-    { label: 'Novos Cadastros', value: 1 },
-    { label: 'Cadastros próximos ao vencimento', value: 2 },
-    { label: 'Cadastros atrasados', value: 3 },
+    { label: 'Solicitação Realizada', value: 'SOLICITACAO_REALIZADA' },
+    { label: 'SME analisou previamente', value: 'AGUARDANDO_ANALISE_PREVISA_SME' },
+    { label: 'Enviado à COMAPRE', value: 'ENVIADO_COMAPRE' },
+    { label: 'Aguardando relatório de vistoria', value: 'AGUARDANDO_RELATORIO_DE_VISTORIA' },
+    { label: 'Aguardando laudo de valor locatício', value: 'AGUARDANDO_LAUDO_DE_VALOR_LOCATICIO' },
+    { label: 'Aprovado', value: 'APROVADO' },
+    { label: 'Enviado à DRE', value: 'ENVIADO_DRE' },
+    { label: 'Finalizado', value: 'FINALIZADO' },
+    { label: 'Cancelado', value: 'CANCELADO' },
   ])
   const [areas, setAreas] = useState([
     { label: 'Selecione', value: undefined },
@@ -74,7 +88,10 @@ export const Filtro = ({setCadastros, setDresProps, setDistritosProps, setSetore
     const response = await getCadastros(formataPaylaodBuscaCadastros(values));
     if (!response) toastError("Erro ao carregar os dados dos cadastros realizados");
     else if (response.status === HTTP_STATUS.OK) {
-      setCadastros(response.data);
+      setCadastros(response.data[0]);
+      setDataToExport(response.data[1]);
+      setTotal(parseInt(response.data[0].length));
+      setLastSearchParams(values);
     }
   };
 

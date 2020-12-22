@@ -1,6 +1,5 @@
 export const formataPaylaodBuscaCadastros = (values) => {
-  let stringParams = "?";
-  console.log(values)
+  let stringParams = "&";
   if (values.protocolo) {
     stringParams += `protocolo=${values.protocolo}&`;
   }
