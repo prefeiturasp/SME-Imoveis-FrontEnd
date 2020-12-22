@@ -14,4 +14,13 @@ div.detalhamento-cadastro {
     font-weight: 700;
     cursor: pointer;
   }
+  div.title {
+    color: $blue;
+    font-weight: bold;
+    font-size: 14px;
+  }
+}
+
+.color-black {
+  color: $blackInput !important;
 }

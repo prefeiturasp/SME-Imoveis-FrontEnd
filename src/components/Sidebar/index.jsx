@@ -49,6 +49,12 @@ export class Sidebar extends Component {
           </div>
           <div className="sidebar-wrapper div-submenu">
             <li className="nav-item">
+              <NavLink className={`nav-link collapsed`} to="/adm-imoveis">
+                <i className="fas fa-bell" />
+                <span>Notificações</span>
+              </NavLink>
+            </li>
+            <li className="nav-item">
               <Link
                 className={`nav-link collapsed`}
                 href="#teste"
