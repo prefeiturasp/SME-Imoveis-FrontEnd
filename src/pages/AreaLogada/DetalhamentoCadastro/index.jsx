@@ -25,7 +25,7 @@ import {
 import { TIPO_PROPONENTE } from "constants/choices.constants";
 import { SelectText } from "components/Input/SelectText";
 import "./style.scss";
-import { EH_PERFIL_ADMIN } from "helpers/utils";
+import { EH_PERFIL_ADMIN, normalizarSetores } from "helpers/utils";
 import formatStringByPattern from "format-string-by-pattern";
 import { OnChange } from "react-final-form-listeners";
 import { getEnderecoPorCEP } from "services/cep.service";
@@ -33,12 +33,16 @@ import { toastError } from "components/Toast/dialogs";
 import { georef } from "services/step2.service";
 import { ESTADOS } from "pages/CadastroImovel/components/Imovel/constants";
 import TextArea from "antd/lib/input/TextArea";
+import { getSetores } from "services/cadastros.service";
+import { TabelaDemanda } from "./componentes/Demanda";
+import { Anexos } from "./componentes/Anexos";
 
 export const DetalhamentoCadastro = () => {
   const [cadastro, setCadastro] = useState(null);
   const [erro, setErro] = useState(false);
   const [editar, setEditar] = useState(false);
   const [apiFora, setApiFora] = useState(false);
+  const [setores, setSetores] = useState(null);
 
   const history = useHistory();
 
@@ -62,6 +66,15 @@ export const DetalhamentoCadastro = () => {
           setErro(true);
         });
     }
+    getSetores()
+      .then((response) => {
+        if (response.status === HTTP_STATUS.OK) {
+          setSetores(response.data);
+        }
+      })
+      .catch(() => {
+        setErro(true);
+      });
   }, []);
 
   return (
@@ -125,7 +138,9 @@ export const DetalhamentoCadastro = () => {
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <>
-                      <div className="title">Informações sobre o cadastro</div>
+                      <div className="title mb-3">
+                        Informações sobre o cadastro
+                      </div>
                       <div className="row">
                         <div className="col-4">
                           <Field
@@ -149,7 +164,7 @@ export const DetalhamentoCadastro = () => {
                         </div>
                       </div>
                       <hr />
-                      <div className="title">Dados do cadastrante</div>
+                      <div className="title mb-3">Dados do cadastrante</div>
                       <div className="row">
                         <div className="col-8">
                           <Field
@@ -224,7 +239,7 @@ export const DetalhamentoCadastro = () => {
                         </div>
                       </div>
                       <hr />
-                      <div className="title">Dados do imóvel</div>
+                      <div className="title mb-3">Dados do imóvel</div>
                       <Field component="input" name="latitude" hidden />
                       <Field component="input" name="longitude" hidden />
                       <div className="row">
@@ -235,7 +250,9 @@ export const DetalhamentoCadastro = () => {
                             label="CEP"
                             name="cep"
                             validate={composeValidators(validaCEP)}
+                            labelClassName="font-weight-bold color-black"
                             placeholder="Digite o CEP"
+                            disabled={!editar}
                           />
                           <OnChange name="cep">
                             {async (value, previous) => {
@@ -278,6 +295,7 @@ export const DetalhamentoCadastro = () => {
                             label="Bairro"
                             name="bairro"
                             required
+                            labelClassName="font-weight-bold color-black"
                             disabled={!apiFora}
                           />
                         </div>
@@ -289,6 +307,7 @@ export const DetalhamentoCadastro = () => {
                             label="Endereço"
                             name="endereco"
                             required
+                            labelClassName="font-weight-bold color-black"
                             disabled={!apiFora}
                           />
                         </div>
@@ -298,6 +317,8 @@ export const DetalhamentoCadastro = () => {
                             maxlength={255}
                             label="Número"
                             name="numero"
+                            labelClassName="font-weight-bold color-black"
+                            disabled={!editar}
                             required
                           />
                           <OnChange name="numero">
@@ -326,6 +347,8 @@ export const DetalhamentoCadastro = () => {
                             maxlength={20}
                             label="Complemento"
                             name="complemento"
+                            labelClassName="font-weight-bold color-black"
+                            disabled={!editar}
                           />
                         </div>
                       </div>
@@ -337,6 +360,7 @@ export const DetalhamentoCadastro = () => {
                             label="Cidade"
                             name="cidade"
                             disabled={!apiFora}
+                            labelClassName="font-weight-bold color-black"
                           />
                         </div>
                         <div className="col-sm-2 col-12">
@@ -347,6 +371,7 @@ export const DetalhamentoCadastro = () => {
                             options={ESTADOS}
                             disabled={!apiFora}
                             naoDesabilitarPrimeiraOpcao
+                            labelClassName="font-weight-bold color-black"
                           />
                         </div>
                       </div>
@@ -358,9 +383,10 @@ export const DetalhamentoCadastro = () => {
                             label="Número do IPTU"
                             name="numero_iptu"
                             required={!values.nao_possui_iptu ? true : false}
-                            disabled={values.nao_possui_iptu}
+                            disabled={values.nao_possui_iptu || !editar}
                             tooltipMessage={"Número de IPTU do imóvel."}
                             placeholder="Digite o Número do IPTU"
+                            labelClassName="font-weight-bold color-black"
                           />
                         </div>
                         <div className="col-6">
@@ -372,6 +398,8 @@ export const DetalhamentoCadastro = () => {
                             required
                             tooltipMessage={"Área construída do imóvel em m²."}
                             placeholder="Digite a Área construída do imóvel"
+                            labelClassName="font-weight-bold color-black"
+                            disabled={!editar}
                           />
                         </div>
                       </div>
@@ -382,6 +410,7 @@ export const DetalhamentoCadastro = () => {
                             name="nao_possui_iptu"
                             className="form-check-input"
                             type="checkbox"
+                            disabled={!editar}
                           />
                           <OnChange name="nao_possui_iptu">
                             {async (value, previous) => {
@@ -402,13 +431,48 @@ export const DetalhamentoCadastro = () => {
                           name="observacoes"
                           required
                           placeholder="Por que o imóvel não possui IPTU?"
+                          disabled={!editar}
                         />
                       )}
-                      <div className="row">
-                        <div className="col-4">
-                          
+                      {!setores && <div>Carregando setores...</div>}
+                      {setores && (
+                        <div className="row">
+                          <div className="col-4">
+                            <Field
+                              component={SelectText}
+                              name="setor.id"
+                              label="Setor"
+                              placeholder={"Selecione um setor"}
+                              options={normalizarSetores(setores)}
+                              naoDesabilitarPrimeiraOpcao
+                              labelClassName="font-weight-bold color-black"
+                              disabled={!editar}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <Field
+                              component={InputText}
+                              name="setor.distrito.nome"
+                              label="Distrito"
+                              disabled
+                              labelClassName="font-weight-bold color-black"
+                            />
+                          </div>
+                          <div className="col-4">
+                            <Field
+                              component={InputText}
+                              name="setor.dre.nome"
+                              label="DRE"
+                              disabled
+                              labelClassName="font-weight-bold color-black"
+                            />
+                          </div>
                         </div>
-                      </div>
+                      )}
+                      <hr />
+                      <TabelaDemanda cadastro={cadastro} />
+                      <hr />
+                      <Anexos cadastro={cadastro} />
                     </>
                   </form>
                 )}

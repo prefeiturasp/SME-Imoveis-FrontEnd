@@ -1,0 +1,30 @@
+table.tabela-demanda {
+  width: 100%;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  thead,
+  tbody tr:nth-child(2) {
+    background-color: #f5f6f8;
+  }
+  thead,
+  tbody {
+    font-size: 14px;
+    tr {
+      td {
+        padding: 10px;
+      }
+    }
+    tr:nth-child(2) {
+      font-weight: 700;
+    }
+    tr {
+      td,
+      th {
+        border: 1px solid #dadada;
+      }
+    }
+    tr th,td:not(:nth-child(1)) {
+      text-align: center;
+    }
+  }
+}
