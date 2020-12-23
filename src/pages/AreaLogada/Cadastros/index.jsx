@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import PaginaHeaderSidebar from "components/PaginaHeaderSidebar";
 import { Filtro } from "./componentes/Filtro";
-// import { TabelaCadastros } from "./componentes/TabelaCadastros";
+import { Link } from "react-router-dom";
 import { BUTTON_ICON, BUTTON_STYLE } from "components/Botao/constants";
+import { TabelaCadastros } from "./componentes/TabelaCadastros";
 import "components/Botao/style.scss"
 import "./style.scss";
-import { Link } from "react-router-dom";
 
 const Cadastros = () => {
   const [cadastros, setCadastros] = useState(null);
+  const [dataToExport, setDataToExport] = useState(null);
+  const [total, setTotal] = useState(0);
+  const [lastSearchParams, setLastSearchParams] = useState(null);
   const [dres, setDres] = useState(null);
   const [distritos, setDistritos] = useState(null);
   const [setores, setSetores] = useState(null);
@@ -33,13 +36,20 @@ const Cadastros = () => {
             <h1 className="card-title">Gestão de Cadastros Realizados</h1>
             <Filtro
               setCadastros={setCadastros}
+              setDataToExport={setDataToExport}
+              setTotal={setTotal}
               setDresProps={setDres}
               setDistritosProps={setDistritos}
               setSetoresProps={setSetores}
+              setLastSearchParams={setLastSearchParams}
             />
-            {/* <TabelaCadastros
+            <TabelaCadastros
               cadastros={cadastros}
-            /> */}
+              dataToExport={dataToExport}
+              total={total}
+              lastSearchParams={lastSearchParams}
+              setCadastros={setCadastros}
+            />
           </div>
         </div>
       </div>

@@ -8,10 +8,11 @@ div.cadastros {
     font-weight: 700;
   }
   table.cadastros {
-    font-size: 14px;
+    text-align: center;
     width: 100%;
     border: 1px solid #e9eaea;
     border-radius: 4px;
+    font-size: 12px;
     thead {
       tr {
         color: $blackInput;
@@ -63,4 +64,35 @@ div.cadastros {
 
 .modal-70w {
   max-width: 70% !important;
+}
+
+.results {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 700;
+  float: right;
+}
+
+.dre {
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+}
+
+.endereco {
+  padding-left: 68px !important;
+  padding-right: 68px !important;
+}
+
+.demanda {
+  padding-left: 1px !important;
+  padding-right: 1px !important;
+}
+
+.detalhesDemanda {
+  padding: 0px;
+}
+
+.detalhes {
+  border: 1px solid #e9eaea;
+  border-radius: "2px";
 }
