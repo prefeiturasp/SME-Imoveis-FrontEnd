@@ -75,9 +75,9 @@ export const TabelaCadastros = ({
                       <td>{cadastro.setor && cadastro.setor.codigo}</td>
                       <td>{`${cadastro.endereco} ${cadastro.numero}`}</td>
                       <td>{cadastro.demandaimovel && cadastro.demandaimovel.total}</td>
-                      <td>{cadastro.status && cadastro.status}</td>
+                      <td>{cadastro.status}</td>
                       <td>{cadastro.criado_em}</td>
-                      <td>{cadastro.area_construida && cadastro.area_construida}</td>
+                      <td>{cadastro.area_construida}</td>
                       <td>
                         <button
                           className={`nav-link collapsed general-button ${BUTTON_STYLE.BLUE} col-12`}
