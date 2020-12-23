@@ -90,7 +90,7 @@ export const Filtro = ({
     else if (response.status === HTTP_STATUS.OK) {
       setCadastros(response.data[0]);
       setDataToExport(response.data[1]);
-      setTotal(parseInt(response.data[0].length));
+      setTotal(parseInt(response.data[1].length));
       setLastSearchParams(values);
     }
   };
