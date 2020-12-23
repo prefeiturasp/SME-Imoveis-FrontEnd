@@ -23,6 +23,29 @@ export const getCadastros = (queryParams, pagina=1) => {
     });
 };
 
+export const exportarCadastros = (queryParams) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/exportar?${queryParams}`;
+  let status = 0;
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `JWT ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+};
+
+
 export const getDres = () => {
   const url = `${endPonts.API_URL}/dres/`;
   let status = 0;
