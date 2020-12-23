@@ -9,9 +9,9 @@ import { Paginacao } from "components/Paginacao";
 import { getCadastros } from "services/cadastros.service";
 
 export const TabelaCadastros = ({
-  cadastros, 
-  dataToExport, 
-  total, 
+  cadastros,
+  dataToExport,
+  total,
   lastSearchParams,
   setCadastros,
 }) => {
@@ -26,7 +26,7 @@ export const TabelaCadastros = ({
     if (expanded === "true") {
       icon.classList.remove('fa-angle-down')
       icon.classList.add('fa-angle-up')
-    } 
+    }
     if (expanded === "false") {
       icon.classList.remove('fa-angle-up')
       icon.classList.add('fa-angle-down')
@@ -106,6 +106,13 @@ export const TabelaCadastros = ({
           <div className="row mt-2">
             <div className="col-12">
               <p className="results"><i>{`Foram encontrados ${total} resultados para a pesquisa`}</i></p>
+            </div>
+          </div>
+          <div className="row mt-2 ">
+            <div className="offset-sm-10 col-sm-2 mb-2 col-12">
+              <ExcelFile filename={"Cadastros Realizados"} element={<Botao icon={BUTTON_ICON.FILE_ALT} style={BUTTON_STYLE.BLUE_OUTLINE} className="col-12" texto="Exportar"/>}>
+                <ExcelSheet dataSet={data} name="Cadastros Realizados"/>
+              </ExcelFile>
             </div>
           </div>
           <div className="row mt-2">
