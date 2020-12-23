@@ -1,5 +1,4 @@
 import React from "react";
-import { formataCadastrosXLS } from "../../helper";
 import ReactExport from 'react-data-export';
 import Botao from "components/Botao";
 import { BUTTON_ICON, BUTTON_STYLE } from "components/Botao/constants";
@@ -17,9 +16,7 @@ export const TabelaCadastros = ({
 }) => {
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-  const data = dataToExport && (formataCadastrosXLS(dataToExport));
-  console.log(cadastros)
-
+  
   const changeIcon = (e, idx) => {
     var expanded = document.getElementById(`expandButton-${idx}`).getAttribute("aria-expanded");
     var icon = document.getElementById(`icon-${idx}`);
@@ -35,7 +32,7 @@ export const TabelaCadastros = ({
 
   const getCadastrosPorPagina = (pagina, lastSearchParams) => {
     getCadastros(formataPaylaodBuscaCadastros(lastSearchParams), pagina).then((response) => {
-      setCadastros(response.data[1]);
+      setCadastros(response.data.results);
     });
   };
 
@@ -110,8 +107,11 @@ export const TabelaCadastros = ({
           </div>
           <div className="row mt-2 ">
             <div className="offset-sm-10 col-sm-2 mb-2 col-12">
-              <ExcelFile filename={"Cadastros Realizados"} element={<Botao icon={BUTTON_ICON.FILE_ALT} style={BUTTON_STYLE.BLUE_OUTLINE} className="col-12" texto="Exportar"/>}>
-                <ExcelSheet dataSet={data} name="Cadastros Realizados"/>
+              <ExcelFile 
+                filename={"Cadastros Realizados"} 
+                element={<Botao icon={BUTTON_ICON.FILE_ALT} style={BUTTON_STYLE.BLUE_OUTLINE} className="col-12" texto="Exportar"
+              />}>
+                <ExcelSheet dataSet={dataToExport} name="Cadastros Realizados"/>
               </ExcelFile>
             </div>
           </div>

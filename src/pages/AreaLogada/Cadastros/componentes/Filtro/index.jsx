@@ -3,23 +3,23 @@ import HTTP_STATUS from "http-status-codes";
 import { SelectText } from "components/Input/SelectText";
 import { InputText } from "components/Input/InputText";
 import { Field, Form } from "react-final-form";
-import { getCadastros, getDres, getDistritos, getSetores } from "services/cadastros.service";
+import { getCadastros, getDres, getDistritos, getSetores, exportarCadastros } from "services/cadastros.service";
 import { normalizarOptions, normalizarSetores } from "helpers/utils";
 import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
 import Botao from "components/Botao";
 import { toastError } from "components/Toast/dialogs";
-import { formataPaylaodBuscaCadastros } from "../../helper";
+import { formataPaylaodBuscaCadastros, formataCadastrosXLS } from "../../helper";
 import Spin from "antd/es/spin";
 import "antd/es/spin/style/css";
 
 export const Filtro = ({
   setCadastros, 
-  setDataToExport, 
   setTotal,
   setLastSearchParams, 
   setDresProps, 
   setDistritosProps, 
-  setSetoresProps
+  setSetoresProps,
+  setDataToExport
 }) => {
   const [dres, setDres] = useState(null);
   const [erro, setErro] = useState(false);
@@ -88,10 +88,14 @@ export const Filtro = ({
     const response = await getCadastros(formataPaylaodBuscaCadastros(values));
     if (!response) toastError("Erro ao carregar os dados dos cadastros realizados");
     else if (response.status === HTTP_STATUS.OK) {
-      setCadastros(response.data[0]);
-      setDataToExport(response.data[1]);
-      setTotal(parseInt(response.data[1].length));
+      setCadastros(response.data.results);
+      setTotal(parseInt(response.data.count));
       setLastSearchParams(values);
+    }
+    const todosResultados = await exportarCadastros(formataPaylaodBuscaCadastros(values));
+    if (!todosResultados) toastError("Erro ao carregar os dados dos cadastros realizados");
+    else if (todosResultados.status === HTTP_STATUS.OK) {
+      setDataToExport(formataCadastrosXLS(todosResultados.data));
     }
   };
 
