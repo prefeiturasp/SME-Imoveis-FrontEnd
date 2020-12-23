@@ -13,18 +13,9 @@ import {
 } from "components/Botao/constants";
 import { useHistory } from "react-router-dom";
 import { InputText } from "components/Input/InputText";
-import { fieldCPF_CNPJ, iptuMask, telCelMask } from "helpers/textMask";
-import {
-  celValidate,
-  composeValidators,
-  cpfCnpjValidate,
-  nameValidate,
-  telValidate,
-  validaCEP,
-} from "helpers/fieldValidators";
-import { TIPO_PROPONENTE } from "constants/choices.constants";
+import { iptuMask } from "helpers/textMask";
+import { composeValidators, validaCEP } from "helpers/fieldValidators";
 import { SelectText } from "components/Input/SelectText";
-import "./style.scss";
 import { EH_PERFIL_ADMIN, normalizarSetores } from "helpers/utils";
 import formatStringByPattern from "format-string-by-pattern";
 import { OnChange } from "react-final-form-listeners";
@@ -36,6 +27,8 @@ import TextArea from "antd/lib/input/TextArea";
 import { getSetores } from "services/cadastros.service";
 import { TabelaDemanda } from "./componentes/Demanda";
 import { Anexos } from "./componentes/Anexos";
+import { DadosCadastrante } from "./componentes/DadosCadastrante";
+import "./style.scss";
 
 export const DetalhamentoCadastro = () => {
   const [cadastro, setCadastro] = useState(null);
@@ -102,30 +95,6 @@ export const DetalhamentoCadastro = () => {
                 listaDeStatus={cadastro.logs}
                 fluxo={fluxoImoveis}
               />
-              <div className="row mb-3">
-                <div className="col-12 text-right">
-                  <Botao
-                    style={BUTTON_STYLE.BLUE_OUTLINE}
-                    type={BUTTON_TYPE.BUTTON}
-                    className="col-2"
-                    texto="Atualizar status"
-                    onClick={() => history.push("/adm-imoveis")}
-                  />
-                  {EH_PERFIL_ADMIN && (
-                    <Botao
-                      style={BUTTON_STYLE.BLUE}
-                      type={editar ? BUTTON_TYPE.SUBMIT : BUTTON_TYPE.BUTTON}
-                      className="col-2 ml-3"
-                      texto={`${
-                        editar ? "Atualizar status" : "Editar cadastro"
-                      }`}
-                      onClick={(values) =>
-                        editar ? onSubmit(values) : setEditar(true)
-                      }
-                    />
-                  )}
-                </div>
-              </div>
               <Form
                 initialValues={cadastro}
                 onSubmit={onSubmit}
@@ -138,6 +107,34 @@ export const DetalhamentoCadastro = () => {
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <>
+                      <div className="row mb-3">
+                        <div className="col-12 text-right">
+                          <Botao
+                            style={BUTTON_STYLE.BLUE_OUTLINE}
+                            type={BUTTON_TYPE.BUTTON}
+                            className="col-2"
+                            texto="Atualizar status"
+                            onClick={() => history.push("/adm-imoveis")}
+                          />
+                          {EH_PERFIL_ADMIN &&
+                            (editar ? (
+                              <Botao
+                                style={BUTTON_STYLE.BLUE}
+                                type={BUTTON_TYPE.SUBMIT}
+                                className="col-2 ml-3"
+                                texto={"Atualizar cadastro"}
+                              />
+                            ) : (
+                              <Botao
+                                style={BUTTON_STYLE.BLUE}
+                                type={BUTTON_TYPE.BUTTON}
+                                className="col-2 ml-3"
+                                texto={"Editar cadastro"}
+                                onClick={() => setEditar(true)}
+                              />
+                            ))}
+                        </div>
+                      </div>
                       <div className="title mb-3">
                         Informações sobre o cadastro
                       </div>
@@ -164,80 +161,7 @@ export const DetalhamentoCadastro = () => {
                         </div>
                       </div>
                       <hr />
-                      <div className="title mb-3">Dados do cadastrante</div>
-                      <div className="row">
-                        <div className="col-8">
-                          <Field
-                            component={InputText}
-                            label="Nome"
-                            name="proponente.nome"
-                            type="text"
-                            validate={composeValidators(nameValidate)}
-                            labelClassName="font-weight-bold color-black"
-                            disabled={!editar}
-                          />
-                        </div>
-                        <div className="col-4">
-                          <Field
-                            component={SelectText}
-                            options={TIPO_PROPONENTE}
-                            placeholder="Selecione um Tipo"
-                            label="Tipo"
-                            labelClassName="font-weight-bold color-black"
-                            name="proponente.tipo_proponente"
-                            disabled={!editar}
-                          />
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-3">
-                          <Field
-                            customChange={fieldCPF_CNPJ}
-                            component={InputText}
-                            esconderAsterisco
-                            label="CPF/CNPJ"
-                            name="proponente.cpf_cnpj"
-                            maxLength="18"
-                            labelClassName="font-weight-bold color-black"
-                            validate={composeValidators(cpfCnpjValidate)}
-                            disabled={!editar}
-                          />
-                        </div>
-                        <div className="col-3">
-                          <Field
-                            component={InputText}
-                            label="E-mail"
-                            name="proponente.email"
-                            type="text"
-                            labelClassName="font-weight-bold color-black"
-                            disabled={!editar}
-                          />
-                        </div>
-                        <div className="col-3">
-                          <Field
-                            customChange={telCelMask}
-                            component={InputText}
-                            label="Telefone fixo"
-                            name="proponente.telefone"
-                            maxLength="15"
-                            labelClassName="font-weight-bold color-black"
-                            validate={telValidate}
-                            disabled={!editar}
-                          />
-                        </div>
-                        <div className="col-3">
-                          <Field
-                            customChange={telCelMask}
-                            component={InputText}
-                            label="Telefone móvel"
-                            name="proponente.celular"
-                            maxLength="15"
-                            labelClassName="font-weight-bold color-black"
-                            validate={composeValidators(celValidate)}
-                            disabled={!editar}
-                          />
-                        </div>
-                      </div>
+                      <DadosCadastrante editar={editar} />
                       <hr />
                       <div className="title mb-3">Dados do imóvel</div>
                       <Field component="input" name="latitude" hidden />

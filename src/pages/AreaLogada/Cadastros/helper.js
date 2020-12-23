@@ -108,7 +108,7 @@ export const formataCadastrosXLS = (cadastros) => {
           {value: cadastro.bairro, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
           {value: cadastro.cidade, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
           {value: cadastro.uf, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-          {value: cadastro.area_construida, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.area_construida || '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
           {value: cadastro.setor ? cadastro.setor.dre.sigla : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
           {value: cadastro.setor ? cadastro.setor.distrito.nome : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
           {value: cadastro.setor ? cadastro.setor.codigo : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
