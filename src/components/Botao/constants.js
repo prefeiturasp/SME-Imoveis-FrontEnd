@@ -12,6 +12,7 @@ export const BUTTON_ICON = {
   ATTACH: "fas fa-paperclip",
   CHART_LINE: "fas fa-chart-line",
   CHECK_CIRCLE: "fas fa-check-circle",
+  DOWNLOAD: "fas fa-download",
   EDIT: "fas fa-edit",
   FILE_PDF: "far fa-file-pdf",
   FILE_ALT: "far fa-file-alt",

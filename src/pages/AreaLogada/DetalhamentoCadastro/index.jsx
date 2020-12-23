@@ -396,7 +396,7 @@ export const DetalhamentoCadastro = () => {
                       <hr />
                       <TabelaDemanda cadastro={cadastro} />
                       <hr />
-                      <Anexos cadastro={cadastro} />
+                      <Anexos cadastro={cadastro} editar={editar} />
                     </>
                   </form>
                 )}

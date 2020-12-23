@@ -1,8 +1,12 @@
 import React from "react";
 import Botao from "components/Botao";
-import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
+import {
+  BUTTON_ICON,
+  BUTTON_STYLE,
+  BUTTON_TYPE,
+} from "components/Botao/constants";
 
-export const Anexos = ({ cadastro }) => {
+export const Anexos = ({ cadastro, editar }) => {
   return (
     <>
       <div className="title mb-3">Anexos e relatórios</div>
@@ -82,6 +86,13 @@ export const Anexos = ({ cadastro }) => {
             </a>
           );
         })}
+      {editar && (
+        <Botao
+          icon={BUTTON_ICON.PLUS}
+          style={BUTTON_STYLE.BLUE}
+          texto="Adicionar"
+        />
+      )}
       <div className="title color-black mt-3 mb-3">
         Cópia da planta do imóvel ou croqui
       </div>
@@ -91,7 +102,7 @@ export const Anexos = ({ cadastro }) => {
             anexo.get_tipo_documento_display === "Cópia da Planta ou Croqui"
         )
         .map((anexo, key) => {
-          return (
+          return !editar ? (
             <a href={anexo.arquivo} target="_blank" rel="noopener noreferrer">
               <Botao
                 style={BUTTON_STYLE.BLUE_OUTLINE}
@@ -100,8 +111,31 @@ export const Anexos = ({ cadastro }) => {
                 className="mr-3"
               />
             </a>
+          ) : (
+            <>
+                
+              <Botao
+                style={BUTTON_STYLE.BLUE_OUTLINE}
+                type={BUTTON_TYPE.BUTTON}
+                icon={BUTTON_ICON.TRASH}
+                className="br-none"
+              />
+              <Botao
+                style={BUTTON_STYLE.BLUE_OUTLINE}
+                type={BUTTON_TYPE.BUTTON}
+                icon={BUTTON_ICON.DOWNLOAD}
+                className="mr-3"
+              />
+            </>
           );
         })}
+      {editar && (
+        <Botao
+          icon={BUTTON_ICON.PLUS}
+          style={BUTTON_STYLE.BLUE}
+          texto="Adicionar"
+        />
+      )}
     </>
   );
 };
