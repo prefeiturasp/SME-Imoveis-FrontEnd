@@ -1,5 +1,5 @@
 export const formataPaylaodBuscaCadastros = (values) => {
-  let stringParams = "?";
+  let stringParams = "&";
   console.log(values)
   if (values.protocolo) {
     stringParams += `protocolo=${values.protocolo}&`;
@@ -71,7 +71,6 @@ export const formataCadastrosXLS = (cadastros) => {
     }
   };
 
-
   let multiDataSet = [{columns: [
     {title: "Protocolo", width: {wpx: 200}, style: header_styles},
     {title: "Data do cadastro", width: {wpx: 200}, style: header_styles},
@@ -93,32 +92,32 @@ export const formataCadastrosXLS = (cadastros) => {
     {title: "Demanda", width: {wpx: 200}, style: header_styles},
     {title: "Status", width: {wpx: 200}, style: header_styles},
     {title: "Anexos", width: {wpx: 200}, style: header_styles},
-  ], data: []}];
-  multiDataSet[0].data = cadastros.map((cadastro, index) => {
-    return (
-      [
-        {value: cadastro.protocolo, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.criado_em, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.contato.nome, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.contato.email, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.contato.celular, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.contato.telefone, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.contato.cpf_cnpj, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.cep, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.numero_iptu, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: `${cadastro.endereco} ${cadastro.numero}`, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.bairro, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.cidade, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.uf, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.area_construida, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.setor ? cadastro.setor.dre.sigla : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.setor ? cadastro.setor.distrito.nome : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.setor ? cadastro.setor.codigo : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.demandaimovel ? `B1: ${cadastro.demandaimovel.bercario_i} - B2: ${cadastro.demandaimovel.bercario_ii} - MG1: ${cadastro.demandaimovel.mini_grupo_i} - MG2: ${cadastro.demandaimovel.mini_grupo_i}` : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: cadastro.status, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-        {value: `${cadastro.anexos[0].arquivo} \n ${cadastro.anexos[1].arquivo} \n ${cadastro.anexos[2].arquivo} \n ${cadastro.anexos[3].arquivo} \n ${cadastro.anexos[4].arquivo}`, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-      ]
-    );
-  })
+  ], data: cadastros.map((cadastro, index) => {
+      return (
+        [
+          {value: cadastro.protocolo, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.criado_em, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.contato.nome, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.contato.email, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.contato.celular, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.contato.telefone, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.contato.cpf_cnpj, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.cep, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.numero_iptu, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: `${cadastro.endereco} ${cadastro.numero}`, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.bairro, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.cidade, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.uf, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.area_construida, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.setor ? cadastro.setor.dre.sigla : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.setor ? cadastro.setor.distrito.nome : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.setor ? cadastro.setor.codigo : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.demandaimovel ? `B1: ${cadastro.demandaimovel.bercario_i} - B2: ${cadastro.demandaimovel.bercario_ii} - MG1: ${cadastro.demandaimovel.mini_grupo_i} - MG2: ${cadastro.demandaimovel.mini_grupo_i}` : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.status, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: `${cadastro.anexos[0].arquivo} \n ${cadastro.anexos[1].arquivo} \n ${cadastro.anexos[2].arquivo} \n ${cadastro.anexos[3].arquivo} \n ${cadastro.anexos[4].arquivo}`, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+        ]
+      );
+    })
+  }];
   return multiDataSet;
 };
