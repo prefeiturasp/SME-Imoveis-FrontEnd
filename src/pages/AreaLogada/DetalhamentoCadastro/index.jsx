@@ -80,7 +80,7 @@ export const DetalhamentoCadastro = () => {
             icon={BUTTON_ICON.ARROW_LEFT}
             className="col-2 mb-3"
             texto="voltar"
-            onClick={() => history.push("/adm-imoveis")}
+            onClick={() => history.goBack()}
           />
         </div>
       </div>
@@ -396,7 +396,12 @@ export const DetalhamentoCadastro = () => {
                       <hr />
                       <TabelaDemanda cadastro={cadastro} />
                       <hr />
-                      <Anexos cadastro={cadastro} editar={editar} />
+                      <Anexos
+                        cadastro={cadastro}
+                        setPropsCadastro={setCadastro}
+                        setPropsErro={setErro}
+                        editar={editar}
+                      />
                     </>
                   </form>
                 )}

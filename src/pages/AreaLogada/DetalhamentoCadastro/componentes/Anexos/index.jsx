@@ -1,12 +1,44 @@
 import React from "react";
+import HTTP_STATUS from "http-status-codes";
 import Botao from "components/Botao";
 import {
   BUTTON_ICON,
   BUTTON_STYLE,
   BUTTON_TYPE,
 } from "components/Botao/constants";
+import { deleteAnexo } from "services/anexos.service";
+import { toastError, toastSuccess } from "components/Toast/dialogs";
+import { getImovel } from "services/Imovel.service";
 
-export const Anexos = ({ cadastro, editar }) => {
+export const Anexos = ({
+  cadastro,
+  editar,
+  setPropsCadastro,
+  setPropsErro,
+}) => {
+  const removerAnexo = async (uuidAnexo) => {
+    if (window.confirm("Deseja remover este anexo?")) {
+      deleteAnexo(uuidAnexo).then((response) => {
+        if (response.status === HTTP_STATUS.NO_CONTENT) {
+          toastSuccess("Arquivo removido com sucesso!");
+          getImovel(cadastro.id)
+            .then((response) => {
+              if (response.status === HTTP_STATUS.OK) {
+                setPropsCadastro(response.data);
+              } else {
+                setPropsErro(true);
+              }
+            })
+            .catch(() => {
+              setPropsErro(true);
+            });
+        } else {
+          toastError("Erro ao remover arquivo");
+        }
+      });
+    }
+  };
+
   return (
     <>
       <div className="title mb-3">Anexos e relatórios</div>
@@ -113,19 +145,21 @@ export const Anexos = ({ cadastro, editar }) => {
             </a>
           ) : (
             <>
-                
               <Botao
                 style={BUTTON_STYLE.BLUE_OUTLINE}
                 type={BUTTON_TYPE.BUTTON}
                 icon={BUTTON_ICON.TRASH}
                 className="br-none"
+                onClick={() => removerAnexo(anexo.uuid)}
               />
-              <Botao
-                style={BUTTON_STYLE.BLUE_OUTLINE}
-                type={BUTTON_TYPE.BUTTON}
-                icon={BUTTON_ICON.DOWNLOAD}
-                className="mr-3"
-              />
+              <a href={anexo.arquivo} target="_blank" rel="noopener noreferrer">
+                <Botao
+                  style={BUTTON_STYLE.BLUE_OUTLINE}
+                  type={BUTTON_TYPE.BUTTON}
+                  icon={BUTTON_ICON.DOWNLOAD}
+                  className="mr-3"
+                />
+              </a>
             </>
           );
         })}
