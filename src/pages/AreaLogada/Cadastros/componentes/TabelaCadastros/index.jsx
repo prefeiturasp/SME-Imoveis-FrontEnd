@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { formataCadastrosXLS } from "../../helper";
 import ReactExport from "react-data-export";
 import Botao from "components/Botao";
 import { BUTTON_ICON, BUTTON_STYLE } from "components/Botao/constants";
@@ -24,7 +23,6 @@ export const TabelaCadastros = ({
 
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-  const data = dataToExport && formataCadastrosXLS(dataToExport);
 
   const changeIcon = (e, idx) => {
     var expanded = document
@@ -44,7 +42,7 @@ export const TabelaCadastros = ({
   const getCadastrosPorPagina = (pagina, lastSearchParams) => {
     getCadastros(formataPaylaodBuscaCadastros(lastSearchParams), pagina).then(
       (response) => {
-        setCadastros(response.data[1]);
+        setCadastros(response.data.results);
       }
     );
   };
@@ -211,7 +209,10 @@ export const TabelaCadastros = ({
                   />
                 }
               >
-                <ExcelSheet dataSet={data} name="Cadastros Realizados" />
+                <ExcelSheet
+                  dataSet={dataToExport}
+                  name="Cadastros Realizados"
+                />
               </ExcelFile>
             </div>
           </div>
