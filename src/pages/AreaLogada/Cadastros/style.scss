@@ -27,6 +27,10 @@ div.cadastros {
     }
     tbody {
       tr {
+        &.hovered {
+          cursor: pointer;
+          background-color: $blueBackgroundToastInfo;
+        }
         color: $blackInput;
         border: 1px solid #e9eaea;
         td {

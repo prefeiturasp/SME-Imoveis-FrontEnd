@@ -70,6 +70,10 @@ table.notificacoes {
   }
   tbody {
     tr {
+      &.hovered {
+        cursor: pointer;
+        background-color: $blueBackgroundToastInfo;
+      }
       td {
         font-weight: bold;
         font-size: 14px;

@@ -3,7 +3,7 @@ import React from "react";
 import { BUTTON_STYLE, BUTTON_TYPE } from "./constants";
 import "./style.scss";
 
-export const Botao = props => {
+export const Botao = (props) => {
   const {
     accept,
     className,
@@ -13,7 +13,9 @@ export const Botao = props => {
     style,
     titulo,
     texto,
-    type
+    type,
+    onHover,
+    onMouseEnter
   } = props;
   return (
     <button
@@ -24,6 +26,8 @@ export const Botao = props => {
       onClick={onClick}
       disabled={disabled}
       accept={accept}
+      onHover={onHover}
+      onMouseEnter={onMouseEnter}
     >
       {icon && <i className={`${icon} ${texto && "text-and-icon"}`} />}
       {texto}
@@ -38,7 +42,7 @@ Botao.propTypes = {
   style: PropTypes.string,
   texto: PropTypes.string,
   titulo: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
 };
 
 Botao.defaultProps = {
@@ -47,7 +51,7 @@ Botao.defaultProps = {
   style: BUTTON_STYLE.GREEN,
   texto: "",
   titulo: "",
-  type: BUTTON_TYPE.BUTTON
+  type: BUTTON_TYPE.BUTTON,
 };
 
 export default Botao;

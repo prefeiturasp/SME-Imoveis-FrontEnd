@@ -1,20 +1,24 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { InputErroMensagem } from "../InputErroMensagem";
-import { HelpText } from "../../HelpText";
-import "./style.scss";
-import { Button } from "react-bootstrap";
 import { readerFile } from "./helper";
-import { toastSuccess, toastError } from "components/Toast/dialogs";
+import { DEZ_MB } from "./constants";
+import { toastError, toastSuccess } from "components/Toast/dialogs";
+import "./style.scss";
+import Botao from "components/Botao";
+import {
+  BUTTON_ICON,
+  BUTTON_STYLE,
+  BUTTON_TYPE,
+} from "components/Botao/constants";
 import { truncarString } from "helpers/utils";
-
-const DEZ_MB = 10485760;
+import { HelpText } from "components/Input/HelpText";
+import { InputErroMensagem } from "components/Input/InputErroMensagem";
 
 export class InputFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      files: []
+      files: [],
     };
   }
 
@@ -48,7 +52,7 @@ export class InputFile extends Component {
   async onInputChange(event) {
     let valido = true;
     const QUANTIDADE_ARQUIVOS = event.target.files.length;
-    Array.from(event.target.files).forEach(file => {
+    Array.from(event.target.files).forEach((file) => {
       const extensao = file.name.split(".")[file.name.split(".").length - 1];
       if (
         !["doc", "docx", "png", "pdf", "jpg", "jpeg"].includes(
@@ -65,13 +69,13 @@ export class InputFile extends Component {
     if (valido) {
       let files = [];
       let data = [];
-      Array.from(event.target.files).forEach(file => {
+      Array.from(event.target.files).forEach((file) => {
         readerFile(file)
-          .then(anexo => {
+          .then((anexo) => {
             data.push(anexo);
             files.push({
               nome: this.props.nomeNovoArquivo || file.name,
-              base64: anexo.arquivo
+              base64: anexo.arquivo,
             });
           })
           .then(() => {
@@ -107,55 +111,38 @@ export class InputFile extends Component {
       name,
       required,
       title,
-      texto
+      texto,
     } = this.props;
     return (
-      <div className={`input input-file ${icone && "icon"}`}>
+      <span className={`input input-file ${icone && "icon"}`}>
         <input
           {...input}
           accept={accept}
-          ref={i => (this.inputRef = i)}
+          ref={(i) => (this.inputRef = i)}
           className={`form-control ${className} ${meta &&
             meta.touched &&
             (meta.error || meta.warning) &&
             "invalid-field"}`}
           disabled={disabled}
           name={name}
-          onChange={event => this.onInputChange(event)}
+          onChange={(event) => this.onInputChange(event)}
           data-cy={input.name}
           required={required}
           type="file"
           multiple={multiple}
           title={title}
         />
-        <Button
-          type="submit"
-          variant="primary"
+        <Botao
           onClick={() => this.inputRef.click()}
-        >
-          {texto ? texto : ""}
-        </Button>
-        {files.map((file, key) => {
-          return (
-            <div className="file-div row" key={key}>
-              <div
-                className="file-name col-8"
-                onClick={() => this.openFile(file)}
-              >
-                {truncarString(file.nome, 20)}
-              </div>
-              <div className="col-4 exclude-icon">
-                <i
-                  onClick={() => this.deleteFile(key)}
-                  className="fas fa-times"
-                />
-              </div>
-            </div>
-          );
-        })}
+          htmlFor={name}
+          texto={texto}
+          style={BUTTON_STYLE.BLUE_OUTLINE}
+          icon={BUTTON_ICON.PLUS}
+          type={BUTTON_TYPE.BUTTON}
+        />
         <HelpText helpText={helpText} />
         <InputErroMensagem meta={meta} />
-      </div>
+      </span>
     );
   }
 }
@@ -174,7 +161,7 @@ InputFile.propTypes = {
   nomeNovoArquivo: PropTypes.string,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
-  type: PropTypes.string
+  type: PropTypes.string,
 };
 
 InputFile.defaultProps = {
@@ -190,7 +177,7 @@ InputFile.defaultProps = {
   name: "",
   placeholder: "",
   required: false,
-  type: "text"
+  type: "text",
 };
 
 export default InputFile;

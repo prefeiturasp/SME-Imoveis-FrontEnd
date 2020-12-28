@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Botao from "components/Botao";
 import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
 import { ModalVerTudo } from "../ModalVerTudo";
+import { useHistory } from "react-router-dom";
 
 export const CardPorStatus = ({
   imoveis,
@@ -11,6 +12,11 @@ export const CardPorStatus = ({
   count,
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const [hovered] = useState([]);
+  const [, updateState] = React.useState();
+
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const history = useHistory();
 
   return (
     <div className="card mt-3">
@@ -54,7 +60,23 @@ export const CardPorStatus = ({
           <tbody>
             {imoveis.map((imovel, key) => {
               return (
-                <tr key={key}>
+                <tr
+                  className={`${hovered.includes(key) && "hovered"}`}
+                  onMouseEnter={() => {
+                    hovered.push(key);
+                    forceUpdate();
+                  }}
+                  onMouseLeave={() => {
+                    hovered.pop();
+                    forceUpdate();
+                  }}
+                  onClick={() =>
+                    history.push(
+                      `/adm-imoveis/detalhamento-cadastro?uuid=${imovel.id}`
+                    )
+                  }
+                  key={key}
+                >
                   <td>{imovel.protocolo}</td>
                   <td>{imovel.setor && imovel.setor.dre.sigla}</td>
                   <td>{imovel.setor && imovel.setor.distrito.nome}</td>
