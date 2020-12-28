@@ -50,10 +50,14 @@ export const DetalhamentoCadastro = () => {
             setEditar(false);
             setCadastro(response.data);
           } else {
+            toastError("Houve um erro ao atualizar o cadastro");
+            setCount(count + 1);
             setErro(true);
           }
         })
         .catch(() => {
+          toastError("Houve um erro ao atualizar o cadastro");
+          setCount(count + 1);
           setErro(true);
         });
     }
