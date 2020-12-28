@@ -99,6 +99,7 @@ export const Anexos = ({
                   style={BUTTON_STYLE.BLUE_OUTLINE}
                   type={BUTTON_TYPE.BUTTON}
                   icon={BUTTON_ICON.DOWNLOAD}
+                  texto={`Anexo ${key + 1}`}
                   className="mr-3"
                 />
               </a>
@@ -151,6 +152,7 @@ export const Anexos = ({
                   style={BUTTON_STYLE.BLUE_OUTLINE}
                   type={BUTTON_TYPE.BUTTON}
                   icon={BUTTON_ICON.DOWNLOAD}
+                  texto={`Anexo ${key + 1}`}
                   className="mr-3"
                 />
               </a>
@@ -203,6 +205,7 @@ export const Anexos = ({
                   style={BUTTON_STYLE.BLUE_OUTLINE}
                   type={BUTTON_TYPE.BUTTON}
                   icon={BUTTON_ICON.DOWNLOAD}
+                  texto={`Anexo ${key + 1}`}
                   className="mr-3"
                 />
               </a>
@@ -254,6 +257,7 @@ export const Anexos = ({
                   style={BUTTON_STYLE.BLUE_OUTLINE}
                   type={BUTTON_TYPE.BUTTON}
                   icon={BUTTON_ICON.DOWNLOAD}
+                  texto={`Anexo ${key + 1}`}
                   className="mr-3"
                 />
               </a>
@@ -306,6 +310,7 @@ export const Anexos = ({
                   style={BUTTON_STYLE.BLUE_OUTLINE}
                   type={BUTTON_TYPE.BUTTON}
                   icon={BUTTON_ICON.DOWNLOAD}
+                  texto={`Anexo ${key + 1}`}
                   className="mr-3"
                 />
               </a>

@@ -3,7 +3,7 @@ import HTTP_STATUS from "http-status-codes";
 import { FluxoDeStatus } from "components/FluxoDeStatus";
 import { fluxoImoveis } from "components/FluxoDeStatus/helper";
 import { Form, Field } from "react-final-form";
-import { getImovel } from "services/Imovel.service";
+import { getImovel, updateImovel } from "services/Imovel.service";
 import PaginaHeaderSidebar from "components/PaginaHeaderSidebar";
 import Botao from "components/Botao";
 import {
@@ -20,15 +20,16 @@ import { EH_PERFIL_ADMIN, normalizarSetores } from "helpers/utils";
 import formatStringByPattern from "format-string-by-pattern";
 import { OnChange } from "react-final-form-listeners";
 import { getEnderecoPorCEP } from "services/cep.service";
-import { toastError } from "components/Toast/dialogs";
+import { toastError, toastSuccess } from "components/Toast/dialogs";
 import { georef } from "services/step2.service";
 import { ESTADOS } from "pages/CadastroImovel/components/Imovel/constants";
-import TextArea from "antd/lib/input/TextArea";
 import { getSetores } from "services/cadastros.service";
 import { TabelaDemanda } from "./componentes/Demanda";
 import { Anexos } from "./componentes/Anexos";
 import { DadosCadastrante } from "./componentes/DadosCadastrante";
 import "./style.scss";
+import { formataValues } from "./helper";
+import { TextArea } from "components/TextArea/TextArea";
 
 export const DetalhamentoCadastro = () => {
   const [cadastro, setCadastro] = useState(null);
@@ -40,7 +41,18 @@ export const DetalhamentoCadastro = () => {
   const history = useHistory();
 
   const onSubmit = (values) => {
-    console.log(values);
+    updateImovel(cadastro.id, formataValues(values))
+      .then((response) => {
+        if (response.status === HTTP_STATUS.OK) {
+          toastSuccess("Cadastro atualizado com sucesso");
+          setCadastro(response.data);
+        } else {
+          setErro(true);
+        }
+      })
+      .catch(() => {
+        setErro(true);
+      });
   };
 
   useEffect(() => {
@@ -339,7 +351,7 @@ export const DetalhamentoCadastro = () => {
                           <OnChange name="nao_possui_iptu">
                             {async (value, previous) => {
                               if (value) {
-                                values.numero_iptu = undefined;
+                                values.numero_iptu = "";
                               }
                             }}
                           </OnChange>
@@ -364,13 +376,14 @@ export const DetalhamentoCadastro = () => {
                           <div className="col-4">
                             <Field
                               component={SelectText}
-                              name="setor.id"
+                              name="setor.codigo"
                               label="Setor"
                               placeholder={"Selecione um setor"}
                               options={normalizarSetores(setores)}
                               naoDesabilitarPrimeiraOpcao
                               labelClassName="font-weight-bold color-black"
                               disabled={!editar}
+                              onChange={(value) => console.log(value)}
                             />
                           </div>
                           <div className="col-4">

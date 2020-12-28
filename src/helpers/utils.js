@@ -164,7 +164,7 @@ export const normalizarOptions = (options) => {
 export const normalizarSetores = (options) => {
   const options_ = [{ label: "Selecione", value: undefined }];
   options.forEach((option) => {
-    options_.push({ label: option.codigo, value: option.id });
+    options_.push({ label: option.codigo, value: option.codigo });
   });
   return options_;
 };

@@ -11,7 +11,6 @@ export const TextArea = props => {
     input,
     label,
     meta,
-    name,
     placeholder,
     required
   } = props;
@@ -23,7 +22,7 @@ export const TextArea = props => {
             *
           </span>
         ),
-        <label key={2} htmlFor={name} className="col-form-label">
+        <label key={2} htmlFor={input.name} className="col-form-label">
           {label}
         </label>
       ]}
@@ -33,7 +32,6 @@ export const TextArea = props => {
           meta.error &&
           "invalid-field"}`}
         disabled={disabled}
-        name={name}
         placeholder={placeholder}
       />
       <div className="help-text">{helpText}</div>
