@@ -1,7 +1,6 @@
-@import "../../../styles/variaveis.scss";
+@import "styles/variaveis.scss";
 
 .input-file {
-  text-align: right;
   input.inputfile {
     width: 0.1px;
     height: 0.1px;
@@ -15,7 +14,7 @@
       padding-top: 5px;
       font-size: 10px;
       &:hover {
-        color: $corAzulBuscaOn;
+        color: $blue;
         text-decoration: underline;
       }
     }
