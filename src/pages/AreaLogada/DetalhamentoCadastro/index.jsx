@@ -28,7 +28,7 @@ import { TabelaDemanda } from "./componentes/Demanda";
 import { Anexos } from "./componentes/Anexos";
 import { DadosCadastrante } from "./componentes/DadosCadastrante";
 import "./style.scss";
-import { formataValues } from "./helper";
+import { formataValues, validateImovel } from "./helper";
 import { TextArea } from "components/TextArea/TextArea";
 
 export const DetalhamentoCadastro = () => {
@@ -37,22 +37,26 @@ export const DetalhamentoCadastro = () => {
   const [editar, setEditar] = useState(false);
   const [apiFora, setApiFora] = useState(false);
   const [setores, setSetores] = useState(null);
+  const [count, setCount] = useState(-1);
 
   const history = useHistory();
 
   const onSubmit = (values) => {
-    updateImovel(cadastro.id, formataValues(values))
-      .then((response) => {
-        if (response.status === HTTP_STATUS.OK) {
-          toastSuccess("Cadastro atualizado com sucesso");
-          setCadastro(response.data);
-        } else {
+    if (count % 2 === 1) {
+      updateImovel(cadastro.id, formataValues(values))
+        .then((response) => {
+          if (response.status === HTTP_STATUS.OK) {
+            toastSuccess("Cadastro atualizado com sucesso");
+            setEditar(false);
+            setCadastro(response.data);
+          } else {
+            setErro(true);
+          }
+        })
+        .catch(() => {
           setErro(true);
-        }
-      })
-      .catch(() => {
-        setErro(true);
-      });
+        });
+    }
   };
 
   useEffect(() => {
@@ -103,13 +107,16 @@ export const DetalhamentoCadastro = () => {
           {erro && <div>Erro ao carregar dados do imóvel</div>}
           {cadastro && (
             <>
-              <FluxoDeStatus
-                listaDeStatus={cadastro.logs}
-                fluxo={fluxoImoveis}
-              />
+              {cadastro.logs && (
+                <FluxoDeStatus
+                  listaDeStatus={cadastro.logs}
+                  fluxo={fluxoImoveis}
+                />
+              )}
               <Form
                 initialValues={cadastro}
                 onSubmit={onSubmit}
+                validate={validateImovel}
                 render={({
                   handleSubmit,
                   form,
@@ -135,6 +142,7 @@ export const DetalhamentoCadastro = () => {
                                 type={BUTTON_TYPE.SUBMIT}
                                 className="col-2 ml-3"
                                 texto={"Atualizar cadastro"}
+                                onClick={() => setCount(count + 1)}
                               />
                             ) : (
                               <Botao
@@ -142,7 +150,10 @@ export const DetalhamentoCadastro = () => {
                                 type={BUTTON_TYPE.BUTTON}
                                 className="col-2 ml-3"
                                 texto={"Editar cadastro"}
-                                onClick={() => setEditar(true)}
+                                onClick={() => {
+                                  setEditar(true);
+                                  setCount(count + 1);
+                                }}
                               />
                             ))}
                         </div>
@@ -383,7 +394,6 @@ export const DetalhamentoCadastro = () => {
                               naoDesabilitarPrimeiraOpcao
                               labelClassName="font-weight-bold color-black"
                               disabled={!editar}
-                              onChange={(value) => console.log(value)}
                             />
                           </div>
                           <div className="col-4">
@@ -409,12 +419,14 @@ export const DetalhamentoCadastro = () => {
                       <hr />
                       <TabelaDemanda cadastro={cadastro} />
                       <hr />
-                      <Anexos
-                        cadastro={cadastro}
-                        setPropsCadastro={setCadastro}
-                        setPropsErro={setErro}
-                        editar={editar}
-                      />
+                      {cadastro.anexos && (
+                        <Anexos
+                          cadastro={cadastro}
+                          setPropsCadastro={setCadastro}
+                          setPropsErro={setErro}
+                          editar={editar}
+                        />
+                      )}
                     </>
                   </form>
                 )}
