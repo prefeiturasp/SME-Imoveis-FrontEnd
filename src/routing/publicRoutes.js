@@ -2,6 +2,7 @@ import Home from "pages/Home";
 import CadastroImovel from "pages/CadastroImovel";
 import { Login } from "pages/Login";
 import { SemPermissao } from "pages/SemPermissao";
+import { RecuperarSenha } from "pages/RecuperarSenha";
 
 export const publicRoutes = [
   {
@@ -22,6 +23,11 @@ export const publicRoutes = [
   {
     path: "/cadastro-imovel",
     component: CadastroImovel,
+    exact: true,
+  },
+  {
+    path: "/recuperar-senha",
+    component: RecuperarSenha,
     exact: true,
   },
 ];

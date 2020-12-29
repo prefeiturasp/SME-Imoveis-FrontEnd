@@ -163,3 +163,8 @@ export const iptuLength = value => {
     ? undefined
     : "Necessário IPTU na seguinte máscara: 000.000.0000.0";
 };
+
+export const semCaracteresEspeciais = value =>
+  value && !/^[\w&.-]+$/i.test(value)
+    ? `Não permite caracteres especiais`
+    : undefined;

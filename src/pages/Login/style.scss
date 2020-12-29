@@ -93,3 +93,29 @@ a.hyperlink {
     }
   }
 }
+
+div.input-group.email-sme {
+  .col-8,
+  .col-4 {
+    padding-left: 0;
+  }
+  .col-6 {
+    padding-right: 0;
+    margin-right: -1em;
+  }
+  select {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .input-group-append {
+    padding-top: 35px;
+    .input-group-text {
+      height: 38px;
+      font-size: 14px;
+    }
+  }
+}
