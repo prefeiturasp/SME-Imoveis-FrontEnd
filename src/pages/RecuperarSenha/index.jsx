@@ -40,42 +40,40 @@ export const RecuperarSenha = () => {
           <div className="container pt-3">
             <div className="card">
               <div className="card-body alinha-centro">
-                <div className="">
-                  <div className="card-title font-weight-bold">
-                    Troca de senha
-                  </div>
-                  <Field
-                    component={InputText}
-                    label="Senha:"
-                    required
-                    name="senha1"
-                    type="password"
-                    validate={required}
-                    maxlength={20}
-                    pattern="(?=.*\d)(?=.*[a-z]).{8,}"
-                    title="Pelo menos 8 caracteres, uma letra e um número"
-                    helpText="Pelo menos 8 caracteres, uma letra e um número"
+                <div className="card-title font-weight-bold">
+                  Troca de senha
+                </div>
+                <Field
+                  component={InputText}
+                  label="Senha:"
+                  required
+                  name="senha1"
+                  type="password"
+                  validate={required}
+                  maxlength={20}
+                  pattern="(?=.*\d)(?=.*[a-z]).{8,}"
+                  title="Pelo menos 8 caracteres, uma letra e um número"
+                  helpText="Pelo menos 8 caracteres, uma letra e um número"
+                />
+                <Field
+                  component={InputText}
+                  label="Repetir senha:"
+                  required
+                  name="senha2"
+                  type="password"
+                  validate={required}
+                  maxlength={20}
+                  helpText={"As senhas devem ser iguais"}
+                  pattern="(?=.*\d)(?=.*[a-z]).{8,}"
+                  title="Pelo menos 8 caracteres, uma letra e um número"
+                />
+                <div className="pt-3 text-center">
+                  <Botao
+                    texto="Confirmar senha"
+                    type={BUTTON_TYPE.SUBMIT}
+                    style={BUTTON_STYLE.GREEN}
+                    disabled={values.senha1 !== values.senha2 || pristine}
                   />
-                  <Field
-                    component={InputText}
-                    label="Repetir senha:"
-                    required
-                    name="senha2"
-                    type="password"
-                    validate={required}
-                    maxlength={20}
-                    helpText={"As senhas devem ser iguais"}
-                    pattern="(?=.*\d)(?=.*[a-z]).{8,}"
-                    title="Pelo menos 8 caracteres, uma letra e um número"
-                  />
-                  <div className="pt-3 text-center">
-                    <Botao
-                      texto="Confirmar senha"
-                      type={BUTTON_TYPE.SUBMIT}
-                      style={BUTTON_STYLE.GREEN}
-                      disabled={values.senha1 !== values.senha2 || pristine}
-                    />
-                  </div>
                 </div>
               </div>
             </div>

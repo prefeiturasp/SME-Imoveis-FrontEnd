@@ -24,6 +24,7 @@ import "./style.scss";
 export const Login = () => {
   const [exibir, setExibir] = useState("login");
   const [width, setWidth] = useState(null);
+  const [email, setEmail] = useState(null);
 
   const emailInput = React.createRef();
 
@@ -71,6 +72,7 @@ export const Login = () => {
       recuperaSenha(values.login)
         .then((response) => {
           if (response.status === HTTP_STATUS.OK) {
+            setEmail(response.data.email);
             toastSuccess("E-mail de recuperar senha enviado com sucesso");
           } else {
             toastError(getError(response.data));
@@ -167,11 +169,42 @@ export const Login = () => {
                           </div>
                         </div>
                       </div>
+                      <div className="row">
+                        <div className="input-group email-sme">
+                          <div ref={emailInput} className="col-6">
+                            <Field
+                              component={InputText}
+                              placeholder={"Início do seu E-mail SME"}
+                              label="Confirme seu e-mail"
+                              name="confirmar_email"
+                              required
+                              type="text"
+                              validate={composeValidators(
+                                required,
+                                semCaracteresEspeciais
+                              )}
+                            />
+                          </div>
+                          <div className="input-group-append col-6">
+                            <Field
+                              component={Select}
+                              name="tipo_email"
+                              options={TIPOS_EMAIL_CADASTRO}
+                              naoDesabilitarPrimeiraOpcao
+                              width={width}
+                            />
+                          </div>
+                        </div>
+                      </div>
                       <Botao
                         className="mt-3 col-12"
                         style={BUTTON_STYLE.BLUE}
                         texto="Atualizar e-mail"
                         type={BUTTON_TYPE.SUBMIT}
+                        disabled={
+                          !values.confirmar_email ||
+                          values.confirmar_email !== values.email
+                        }
                       />
                     </Fragment>
                   )}
@@ -193,11 +226,17 @@ export const Login = () => {
                         }
                         validate={composeValidators(required, numericInteger)}
                       />
+                      {email && (
+                        <div>
+                          E-mail de reset de senha enviado para: {email}
+                        </div>
+                      )}
                       <Botao
                         className="mt-3 col-12"
                         style={BUTTON_STYLE.BLUE}
                         texto="Recuperar e-mail"
                         type={BUTTON_TYPE.SUBMIT}
+                        disabled={submitting || pristine}
                       />
                     </Fragment>
                   )}
@@ -210,6 +249,18 @@ export const Login = () => {
                         onClick={() => setExibir("esqueci-minha-senha")}
                       >
                         Esqueci minha senha
+                      </Link>
+                    </p>
+                  )}
+                  {exibir === "esqueci-minha-senha" && (
+                    <p className="text-center pt-3">
+                      <Link
+                        className="hyperlink"
+                        to="#"
+                        data-cy="esqueci-senha"
+                        onClick={() => setExibir("login")}
+                      >
+                        Login
                       </Link>
                     </p>
                   )}
