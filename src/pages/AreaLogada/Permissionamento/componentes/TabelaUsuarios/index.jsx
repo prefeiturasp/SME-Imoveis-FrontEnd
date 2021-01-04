@@ -23,30 +23,32 @@ export const TabelaUsuarios = ({ usuarios, setShowModal, setUsuario }) => {
             </tr>
           </thead>
           <tbody>
-            {usuarios.map((usuario) => {
-              return (
-                <tr>
-                  <td>{usuario.nome}</td>
-                  <td>{usuario.email}</td>
-                  <td>{usuario.secretaria && usuario.secretaria.nome}</td>
-                  <td>{usuario.setor && usuario.setor.dre.sigla}</td>
-                  <td>{usuario.setor && usuario.setor.codigo}</td>
-                  <td>
-                    {usuario.perfil ? usuario.perfil.nome : "SEM PERMISSAO"}
-                  </td>
-                  <td>
-                    <Botao
-                      onClick={() => {
-                        setShowModal(true);
-                        setUsuario(formataUsuario(usuario));
-                      }}
-                      style={BUTTON_STYLE.BLUE}
-                      icon={BUTTON_ICON.EDIT}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+            {usuarios
+              .filter((usuario) => usuario.nome)
+              .map((usuario) => {
+                return (
+                  <tr>
+                    <td>{usuario.nome}</td>
+                    <td>{usuario.email}</td>
+                    <td>{usuario.secretaria && usuario.secretaria.nome}</td>
+                    <td>{usuario.setor && usuario.setor.dre.sigla}</td>
+                    <td>{usuario.setor && usuario.setor.codigo}</td>
+                    <td>
+                      {usuario.perfil ? usuario.perfil.nome : "SEM PERMISSAO"}
+                    </td>
+                    <td>
+                      <Botao
+                        onClick={() => {
+                          setShowModal(true);
+                          setUsuario(formataUsuario(usuario));
+                        }}
+                        style={BUTTON_STYLE.BLUE}
+                        icon={BUTTON_ICON.EDIT}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       )}
