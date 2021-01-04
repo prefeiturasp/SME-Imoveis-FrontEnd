@@ -1,0 +1,86 @@
+@import "styles/variaveis.scss";
+
+div.row {
+  &.cards {
+    width: 90%;
+    margin-left: 5%;
+    div.card-notificacao {
+      border: 1px solid $blackInput;
+      border-left: 7px solid $blackInput;
+      border-radius: 4px;
+      .titulo {
+        margin: 1em;
+        font-size: 14px;
+        font-weight: bold;
+        border-bottom: 1px solid $grayDisabled;
+      }
+      .numero {
+        font-size: 60px;
+        font-weight: 700;
+        padding-left: 12px;
+        display: flex;
+        justify-content: space-between;
+        span {
+          color: $grayDisabled;
+          font-size: 11px;
+          font-weight: normal;
+          margin-top: auto;
+          margin-bottom: 1em;
+          margin-right: 1em;
+        }
+      }
+      &.two {
+        border-color: $blue;
+      }
+      &.three {
+        border-color: $red;
+      }
+    }
+  }
+}
+div.card-title.notificacoes {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+table.notificacoes {
+  color: $blackInput;
+  border: 1px solid $grayDisabled;
+  border-radius: 4px;
+  width: 100%;
+  thead {
+    background: #f5f6f8;
+    tr {
+      text-align: center;
+      font-weight: bold;
+      font-size: 12px;
+      th {
+        border: 1px solid $grayDisabled;
+        padding: 10px;
+      }
+      &:first-child {
+        text-align: left;
+        font-size: 20px;
+        padding: 5px;
+        th {
+          padding: 10px;
+        }
+      }
+    }
+  }
+  tbody {
+    tr {
+      &.hovered {
+        cursor: pointer;
+        background-color: $blueBackgroundToastInfo;
+      }
+      td {
+        font-weight: bold;
+        font-size: 14px;
+        padding: 10px;
+        text-align: center;
+        border: 1px solid $grayDisabled;
+      }
+    }
+  }
+}

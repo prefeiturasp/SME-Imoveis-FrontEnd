@@ -6,7 +6,7 @@ import {
   faFacebookSquare,
   faInstagram,
   faTwitter,
-  faYoutube
+  faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import "./style.scss";
 
@@ -141,6 +141,14 @@ export default class Menu extends Component {
                     href="http://dados.prefeitura.sp.gov.br/organization/educacao1"
                   >
                     Portal da Transparência
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link text-secondary mb-1 pb-0"
+                    href="/login"
+                  >
+                    Área Restrita
                   </a>
                 </li>
               </ul>

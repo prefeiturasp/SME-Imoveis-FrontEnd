@@ -12,3 +12,11 @@ export async function readerFile(file) {
   });
   return result_file;
 }
+
+export const truncarString = (str, numeroMaximoChars) => {
+  if (str.length > numeroMaximoChars) {
+    return str.slice(0, numeroMaximoChars) + "...";
+  } else {
+    return str;
+  }
+};

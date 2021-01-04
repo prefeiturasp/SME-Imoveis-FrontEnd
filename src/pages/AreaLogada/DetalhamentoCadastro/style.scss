@@ -1,0 +1,30 @@
+@import "styles/variaveis.scss";
+
+div.detalhamento-cadastro {
+  h1.card-title {
+    color: $blue;
+    font-weight: 700;
+    font-size: 35px;
+  }
+  div.atualizar-status {
+    float: right;
+    color: $blue;
+    font-size: 11px;
+    font-style: italic;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  div.title {
+    color: $blue;
+    font-weight: bold;
+    font-size: 14px;
+  }
+}
+
+.color-black {
+  color: $blackInput !important;
+}
+
+.br-none {
+  border-right: none;
+}

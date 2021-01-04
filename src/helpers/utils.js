@@ -5,13 +5,13 @@ export async function asyncForEach(array, callback) {
 }
 
 export async function readerFile(file) {
-  let result_file = await new Promise(resolve => {
+  let result_file = await new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = () => {
       const re = /(?:\.([^.]+))?$/;
       const base64 = reader.result.split("base64,")[1];
       return resolve({
-        arquivo: `data:${file.type}/${re.exec(file.name)[1]};base64,${base64}`
+        arquivo: `data:${file.type}/${re.exec(file.name)[1]};base64,${base64}`,
       });
     };
     reader.readAsDataURL(file);
@@ -19,11 +19,11 @@ export async function readerFile(file) {
   return result_file;
 }
 
-export const getKey = obj => {
+export const getKey = (obj) => {
   return Object.keys(obj)[0];
 };
 
-export const getError = obj => {
+export const getError = (obj) => {
   let result = "Erro ao cadastrar Imóvel";
   if (!obj[getKey(obj)]) {
     return "Erro ao cadastrar Imóvel";
@@ -40,7 +40,7 @@ export const getError = obj => {
   return result;
 };
 
-export const validarCPF = cpf => {
+export const validarCPF = (cpf) => {
   cpf = cpf.replace(/[^\d]+/g, "");
   if (cpf === "") return false;
   // Elimina CPFs invalidos conhecidos
@@ -74,7 +74,7 @@ export const validarCPF = cpf => {
   return true;
 };
 
-export const validarCNPJ = cnpj => {
+export const validarCNPJ = (cnpj) => {
   cnpj = cnpj.replace(/[^\d]+/g, "");
 
   if (cnpj === "") return false;
@@ -124,7 +124,7 @@ export const validarCNPJ = cnpj => {
   return true;
 };
 
-export const hasNumber = myString => {
+export const hasNumber = (myString) => {
   return /\d/.test(myString);
 };
 
@@ -138,9 +138,48 @@ export const truncarString = (str, numeroMaximoChars) => {
 
 export const tamanhoMaximoAnexos = (anexos, tamanho) => {
   let tamanhoAnexos = 0;
-  anexos.forEach(anexo => {
+  anexos.forEach((anexo) => {
     tamanhoAnexos += anexo.size;
   });
   if (tamanhoAnexos >= tamanho) return true;
   return false;
 };
+
+export const getNome = () => {
+  return localStorage.getItem("nome");
+};
+
+export const getPerfil = () => {
+  return localStorage.getItem("perfil");
+};
+
+export const normalizarOptions = (options) => {
+  const options_ = [{ label: "Selecione", value: undefined }];
+  options.forEach((option) => {
+    options_.push({ label: option.nome, value: option.id });
+  });
+  return options_;
+};
+
+export const normalizarSetores = (options) => {
+  const options_ = [{ label: "Selecione", value: undefined }];
+  options.forEach((option) => {
+    options_.push({ label: option.codigo, value: option.codigo });
+  });
+  return options_;
+};
+
+
+export const normalizarPerfis = (options) => {
+  const options_ = [
+    { label: "Selecione", value: undefined },
+    { label: "SEM PERMISSAO", value: "SEM PERMISSAO" },
+  ];
+  options.forEach((option) => {
+    options_.push({ label: option.nome, value: option.id });
+  });
+  return options_;
+};
+
+
+export const EH_PERFIL_ADMIN = localStorage.getItem("perfil") === "ADMIN";
