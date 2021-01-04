@@ -92,12 +92,14 @@ export const Notificacoes = () => {
             titulo="PRÓXIMOS AO VENCIMENTO"
             imoveis={proximosAoVencimento}
             status="5 DIAS PARA DEVOLUTIVA"
+            endpointGetImoveis={getImoveisProximosAoVencimento}
             count={countProximosAoVencimento}
           />
           <CardPorStatus
             titulo="ATRASADOS"
             imoveis={atrasados}
             status="ATRASADO"
+            endpointGetImoveis={getImoveisAtrasados}
             count={countAtrasados}
           />
         </>
