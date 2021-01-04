@@ -24,7 +24,7 @@ export const TabelaUsuarios = ({ usuarios, setShowModal, setUsuario }) => {
           </thead>
           <tbody>
             {usuarios
-              .filter((usuario) => usuario.nome)
+              .filter((usuario) => usuario.nome !== " ")
               .map((usuario) => {
                 return (
                   <tr>
