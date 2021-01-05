@@ -53,7 +53,7 @@ export const TabelaCadastros = ({
         <div className="mt-3">Não há cadastros para os filtros utilizados.</div>
       )}
 
-      {cadastros && cadastros.length > 0 && (
+      {dataToExport && cadastros && cadastros.length > 0 && (
         <div>
           <table className="mt-5 cadastros">
             <thead>
