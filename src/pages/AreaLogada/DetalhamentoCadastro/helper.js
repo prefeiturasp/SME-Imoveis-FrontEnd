@@ -33,3 +33,20 @@ export const validateImovel = async (values) => {
 
   return errors;
 };
+
+export const formataPaylaodAtualizaCadastro = (values) => {
+  let stringParams = "&";
+  if (values.id) {
+    stringParams += `id=${values.id}&`;
+  }
+  if (values.situacao) {
+    stringParams += `situacao=${values.situacao}&`;
+  }
+  if (values.codigo_eol) {
+    stringParams += `codigo_eol=${values.codigo_eol}&`;
+  }
+  if (values.escola) {
+    stringParams += `escola=${values.escola}&`;
+  }
+  return stringParams.slice(0, -1);
+};
