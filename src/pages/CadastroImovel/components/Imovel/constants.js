@@ -27,3 +27,8 @@ export const ESTADOS = [
   { nome_extenso: "Sergipe", value: "SE", label: "SE" },
   { nome_extenso: "Tocantins", value: "TO", label: "TO" }
 ];
+
+export const SITUACAO = [
+  {label: 'Novo', value: 'Novo'},
+  {label: 'Substituição', value: 'Substituição'},
+];

@@ -181,5 +181,7 @@ export const normalizarPerfis = (options) => {
   return options_;
 };
 
-
 export const EH_PERFIL_ADMIN = localStorage.getItem("perfil") === "ADMIN";
+export const EH_PERFIL_SECRETARIA = localStorage.getItem("perfil") === "SECRETARIA";
+export const EH_PERFIL_DRE = localStorage.getItem("perfil") === "DRE";
+export const EH_PERFIL_CONSULTA_SECRETARIA = localStorage.getItem("perfil") === "CONSULTA_SECRETARIA";

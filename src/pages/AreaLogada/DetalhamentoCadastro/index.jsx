@@ -30,6 +30,7 @@ import { DadosCadastrante } from "./componentes/DadosCadastrante";
 import "./style.scss";
 import { formataValues, validateImovel } from "./helper";
 import { TextArea } from "components/TextArea/TextArea";
+import { ModalAtualizaStatus } from "./componentes/ModalAtualizaStatus";
 
 export const DetalhamentoCadastro = () => {
   const [cadastro, setCadastro] = useState(null);
@@ -38,6 +39,7 @@ export const DetalhamentoCadastro = () => {
   const [apiFora, setApiFora] = useState(false);
   const [setores, setSetores] = useState(null);
   const [count, setCount] = useState(-1);
+  const [showModal, setShowModal] = useState(false);
 
   const history = useHistory();
 
@@ -113,10 +115,16 @@ export const DetalhamentoCadastro = () => {
             <>
               {cadastro.logs && (
                 <FluxoDeStatus
-                  listaDeStatus={cadastro.logs}
-                  fluxo={fluxoImoveis}
+                listaDeStatus={cadastro.logs}
+                fluxo={fluxoImoveis}
                 />
-              )}
+                )}
+                <ModalAtualizaStatus
+                  showModal={showModal}
+                  setShowModal={setShowModal}
+                  cadastroProps={cadastro}
+                  count={count}
+                />
               <Form
                 initialValues={cadastro}
                 onSubmit={onSubmit}
@@ -137,7 +145,7 @@ export const DetalhamentoCadastro = () => {
                             type={BUTTON_TYPE.BUTTON}
                             className="col-2"
                             texto="Atualizar status"
-                            onClick={() => history.push("/adm-imoveis")}
+                            onClick={() => setShowModal(true)}
                           />
                           {EH_PERFIL_ADMIN &&
                             (editar ? (
