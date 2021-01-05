@@ -108,7 +108,7 @@ export const formataCadastrosXLS = (cadastros) => {
           {value: cadastro.contato.telefone, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
           {value: cadastro.contato.cpf_cnpj, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
           {value: cadastro.cep, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-          {value: cadastro.numero_iptu, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: cadastro.numero_iptu || '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
           {value: `${cadastro.endereco} ${cadastro.numero}`, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
           {value: cadastro.bairro, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
           {value: cadastro.cidade, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
