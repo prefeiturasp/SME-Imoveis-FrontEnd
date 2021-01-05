@@ -92,6 +92,12 @@ export const formataCadastrosXLS = (cadastros) => {
     {title: "Status", width: {wpx: 200}, style: header_styles},
     {title: "Anexos", width: {wpx: 200}, style: header_styles},
   ], data: cadastros.map((cadastro, index) => {
+      let anexos = '';
+      if (cadastro.anexos.length) {
+        for (let idx = 0; idx < cadastro.anexos.length; idx++) {
+          anexos = `${anexos} ${cadastro.anexos[idx].arquivo} \n`
+        }
+      }
       return (
         [
           {value: cadastro.protocolo, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
@@ -113,7 +119,7 @@ export const formataCadastrosXLS = (cadastros) => {
           {value: cadastro.setor ? cadastro.setor.codigo : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
           {value: cadastro.demandaimovel ? `B1: ${cadastro.demandaimovel.bercario_i} - B2: ${cadastro.demandaimovel.bercario_ii} - MG1: ${cadastro.demandaimovel.mini_grupo_i} - MG2: ${cadastro.demandaimovel.mini_grupo_i}` : '', style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
           {value: cadastro.status, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
-          {value: `${cadastro.anexos[0].arquivo} \n ${cadastro.anexos[1].arquivo} \n ${cadastro.anexos[2].arquivo} \n ${cadastro.anexos[3].arquivo} \n ${cadastro.anexos[4].arquivo}`, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
+          {value: anexos, style: ((index === 0 || (index % 2) === 0) ? data_styles_1 : data_styles_2)},
         ]
       );
     })
