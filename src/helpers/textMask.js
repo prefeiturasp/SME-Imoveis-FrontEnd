@@ -40,6 +40,11 @@ export const telCelMask = value => {
   }
 };
 
+export const codigoEscolaMask = value => {
+  const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
+  return formatString("000000", cleanedValue);
+};
+
 export const iptuMask = value => {
   const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
   return formatString("999.999.9999.9", cleanedValue);

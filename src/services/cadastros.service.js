@@ -111,3 +111,46 @@ export const getSetores = () => {
       return console.log(error);
     });
 };
+
+export const getEscola = (value) => {
+  const url = `https://escolaaberta.sme.prefeitura.sp.gov.br/api/escolas/${value}`;
+  let status = 0;
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+};
+
+export const updateStatus = (queryParams) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/update-status/?${queryParams}`;
+  let status = 0;
+  return fetch(url, {
+    method: "PUT",
+    headers: {
+      Authorization: `JWT ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+};
