@@ -16,7 +16,7 @@ import { InputText } from "components/Input/InputText";
 import { iptuMask } from "helpers/textMask";
 import { composeValidators, validaCEP } from "helpers/fieldValidators";
 import { SelectText } from "components/Input/SelectText";
-import { EH_PERFIL_ADMIN, normalizarSetores } from "helpers/utils";
+import { EH_PERFIL_ADMIN, EH_PERFIL_SECRETARIA, normalizarSetores } from "helpers/utils";
 import formatStringByPattern from "format-string-by-pattern";
 import { OnChange } from "react-final-form-listeners";
 import { getEnderecoPorCEP } from "services/cep.service";
@@ -40,6 +40,8 @@ export const DetalhamentoCadastro = () => {
   const [setores, setSetores] = useState(null);
   const [count, setCount] = useState(-1);
   const [showModal, setShowModal] = useState(false);
+
+  const PODE_EDITAR = EH_PERFIL_ADMIN || EH_PERFIL_SECRETARIA;
 
   const history = useHistory();
 
@@ -147,7 +149,7 @@ export const DetalhamentoCadastro = () => {
                             texto="Atualizar status"
                             onClick={() => setShowModal(true)}
                           />
-                          {EH_PERFIL_ADMIN &&
+                          {PODE_EDITAR &&
                             (editar ? (
                               <Botao
                                 style={BUTTON_STYLE.BLUE}
