@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
-import { QUANTIDADE_POR_PAGINA } from "components/Paginacao/constants";
 import { Paginacao } from "components/Paginacao";
 
 export const ModalVerTudo = ({
@@ -10,8 +9,11 @@ export const ModalVerTudo = ({
   imoveisProps,
   status,
   count,
+  forceUpdate,
+  history,
 }) => {
   const [imoveis, setImoveis] = useState(null);
+  const [hovered] = useState([]);
 
   useEffect(() => {
     setImoveis(imoveisProps);
@@ -49,7 +51,23 @@ export const ModalVerTudo = ({
             <tbody>
               {imoveis.map((imovel, key) => {
                 return (
-                  <tr key={key}>
+                  <tr
+                    className={`${hovered.includes(key) && "hovered"}`}
+                    onMouseEnter={() => {
+                      hovered.push(key);
+                      forceUpdate();
+                    }}
+                    onMouseLeave={() => {
+                      hovered.pop();
+                      forceUpdate();
+                    }}
+                    onClick={() =>
+                      history.push(
+                        `/adm-imoveis/detalhamento-cadastro?uuid=${imovel.id}`
+                      )
+                    }
+                    key={key}
+                  >
                     <td>{imovel.protocolo}</td>
                     <td>{imovel.setor && imovel.setor.dre.sigla}</td>
                     <td>{imovel.setor && imovel.setor.distrito.nome}</td>

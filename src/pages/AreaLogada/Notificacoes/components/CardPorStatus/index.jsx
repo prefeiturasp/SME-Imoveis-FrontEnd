@@ -28,6 +28,8 @@ export const CardPorStatus = ({
           imoveisProps={imoveis}
           status={status}
           count={count}
+          forceUpdate={forceUpdate}
+          history={history}
         />
         <div className="card-title notificacoes">
           <i className="fas fa-thumbtack mr-2"></i>Notificações
