@@ -32,7 +32,7 @@ export const ModalVerTudo = ({
       onHide={() => setShowModal(false)}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Lista de Novos Cadastros</Modal.Title>
+        <Modal.Title>LISTA DE {status}</Modal.Title>
       </Modal.Header>
       {imoveis && (
         <Modal.Body>

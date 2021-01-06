@@ -234,7 +234,7 @@ export const Login = () => {
                       <Botao
                         className="mt-3 col-12"
                         style={BUTTON_STYLE.BLUE}
-                        texto="Recuperar e-mail"
+                        texto="Enviar e-mail"
                         type={BUTTON_TYPE.SUBMIT}
                         disabled={submitting || pristine}
                       />

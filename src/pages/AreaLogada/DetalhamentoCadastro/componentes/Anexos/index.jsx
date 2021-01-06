@@ -279,7 +279,7 @@ export const Anexos = ({
         />
       )}
       <div className="title color-black mt-3 mb-3">
-        Cópia da planta do imóvel ou croqui
+        Planta do imóvel ou croqui
       </div>
       {cadastro.anexos
         .filter(
