@@ -10,6 +10,7 @@ export const Paginacao = props => {
     <section className="pt-3 footer-pagination-default">
       <Pagination
         className={className}
+        showSizeChanger={false}
         defaultCurrent={1}
         defaultPageSize={QUANTIDADE_POR_PAGINA}
         onChange={onChange}
