@@ -47,6 +47,13 @@ export const TabelaCadastros = ({
     );
   };
 
+  const confirmarExportacao = (e) => {
+    e.preventDefault();
+    if (!window.confirm('Deseja gerar arquivo?')) {
+      e.stopPropagation();
+    }
+  }
+
   return (
     <>
       {cadastros && cadastros.length === 0 && (
@@ -206,6 +213,7 @@ export const TabelaCadastros = ({
                     style={BUTTON_STYLE.BLUE_OUTLINE}
                     className="col-12"
                     texto="Exportar"
+                    onClick={(e) => confirmarExportacao(e)}
                   />
                 }
               >
