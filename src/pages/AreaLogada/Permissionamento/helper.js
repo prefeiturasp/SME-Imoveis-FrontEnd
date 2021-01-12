@@ -26,12 +26,3 @@ export const formataUsuario = (usuario) => {
   usuario.perfil_ = usuario.perfil ? usuario.perfil.id : "SEM PERMISSAO";
   return usuario;
 };
-
-export const formataPayloadUsuario = (values) => {
-  if (values.setor_) {
-    if (values.setor) {
-      values.setor.codigo = values.setor_;
-    } else values.setor = { codigo: values.setor_ };
-  }
-  return values;
-};

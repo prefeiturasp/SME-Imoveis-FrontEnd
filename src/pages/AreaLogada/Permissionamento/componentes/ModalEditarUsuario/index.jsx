@@ -10,7 +10,6 @@ import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
 import { SelectText } from "components/Input/SelectText";
 import { getError, normalizarOptions, normalizarPerfis } from "helpers/utils";
 import { getUsuarios, setUsuario } from "services/permissionamento.service";
-import { formataPayloadUsuario } from "../../helper";
 import { toastError, toastSuccess } from "components/Toast/dialogs";
 
 export const ModalEditarUsuario = ({
@@ -23,7 +22,7 @@ export const ModalEditarUsuario = ({
   setUsuarios,
 }) => {
   const onSubmit = (values) => {
-    setUsuario(formataPayloadUsuario(values))
+    setUsuario(values)
       .then((response) => {
         if (response.status === HTTP_STATUS.OK) {
           toastSuccess("Usuário atualizado com sucesso");
@@ -103,9 +102,6 @@ export const ModalEditarUsuario = ({
                       options={normalizarOptions(dres)}
                       naoDesabilitarPrimeiraOpcao
                     />
-                  </div>
-                  <div className="col-sm-2 col-12">
-                    <Field component={InputText} name="setor_" label="Setor" />
                   </div>
                 </div>
                 <div className="row">
