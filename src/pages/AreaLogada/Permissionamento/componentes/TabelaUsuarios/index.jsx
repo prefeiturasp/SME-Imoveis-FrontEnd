@@ -17,7 +17,6 @@ export const TabelaUsuarios = ({ usuarios, setShowModal, setUsuario }) => {
               <th>E-mail</th>
               <th>Secretaria</th>
               <th>DRE</th>
-              <th>Setor</th>
               <th>Tipo de Permissão</th>
               <th>Editar</th>
             </tr>
@@ -32,7 +31,6 @@ export const TabelaUsuarios = ({ usuarios, setShowModal, setUsuario }) => {
                     <td>{usuario.email}</td>
                     <td>{usuario.secretaria && usuario.secretaria.nome}</td>
                     <td>{usuario.setor && usuario.setor.dre.sigla}</td>
-                    <td>{usuario.setor && usuario.setor.codigo}</td>
                     <td>
                       {usuario.perfil ? usuario.perfil.nome : "SEM PERMISSAO"}
                     </td>
