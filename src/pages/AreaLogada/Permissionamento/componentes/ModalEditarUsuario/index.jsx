@@ -84,7 +84,7 @@ export const ModalEditarUsuario = ({
                   type="text"
                 />
                 <div className="row">
-                  <div className="col-sm-5 col-12">
+                  <div className="col-sm-6 col-12">
                     <Field
                       component={SelectText}
                       name="secretaria_"
@@ -93,7 +93,7 @@ export const ModalEditarUsuario = ({
                       naoDesabilitarPrimeiraOpcao
                     />
                   </div>
-                  <div className="col-sm-5 col-12">
+                  <div className="col-sm-6 col-12">
                     <Field
                       component={SelectText}
                       name="dre_"
