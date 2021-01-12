@@ -172,12 +172,12 @@ export const normalizarSetores = (options) => {
 
 export const normalizarPerfis = (options) => {
   const options_ = [
-    { label: "Selecione", value: undefined },
-    { label: "SEM PERMISSAO", value: "SEM PERMISSAO" },
+    { label: "Selecione", value: undefined }
   ];
   options.forEach((option) => {
     options_.push({ label: option.nome, value: option.id });
   });
+  options_.push({ label: "SEM PERMISSAO", value: "SEM PERMISSAO" })
   return options_;
 };
 
