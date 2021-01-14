@@ -155,7 +155,9 @@ export const Filtro = ({
                     />
                     <OnChange name="dre">
                       { (value, previous) => {
-                        onChangeDRE(value);
+                        if(value !== undefined && value !== ""){
+                          onChangeDRE(value);
+                        }
                       }}
                     </OnChange>
                   </div>
@@ -170,7 +172,9 @@ export const Filtro = ({
                     />
                     <OnChange name="distrito">
                       { (value, previous) => {
-                        onChangeDistrito(value);
+                        if(value !== undefined && value !== ""){
+                          onChangeDistrito(value);
+                        }
                       }}
                     </OnChange>
                   </div>
