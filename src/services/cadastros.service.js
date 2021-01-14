@@ -68,8 +68,8 @@ export const getDres = () => {
     });
 };
 
-export const getDistritos = () => {
-  const url = `${endPonts.API_URL}/distritos/`;
+export const getDistritos = (queryParams) => {
+  const url = `${endPonts.API_URL}/distritos/get_distritos_por_dre?${queryParams}`;
   let status = 0;
   return fetch(url, {
     method: "GET",
@@ -90,8 +90,8 @@ export const getDistritos = () => {
     });
 };
 
-export const getSetores = () => {
-  const url = `${endPonts.API_URL}/setores/`;
+export const getSetores = (queryParams) => {
+  const url = `${endPonts.API_URL}/setores/get_setores_por_distrito?${queryParams}`;
   let status = 0;
   return fetch(url, {
     method: "GET",
