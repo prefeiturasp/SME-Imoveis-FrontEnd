@@ -3,6 +3,7 @@ import HTTP_STATUS from "http-status-codes";
 import { SelectText } from "components/Input/SelectText";
 import { InputText } from "components/Input/InputText";
 import { Field, Form } from "react-final-form";
+import { OnChange } from "react-final-form-listeners";
 import { getCadastros, getDres, getDistritos, getSetores, exportarCadastros } from "services/cadastros.service";
 import { normalizarOptions, normalizarSetores } from "helpers/utils";
 import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
@@ -23,8 +24,8 @@ export const Filtro = ({
 }) => {
   const [dres, setDres] = useState(null);
   const [erro, setErro] = useState(false);
-  const [distritos, setDistritos] = useState(null);
-  const [setores, setSetores] = useState(null);
+  const [distritos, setDistritos] = useState([]);
+  const [setores, setSetores] = useState([]);
   const [status, setStatus] = useState([
     { label: 'Selecione', value: undefined },
     { label: 'Solicitação Realizada', value: 'SOLICITACAO_REALIZADA' },
@@ -61,26 +62,6 @@ export const Filtro = ({
       .catch(() => {
         setErro(true);
       });
-    getDistritos()
-      .then((response) => {
-        if (response.status === HTTP_STATUS.OK) {
-          setDistritos(response.data);
-          setDistritosProps(response.data);
-        }
-      })
-      .catch(() => {
-        setErro(true);
-      });
-    getSetores()
-      .then((response) => {
-        if (response.status === HTTP_STATUS.OK) {
-          setSetores(response.data);
-          setSetoresProps(response.data);
-        }
-      })
-      .catch(() => {
-        setErro(true);
-      });
   }, []);
 
 
@@ -96,6 +77,26 @@ export const Filtro = ({
     if (!todosResultados) toastError("Erro ao carregar os dados dos cadastros realizados");
     else if (todosResultados.status === HTTP_STATUS.OK) {
       setDataToExport(formataCadastrosXLS(todosResultados.data));
+    }
+  };
+
+  const onChangeDRE = async (value) => {
+    const queryParams = `dre=${value}`
+    const response = await getDistritos(queryParams);
+    if (!response) toastError("Erro ao carregar os dados dos distritos");
+    else if (response.status === HTTP_STATUS.OK) {
+      setDistritos(response.data);
+      setDistritosProps(response.data);
+    }
+  };
+
+  const onChangeDistrito = async (value) => {
+    const queryParams = `distrito=${value}`
+    const response = await getSetores(queryParams);
+    if (!response) toastError("Erro ao carregar os dados dos setores");
+    else if (response.status === HTTP_STATUS.OK) {
+      setSetores(response.data);
+      setSetoresProps(response.data);
     }
   };
 
@@ -152,23 +153,33 @@ export const Filtro = ({
                       options={normalizarOptions(dres)}
                       naoDesabilitarPrimeiraOpcao
                     />
+                    <OnChange name="dre">
+                      { (value, previous) => {
+                        onChangeDRE(value);
+                      }}
+                    </OnChange>
                   </div>
                   <div className="col-sm-3 col-12">
                     <Field
                       component={SelectText}
                       name="distrito"
                       label="Distrito"
-                      placeholder={"Selecione uma distrito"}
+                      placeholder={distritos.length ? "Selecione um distrito" : "Selecione uma DRE"}
                       options={normalizarOptions(distritos)}
                       naoDesabilitarPrimeiraOpcao
                     />
+                    <OnChange name="distrito">
+                      { (value, previous) => {
+                        onChangeDistrito(value);
+                      }}
+                    </OnChange>
                   </div>
                   <div className="col-sm-3 col-12">
                     <Field
                       component={SelectText}
                       name="setor"
                       label="Setor"
-                      placeholder={"Selecione um setor"}
+                      placeholder={setores.length ? "Selecione um setor" : "Selecione DRE e Distrito"}
                       options={normalizarSetores(setores)}
                       naoDesabilitarPrimeiraOpcao
                     />
