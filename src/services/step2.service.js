@@ -57,3 +57,22 @@ export const georef = (value) => {
       return error;
     });
 };
+
+export const getSetor = (latitude, longitude) => {
+  const url = `https://escolaaberta.sme.prefeitura.sp.gov.br/api/localizador?lat=${latitude}&lon=${longitude}&radius=100`;
+  let status = 0;
+  return fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return error;
+    });
+};
