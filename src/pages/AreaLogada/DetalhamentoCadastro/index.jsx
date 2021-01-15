@@ -400,14 +400,11 @@ export const DetalhamentoCadastro = () => {
                         <div className="row">
                           <div className="col-4">
                             <Field
-                              component={SelectText}
-                              name="setor.codigo"
-                              label="Setor"
-                              placeholder={"Selecione um setor"}
-                              options={normalizarSetores(setores)}
-                              naoDesabilitarPrimeiraOpcao
+                              component={InputText}
+                              name="setor.dre.nome"
+                              label="DRE"
+                              disabled
                               labelClassName="font-weight-bold color-black"
-                              disabled={!editar}
                             />
                           </div>
                           <div className="col-4">
@@ -422,8 +419,8 @@ export const DetalhamentoCadastro = () => {
                           <div className="col-4">
                             <Field
                               component={InputText}
-                              name="setor.dre.nome"
-                              label="DRE"
+                              name="setor.codigo"
+                              label="Setor"
                               disabled
                               labelClassName="font-weight-bold color-black"
                             />

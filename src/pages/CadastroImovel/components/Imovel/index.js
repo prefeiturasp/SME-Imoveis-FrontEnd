@@ -16,7 +16,7 @@ import { getEnderecoPorCEP } from "services/cep.service";
 import { ESTADOS } from "./constants";
 import { SelectText } from "components/Input/SelectText";
 import { TextArea } from "components/TextArea/TextArea";
-import { georef } from "services/step2.service";
+import { georef, getSetor } from "services/step2.service";
 
 const Imovel = () => {
   const [apiFora, setApiFora] = useState(false);
@@ -26,7 +26,34 @@ const Imovel = () => {
         <>
           <div className="title mb-3">Dados do imóvel</div>
           <Field component="input" name="latitude" hidden />
+          <OnChange name='latitude'>
+            {async (value, previous) => {
+              if(value && values.longitude){
+                const response = await getSetor(
+                  value, values.longitude
+                );
+                form.change(
+                  "setor",
+                  `${response.data.results[0].setor}`
+                );
+              }
+            }}
+          </OnChange>
           <Field component="input" name="longitude" hidden />
+          <OnChange name='longitude'>
+            {async (value, previous) => {
+              if(value && values.latitude){
+                const response = await getSetor(
+                  values.latitude, value
+                );
+                form.change(
+                  "setor",
+                  `${response.data.results[0].setor}`
+                );
+              }
+            }}
+          </OnChange>
+          <Field component="input" name="setor" hidden />
           <div className="row">
             <div className="col-sm-6 col-12">
               <Field
