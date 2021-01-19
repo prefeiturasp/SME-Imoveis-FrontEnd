@@ -32,9 +32,16 @@ const Imovel = () => {
                 const response = await getSetor(
                   value, values.longitude
                 );
+                if (`${response.data.results[0].setor}`.length < 4) {
+                  var addZeros = (4 - `${response.data.results[0].setor}`.length)
+                  var setor = `${response.data.results[0].setor}`
+                  for (let index = 1; index <= addZeros; index++) {
+                    setor = `${(index - index)}${setor}`
+                  }
+                }
                 form.change(
                   "setor",
-                  `${response.data.results[0].setor}`
+                  `${setor}`
                 );
               }
             }}
@@ -46,9 +53,16 @@ const Imovel = () => {
                 const response = await getSetor(
                   values.latitude, value
                 );
+                if (`${response.data.results[0].setor}`.length < 4) {
+                  var addZeros = (4 - `${response.data.results[0].setor}`.length)
+                  var setor = `${response.data.results[0].setor}`
+                  for (let index = 1; index <= addZeros; index++) {
+                    setor = `${(index - index)}${setor}`
+                  }
+                }
                 form.change(
                   "setor",
-                  `${response.data.results[0].setor}`
+                  `${setor}`
                 );
               }
             }}
