@@ -9,7 +9,7 @@ import { normalizarOptions, normalizarSetores } from "helpers/utils";
 import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
 import Botao from "components/Botao";
 import { toastError } from "components/Toast/dialogs";
-import { formataPaylaodBuscaCadastros, formataCadastrosXLS } from "../../helper";
+import { formataPaylaodBuscaCadastros } from "../../helper";
 import Spin from "antd/es/spin";
 import "antd/es/spin/style/css";
 
@@ -76,7 +76,7 @@ export const Filtro = ({
     const todosResultados = await exportarCadastros(formataPaylaodBuscaCadastros(values));
     if (!todosResultados) toastError("Erro ao carregar os dados dos cadastros realizados");
     else if (todosResultados.status === HTTP_STATUS.OK) {
-      setDataToExport(formataCadastrosXLS(todosResultados.data));
+      setDataToExport(todosResultados.data);
     }
   };
 
