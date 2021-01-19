@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ReactExport from "react-data-export";
 import Botao from "components/Botao";
 import { BUTTON_ICON, BUTTON_STYLE } from "components/Botao/constants";
 import { TabelaDemanadas } from "../TabelaDemandas";
@@ -20,9 +19,6 @@ export const TabelaCadastros = ({
 
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const history = useHistory();
-
-  const ExcelFile = ReactExport.ExcelFile;
-  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
   const changeIcon = (e, idx) => {
     var expanded = document
@@ -51,6 +47,14 @@ export const TabelaCadastros = ({
     e.preventDefault();
     if (!window.confirm('Deseja gerar arquivo?')) {
       e.stopPropagation();
+    } else {
+      var url = window.URL.createObjectURL(dataToExport);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = "cadastros-realizados.xlsx";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
     }
   }
 
@@ -205,23 +209,13 @@ export const TabelaCadastros = ({
           </div>
           <div className="row mt-2 ">
             <div className="offset-sm-10 col-sm-2 mb-2 col-12">
-              <ExcelFile
-                filename={"Cadastros Realizados"}
-                element={
-                  <Botao
-                    icon={BUTTON_ICON.FILE_ALT}
-                    style={BUTTON_STYLE.BLUE_OUTLINE}
-                    className="col-12"
-                    texto="Exportar"
-                    onClick={(e) => confirmarExportacao(e)}
-                  />
-                }
-              >
-                <ExcelSheet
-                  dataSet={dataToExport}
-                  name="Cadastros Realizados"
-                />
-              </ExcelFile>
+              <Botao
+                icon={BUTTON_ICON.FILE_ALT}
+                style={BUTTON_STYLE.BLUE_OUTLINE}
+                className="col-12"
+                texto="Exportar"
+                onClick={(e) => confirmarExportacao(e)}
+              />
             </div>
           </div>
           <div className="row mt-2">

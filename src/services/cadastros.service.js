@@ -35,10 +35,10 @@ export const exportarCadastros = (queryParams) => {
   })
     .then((res) => {
       status = res.status;
-      return res.json();
+      return res.blob();
     })
-    .then((data) => {
-      return { data: data, status: status };
+    .then((blob) => {
+      return { data: blob, status: status };
     })
     .catch((error) => {
       return console.log(error);
