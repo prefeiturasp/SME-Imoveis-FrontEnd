@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "styles/styles.scss";
 import "./App.scss";
 
-ReactGA.initialize("UA-153279384-1");
+ReactGA.initialize("UA-85250794-14");
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 
