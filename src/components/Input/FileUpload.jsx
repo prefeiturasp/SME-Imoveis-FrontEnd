@@ -43,7 +43,7 @@ class CustomFileUploadPR extends FileUploadPR {
           });
         });
       } else {
-        toastError("Formato de arquivo inválido");
+        toastError("Formato de arquivo inválido, só são permitidos os formatos .pdf e .jpeg");
         const currentFiles = this.state.files.filter(v => {
           return v.name !== file.name;
         });
