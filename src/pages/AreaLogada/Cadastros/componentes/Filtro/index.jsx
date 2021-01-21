@@ -100,6 +100,14 @@ export const Filtro = ({
     }
   };
 
+  const resetFilters = async (form) => {
+    form.reset()
+    setDistritos([]);
+    setDistritosProps([]);
+    setSetores([]);
+    setSetoresProps([]);
+  };
+
   const LOADING = !dres || !distritos || !setores;
 
   return (
@@ -238,7 +246,7 @@ export const Filtro = ({
                       style={BUTTON_STYLE.BLUE}
                       className="col-12"
                       texto="Limpar"
-                      onClick={() => form.reset()}
+                      onClick={() => resetFilters(form)}
                     />
                   </div>
                   <div className="col-sm-2 mt-auto mb-2 col-12">
