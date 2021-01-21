@@ -38,11 +38,16 @@ const Imovel = () => {
                   for (let index = 1; index <= addZeros; index++) {
                     setor = `${(index - index)}${setor}`
                   }
+                  form.change(
+                    "setor",
+                    `${setor}`
+                  );
+                } else {
+                  form.change(
+                    "setor",
+                    `${response.data.results[0].setor}`
+                  );
                 }
-                form.change(
-                  "setor",
-                  `${setor}`
-                );
               }
             }}
           </OnChange>
@@ -59,11 +64,16 @@ const Imovel = () => {
                   for (let index = 1; index <= addZeros; index++) {
                     setor = `${(index - index)}${setor}`
                   }
+                  form.change(
+                    "setor",
+                    `${setor}`
+                  );
+                }  else {
+                  form.change(
+                    "setor",
+                    `${response.data.results[0].setor}`
+                  );
                 }
-                form.change(
-                  "setor",
-                  `${setor}`
-                );
               }
             }}
           </OnChange>
