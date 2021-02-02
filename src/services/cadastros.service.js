@@ -154,3 +154,69 @@ export const updateStatus = (queryParams) => {
       return console.log(error);
     });
 };
+
+export const enviaComapre = (queryParams) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/envia-comapre/?${queryParams}`
+  let status = 0;
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `JWT ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+};
+
+export const finalizaAnalise = (queryParams) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/finaliza-analise/?${queryParams}`
+  let status = 0;
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `JWT ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+};
+
+export const agendaVistoria = (queryParams) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/agenda-vistoria/?${queryParams}`
+  let status = 0;
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `JWT ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+};
