@@ -11,6 +11,8 @@ export const TextArea = props => {
     input,
     label,
     meta,
+    maxLength,
+    style,
     placeholder,
     required
   } = props;
@@ -33,6 +35,8 @@ export const TextArea = props => {
           "invalid-field"}`}
         disabled={disabled}
         placeholder={placeholder}
+        style={style}
+        maxLength={maxLength}
       />
       <div className="help-text">{helpText}</div>
       <InputErroMensagem meta={meta} />
@@ -47,6 +51,7 @@ TextArea.propTypes = {
   input: PropTypes.object,
   label: PropTypes.string,
   meta: PropTypes.object,
+  style: PropTypes.object,
   name: PropTypes.string,
   placeholder: PropTypes.string,
   required: PropTypes.bool
@@ -60,6 +65,7 @@ TextArea.defaultProps = {
   label: "",
   meta: {},
   name: "",
+  style: {},
   placeholder: "",
   required: false
 };
