@@ -1,6 +1,6 @@
 export const fluxoImoveis = [
   {
-    titulo: "Análise prévia da SME",
+    titulo: "SME analisou previamente",
     status: "",
     criado_em: "",
     usuario: null,
@@ -12,7 +12,25 @@ export const fluxoImoveis = [
     usuario: null,
   },
   {
+    titulo: "Agendamento da vistoria",
+    status: "",
+    criado_em: "",
+    usuario: null,
+  },
+  {
+    titulo: "Aguardando relatório de vistoria",
+    status: "",
+    criado_em: "",
+    usuario: null,
+  },
+  {
     titulo: "Relatório de vistoria",
+    status: "",
+    criado_em: "",
+    usuario: null,
+  },
+  {
+    titulo: "Aguardando laudo de valor locatício",
     status: "",
     criado_em: "",
     usuario: null,
@@ -47,29 +65,14 @@ export const tipoDeStatus = (status) => {
   switch (status) {
     case "SME analisou previamente":
     case "Enviado à COMAPRE":
+    case "Agendamento da vistoria":
+    case "Aguardando relatório de vistoria":
+    case "Aguardando laudo de valor locatício":
       return "prosseguiu";
-    case "CODAE não homologou":
-      return "cancelado";
-    case "CODAE pediu correção":
-      return "questionado";
-    case "Terceirizada tomou ciência":
-    case "Escola solicitou inativação":
-    case "CODAE autorizou inativação":
-    case "Terceirizada tomou ciência da inativação":
-      return "prosseguiu";
-    case "Escola cancelou":
-    case "DRE cancelou":
-    case "Terminada por atingir data de término":
-      return "cancelado";
-    case "DRE não validou":
-    case "CODAE negou":
-    case "CODAE negou inativação":
-    case "Terceirizada recusou":
+    case "Finalizado - Área Insuficiente":
+    case "Finalizado - Demanda Insuficiente":
+    case "Finalizado - Não atende as necessidades da SME":
       return "reprovado";
-    case "Questionamento pela CODAE":
-      return "questionado";
-    case "CODAE pediu análise sensorial":
-      return "questionado";
     default:
       return "";
   }
@@ -94,7 +97,8 @@ export const existeAlgumStatusFimDeFluxo = (logs) => {
         log.status_evento_explicacao.includes("neg") ||
         log.status_evento_explicacao.includes("não") ||
         log.status_evento_explicacao.includes("cancel") ||
-        log.status_evento_explicacao.includes("Terminada")
+        log.status_evento_explicacao.includes("Terminada") ||
+        log.status_evento_explicacao.includes("Finalizado")
     ) === -1
   );
 };
