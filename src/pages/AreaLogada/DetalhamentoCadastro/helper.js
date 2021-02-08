@@ -88,3 +88,28 @@ export const formataPaylaodAgendarVistoria = (values) => {
   stringParams += `enviar_email=${values.enviar_email}&`;
   return stringParams.slice(0, -1);
 };
+
+export const formataPaylaodEnviaRelatorio = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  return stringParams.slice(0, -1);
+};
+
+export const formataPaylaodEnviaLaudo = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  return stringParams.slice(0, -1);
+};
+
+export const formataPaylaodResultadoVistoria = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  if (values.resultado_vistoria === 0) {
+    stringParams += `resultado_da_vistoria=${values.resultado_vistoria}&`;
+  }
+  if (values.resultado_vistoria === 1) {
+    stringParams += `resultado_da_vistoria=${values.resultado_vistoria}&`;
+  }
+  stringParams += `enviar_email=${values.enviar_email}&`;
+  return stringParams.slice(0, -1);
+};
