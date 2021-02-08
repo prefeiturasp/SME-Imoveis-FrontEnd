@@ -141,7 +141,7 @@ export const DetalhamentoCadastro = () => {
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <>
-                      <div className="row mb-3">
+                      <div className="row mb-3 mt-3">
                         <div className="col-12 text-right">
                           <Botao
                             style={BUTTON_STYLE.BLUE_OUTLINE}
