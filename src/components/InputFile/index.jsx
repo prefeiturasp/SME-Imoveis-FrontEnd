@@ -81,7 +81,7 @@ export class InputFile extends Component {
           .then(() => {
             if (files.length === QUANTIDADE_ARQUIVOS) {
               toastSuccess(
-                this.props.toastSuccess || "Laudo(s) incluso(s) com sucesso"
+                this.props.toastSuccess || "Anexo(s) incluso(s) com sucesso"
               );
               if (this.props.concatenarNovosArquivos) {
                 const allFiles = this.state.files.concat(files);
