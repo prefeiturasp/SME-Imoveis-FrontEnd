@@ -6,14 +6,20 @@ import { InputText } from "components/Input/InputText";
 import { TextArea } from "components/TextArea/TextArea";
 import { SelectText } from "components/Input/SelectText";
 import Botao from "components/Botao";
-import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
-import { SITUACAO, OPCOES_ANALISE } from "pages/CadastroImovel/components/Imovel/constants";
+import InputFile from "components/InputFile";
+import { TIPO_DOCUMENTO} from "./constants";
+import { getImovel } from "services/Imovel.service";
+import { BUTTON_STYLE, BUTTON_TYPE, BUTTON_ICON } from "components/Botao/constants";
+import { SITUACAO, OPCOES_ANALISE, OPCOES_VISTORIA } from "pages/CadastroImovel/components/Imovel/constants";
 import { codigoEscolaMask } from "helpers/textMask";
 import HTTP_STATUS from "http-status-codes";
 import { getEscola, updateStatus, enviaComapre, finalizaAnalise, 
-          agendaVistoria } from "services/cadastros.service";
+          agendaVistoria, setAnexo, deleteAnexo, enviaRelatorio,
+          enviaLaudo, enviaResultadoVistoria} from "services/cadastros.service";
 import { formataPaylaodAtualizaCadastro, formataPaylaodEnviarComapre, 
-          formataPaylaodFinalizaAnalise, formataPaylaodAgendarVistoria } from "../../helper";
+          formataPaylaodFinalizaAnalise, formataPaylaodAgendarVistoria,
+          formataPaylaodEnviaRelatorio, formataPaylaodEnviaLaudo,
+          formataPaylaodResultadoVistoria } from "../../helper";
 import { toastError, toastSuccess } from "components/Toast/dialogs";
 import { EH_PERFIL_DRE, EH_PERFIL_CONSULTA_SECRETARIA } from "helpers/utils";
 import "./style.scss";
@@ -31,8 +37,14 @@ export const ModalAtualizaStatus = ({
   const [opcoesFinalizacao, setOpcoesFinalizacao] = useState([{ label: 'Selecione um status', value: undefined },]);
   const [resultadoAnalise, setResultadoAnalise ] = useState(); 
   const [statusCadastro, setStatusCadastro] = useState(cadastroProps.status);
-  const [maximoCaracteres, setMaximoCaracteres] = useState(200);
+  const [maximoCaracteres] = useState(200);
   const [contador, setContador] = useState(0);
+  const [aguardandoVistoria] = useState(
+                                          (cadastroProps.status === "Aguardando relatório de vistoria") || 
+                                          (cadastroProps.status === "Relatório da vistoria")
+                                        );
+  const [vistoriaAprovada] = useState(statusCadastro === "Vistoria aprovada");
+  const [vistoriaReprovada] = useState(statusCadastro === "Vistoria reprovada");
 
   const analisePreviaLog = (cadastroProps && cadastroProps.logs) ? ( 
     cadastroProps.logs.filter((log) => log.status_evento_explicacao === "SME analisou previamente")
@@ -43,6 +55,56 @@ export const ModalAtualizaStatus = ({
 
   const vistoriaAgendadaLog = (cadastroProps && cadastroProps.logs) ? ( 
     cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Agendamento da vistoria")
+  ) : [];
+
+  const aguardandoRelatorioLog = (cadastroProps && cadastroProps.logs) ? (
+    cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Aguardando relatório de vistoria")
+  ) : [];
+
+  const relatorioVistoriaLog = (cadastroProps && cadastroProps.logs) ? (
+    cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Relatório da vistoria")
+  ) : [];
+   
+  const laudoValorLocaticioLog = (cadastroProps && cadastroProps.logs) ? (
+    cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Laudo de valor locatício")
+  ) : [];
+
+  const vistoriaAprovadaLog = (cadastroProps && cadastroProps.logs) ? (
+    cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Vistoria aprovada")
+  ) : [];
+
+  const vistoriaReprovadaLog = (cadastroProps && cadastroProps.logs) ? (
+    cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Vistoria reprovada")
+  ) : [];
+
+  const relatorioFotografico = ((cadastroProps && cadastroProps.logs) &&
+                                (aguardandoRelatorioLog.length > 0)) ? (
+    aguardandoRelatorioLog[0].anexos.filter((anexo) => anexo.get_tipo_documento_display === "Relatório fotográfico")
+  ) : [];
+
+  const plantaAtual = ((cadastroProps && cadastroProps.logs) &&
+                                (aguardandoRelatorioLog.length > 0)) ? (
+    aguardandoRelatorioLog[0].anexos.filter((anexo) => anexo.get_tipo_documento_display === "Planta atual")
+  ) : [];
+
+  const plantaAdequacoes = ((cadastroProps && cadastroProps.logs) &&
+                                (aguardandoRelatorioLog.length > 0)) ? (
+    aguardandoRelatorioLog[0].anexos.filter((anexo) => anexo.get_tipo_documento_display === "Planta com adequações")
+  ) : [];
+
+  const planoAdequacoes = ((cadastroProps && cadastroProps.logs) &&
+                                (aguardandoRelatorioLog.length > 0)) ? (
+    aguardandoRelatorioLog[0].anexos.filter((anexo) => anexo.get_tipo_documento_display === "Plano de adequação")
+  ) : [];
+
+  const relatorioVistoria = ((cadastroProps && cadastroProps.logs) &&
+                                (relatorioVistoriaLog.length > 0)) ? (
+    relatorioVistoriaLog[0].anexos.filter((anexo) => anexo.get_tipo_documento_display === "Relatório de vistoria")
+  ) : [];
+
+  const laudoValorLocaticio = ((cadastroProps && cadastroProps.logs) &&
+                                (laudoValorLocaticioLog.length > 0)) ? (
+    laudoValorLocaticioLog[0].anexos.filter((anexo) => anexo.get_tipo_documento_display === "Laudo de valor locatício")
   ) : [];
 
   const analiseFinalizadaLog = (cadastroProps && cadastroProps.logs) ? ( 
@@ -91,6 +153,13 @@ export const ModalAtualizaStatus = ({
       finalizarAnalise(values, false);
     } else if (agendamentoDaVistoria) {
       agendarVistoria(values, false);
+    } else if (planoAdequacoes && plantaAdequacoes && 
+               plantaAtual && relatorioVistoria && 
+               laudoValorLocaticio && relatorioFotografico && 
+               cadastroProps.status !== "Vistoria aprovada" &&
+               cadastroProps.status !== "Vistoria reprovada"
+              ) {
+      enviarResultadoVistoria(values, false);
     }else {
       const response = await updateStatus(formataPaylaodAtualizaCadastro(values));
       if (!response) toastError("Erro ao atualizar cadastro");
@@ -156,6 +225,108 @@ export const ModalAtualizaStatus = ({
       }
     } else {
       toastError("É necessário preencher a data de envio.");
+    }
+  };
+
+  const enviarResultadoVistoria = async (values, enviar_email) => {
+      if(values.resultado_vistoria !== undefined) {
+        values.enviar_email=enviar_email;
+        const response = await enviaResultadoVistoria(formataPaylaodResultadoVistoria(values));
+        if (!response) toastError("Erro ao atualizar cadastro");
+        else if (response.status === HTTP_STATUS.OK) {
+          toastSuccess("Resultado salvo com sucesso")        
+          setStatusCadastro(response.data.status);
+          setCadastroProps(response.data);
+        }
+      }else {
+        toastError("É necessário preencher o resultado da vistoria");
+      }
+  };
+
+  const enviarRelatorio = async (values, e, tipo, log) => {
+    if (log.length > 0) {
+      await uploadAnexo(e, tipo, log);
+      const response = await getImovel(cadastroProps.id)
+      await setCadastroProps(response.data);
+      await setStatusCadastro(response.data.status);
+      toastSuccess("Cadastro atualizado com sucesso");
+    } else {
+      let response = await enviaRelatorio(formataPaylaodEnviaRelatorio(values));
+      if (!response) toastError("Erro ao atualizar cadastro");
+      else if (response.status === HTTP_STATUS.OK) {
+        response = await getImovel(cadastroProps.id)
+        await setCadastroProps(response.data);
+        await setStatusCadastro(response.data.status);
+        const log_vistoria = response.data.logs.filter((log) => log.status_evento_explicacao === "Relatório da vistoria")
+        await uploadAnexo(e, tipo, log_vistoria);
+        toastSuccess("Cadastro atualizado com sucesso");
+      }
+    }
+  };
+
+  const enviarLaudo = async (values, e, tipo, log) => {
+    if (log.length > 0) {
+      await uploadAnexo(e, tipo, log);
+      const response = await getImovel(cadastroProps.id)
+      await setCadastroProps(response.data);
+      await setStatusCadastro(response.data.status);
+      toastSuccess("Cadastro atualizado com sucesso");
+    } else {
+      let response = await enviaLaudo(formataPaylaodEnviaLaudo(values));
+      if (!response) toastError("Erro ao atualizar cadastro");
+      else if (response.status === HTTP_STATUS.OK) {
+        response = await getImovel(cadastroProps.id)
+        await setCadastroProps(response.data);
+        await setStatusCadastro(response.data.status);
+        const log_vistoria = response.data.logs.filter((log) => log.status_evento_explicacao === "Laudo de valor locatício")
+        await uploadAnexo(e, tipo, log_vistoria);
+        toastSuccess("Cadastro atualizado com sucesso");
+      }
+    }
+  };
+ 
+  const removerAnexo = async (uuidAnexo) => {
+    if (window.confirm("Deseja remover este anexo?")) {
+      deleteAnexo(uuidAnexo).then((response) => {
+        if (response.status === HTTP_STATUS.NO_CONTENT) {
+          toastSuccess("Arquivo removido com sucesso!");
+          getImovel(cadastroProps.id)
+            .then((response) => {
+              if (response.status === HTTP_STATUS.OK) {
+                setCadastroProps(response.data);
+              } else {
+                toastError("Erro ao atualizar cadastro");
+              }
+            });
+        } else {
+          toastError("Erro ao remover arquivo");
+        }
+      });
+    }
+  };
+
+  const uploadAnexo = async (e, tipo, log) => {
+    if (log.length) {
+      const arquivoAnexo = {
+        ...e[0],
+        tipo_documento: tipo,
+        log: log[0].id,
+        nome: e[0].nome,
+      };
+      setAnexo(arquivoAnexo).then((response) => {
+        if (response.status === HTTP_STATUS.CREATED) {
+          getImovel(cadastroProps.id)
+            .then((response) => {
+              if (response.status === HTTP_STATUS.OK) {
+                setCadastroProps(response.data);
+              } else {
+                toastError("Erro ao atualizar cadastro");
+              }
+            });
+        } else {
+          toastError("Erro durante upload no arquivo");
+        }
+      });
     }
   };
 
@@ -450,7 +621,16 @@ export const ModalAtualizaStatus = ({
                       className="agendamentoVistoria"
                       name="agendamento_vistoria"
                       type="checkbox"
-                      checked={(cadastro.status === 'Enviado à COMAPRE') || (statusCadastro === 'Enviado à COMAPRE') || (statusCadastro === "Aguardando relatório de vistoria")}
+                      checked={
+                                (cadastro.status === 'Enviado à COMAPRE') || 
+                                (statusCadastro === 'Enviado à COMAPRE') || 
+                                (statusCadastro === "Aguardando relatório de vistoria") || 
+                                (statusCadastro === "Relatório da vistoria") ||
+                                (statusCadastro === "Aguardando laudo de valor locatício") ||
+                                (statusCadastro === "Laudo de valor locatício") ||
+                                (statusCadastro === "Vistoria aprovada") ||
+                                (statusCadastro === "Vistoria reprovada")
+                              }
                     />
                     <label htmlFor='agendamento_vistoria' className="ml-2" >Agendamento da vistoria</label>
                   </div>
@@ -495,6 +675,367 @@ export const ModalAtualizaStatus = ({
                     />
                   </div>
                 </div>
+                <div className='row'>
+                  <div className="col-12 title mb-3 mt-3">
+                    <Field
+                      component='input'
+                      className="relatorioVistoria"
+                      name="relatorioVistoria"
+                      type="checkbox"
+                      checked={aguardandoVistoria || vistoriaAgendadaLog.length }
+                    />
+                    <label htmlFor='relatorioVistoria' className="ml-2" >Relatório da Vistoria</label>
+                  </div>
+                  <div className="col-2">
+                    <p className="anexoLabel">Resultado de vistoria</p>
+                    { (relatorioVistoria.length > 0) ? (
+                      <>
+                        <Botao
+                          style={BUTTON_STYLE.BLUE_OUTLINE}
+                          type={BUTTON_TYPE.BUTTON}
+                          icon={BUTTON_ICON.TRASH}
+                          className="w-50 br-none"
+                          onClick={() => removerAnexo(relatorioVistoria[0].uuid)}
+                          disabled={(statusCadastro === "Vistoria aprovada") || (statusCadastro === "Vistoria reprovada")}
+                        />
+                        <a href={relatorioVistoria[0].arquivo} target="_blank" rel="noopener noreferrer">
+                          <Botao
+                            style={BUTTON_STYLE.BLUE_OUTLINE}
+                            type={BUTTON_TYPE.BUTTON}
+                            icon={BUTTON_ICON.DOWNLOAD}
+                            className="w-50"
+                          />
+                        </a>
+                      </>
+                    ) : (
+                      (statusCadastro === "Aguardando relatório de vistoria") || 
+                      (statusCadastro === "Relatório da vistoria") || 
+                      (statusCadastro === "Aguardando laudo de valor locatício") ||
+                      (statusCadastro === "Laudo de valor locatício") ?
+                      (
+                        <Field
+                          component={InputFile}
+                          className="inputfile"
+                          texto="Adicionar"
+                          name="relatorio_vistoria"
+                          accept=".png, .doc, .pdf, .docx, .jpeg, .jpg"
+                          setFiles={(files) => enviarRelatorio(values, files, TIPO_DOCUMENTO.RELATORIO_VISTORIA, relatorioVistoriaLog)}
+                        />
+                      ) : (
+                        <Botao
+                          texto="Adicionar"
+                          style={BUTTON_STYLE.BLUE_OUTLINE}
+                          icon={BUTTON_ICON.PLUS}
+                          type={BUTTON_TYPE.BUTTON}
+                          disabled={true}
+                        />
+                      )
+                    )} 
+                  </div>
+                  <div className="col-2">
+                    <p className="anexoLabel">Relatório fotográfico</p>
+                    { (relatorioFotografico.length > 0) ? (
+                      <>
+                        <Botao
+                          style={BUTTON_STYLE.BLUE_OUTLINE}
+                          type={BUTTON_TYPE.BUTTON}
+                          icon={BUTTON_ICON.TRASH}
+                          className="w-50 br-none"
+                          onClick={() => removerAnexo(relatorioFotografico[0].uuid)}
+                          disabled={(statusCadastro === "Vistoria aprovada") || (statusCadastro === "Vistoria reprovada")}
+                        />
+                        <a href={relatorioFotografico[0].arquivo} target="_blank" rel="noopener noreferrer">
+                          <Botao
+                            style={BUTTON_STYLE.BLUE_OUTLINE}
+                            type={BUTTON_TYPE.BUTTON}
+                            icon={BUTTON_ICON.DOWNLOAD}
+                            className="w-50"
+                          />
+                        </a>
+                      </>
+                    ) : (
+                      (statusCadastro === "Aguardando relatório de vistoria") || 
+                      (statusCadastro === "Relatório da vistoria") || 
+                      (statusCadastro === "Aguardando laudo de valor locatício") ||
+                      (statusCadastro === "Laudo de valor locatício") ?
+                      (
+                        <Field
+                          component={InputFile}
+                          className="inputfile"
+                          texto="Adicionar"
+                          name="relatorio_fotografico"
+                          accept=".png, .doc, .pdf, .docx, .jpeg, .jpg"
+                          setFiles={(files) =>
+                            uploadAnexo(files, TIPO_DOCUMENTO.RELATORIO_FOTOGRAFICO, aguardandoRelatorioLog)
+                          }
+                        />
+                      ) : (
+                        <Botao
+                          texto="Adicionar"
+                          style={BUTTON_STYLE.BLUE_OUTLINE}
+                          icon={BUTTON_ICON.PLUS}
+                          type={BUTTON_TYPE.BUTTON}
+                          disabled={true}
+                        />
+                      )
+                    )}  
+                  </div>
+                  <div className="col-2">
+                  <p className="anexoLabel" style={{marginBottom: "21px"}}>Planta atual</p>
+                  { (plantaAtual.length > 0) ? (
+                      <>
+                        <Botao
+                          style={BUTTON_STYLE.BLUE_OUTLINE}
+                          type={BUTTON_TYPE.BUTTON}
+                          icon={BUTTON_ICON.TRASH}
+                          className="w-50 br-none"
+                          onClick={() => removerAnexo(plantaAtual[0].uuid)}
+                          disabled={(statusCadastro === "Vistoria aprovada") || (statusCadastro === "Vistoria reprovada")}
+                        />
+                        <a href={plantaAtual[0].arquivo} target="_blank" rel="noopener noreferrer">
+                          <Botao
+                            style={BUTTON_STYLE.BLUE_OUTLINE}
+                            type={BUTTON_TYPE.BUTTON}
+                            icon={BUTTON_ICON.DOWNLOAD}
+                            className="w-50"
+                          />
+                        </a>
+                      </>
+                    ) : (
+                      (statusCadastro === "Aguardando relatório de vistoria") || 
+                      (statusCadastro === "Relatório da vistoria") || 
+                      (statusCadastro === "Aguardando laudo de valor locatício") ||
+                      (statusCadastro === "Laudo de valor locatício") ?
+                      (
+                        <Field
+                          component={InputFile}
+                          className="inputfile"
+                          texto="Adicionar"
+                          name="planta_atual"
+                          accept=".png, .doc, .pdf, .docx, .jpeg, .jpg"
+                          setFiles={(files) =>
+                            uploadAnexo(files, TIPO_DOCUMENTO.PLANTA_ATUAL, aguardandoRelatorioLog)
+                          }
+                        />
+                      ) : (
+                        <Botao
+                          texto="Adicionar"
+                          style={BUTTON_STYLE.BLUE_OUTLINE}
+                          icon={BUTTON_ICON.PLUS}
+                          type={BUTTON_TYPE.BUTTON}
+                          disabled={true}
+                        />
+                      )
+                    )}
+                  </div>
+                  <div className="col-6"></div>
+                  <div className="col-2">
+                    <p className="anexoLabel">Planta com adequações</p>
+                    { (plantaAdequacoes.length > 0) ? (
+                      <>
+                        <Botao
+                          style={BUTTON_STYLE.BLUE_OUTLINE}
+                          type={BUTTON_TYPE.BUTTON}
+                          icon={BUTTON_ICON.TRASH}
+                          className="w-50 br-none"
+                          onClick={() => removerAnexo(plantaAdequacoes[0].uuid)}
+                          disabled={(statusCadastro === "Vistoria aprovada") || (statusCadastro === "Vistoria reprovada")}
+                        />
+                        <a href={plantaAdequacoes[0].arquivo} target="_blank" rel="noopener noreferrer">
+                          <Botao
+                            style={BUTTON_STYLE.BLUE_OUTLINE}
+                            type={BUTTON_TYPE.BUTTON}
+                            icon={BUTTON_ICON.DOWNLOAD}
+                            className="w-50"
+                          />
+                        </a>
+                      </>
+                    ) : (
+                      (statusCadastro === "Aguardando relatório de vistoria") || 
+                      (statusCadastro === "Relatório da vistoria") || 
+                      (statusCadastro === "Aguardando laudo de valor locatício") ||
+                      (statusCadastro === "Laudo de valor locatício") ?
+                      (
+                        <Field
+                          component={InputFile}
+                          className="inputfile"
+                          texto="Adicionar"
+                          name="planta_adequacoes"
+                          accept=".png, .doc, .pdf, .docx, .jpeg, .jpg"
+                          setFiles={(files) =>
+                            uploadAnexo(files, TIPO_DOCUMENTO.PLANTA_ADEQUACOES, aguardandoRelatorioLog)
+                          }
+                        />
+                      ) : (
+                        <Botao
+                          texto="Adicionar"
+                          style={BUTTON_STYLE.BLUE_OUTLINE}
+                          icon={BUTTON_ICON.PLUS}
+                          type={BUTTON_TYPE.BUTTON}
+                          disabled={true}
+                        />
+                      )
+                    )} 
+                  </div>
+                  <div className="col-2">
+                    <p className="anexoLabel">Plano de adequações</p>
+                    { (planoAdequacoes.length > 0) ? (
+                      <>
+                        <Botao
+                          style={BUTTON_STYLE.BLUE_OUTLINE}
+                          type={BUTTON_TYPE.BUTTON}
+                          icon={BUTTON_ICON.TRASH}
+                          className="w-50 br-none"
+                          onClick={() => removerAnexo(planoAdequacoes[0].uuid)}
+                          disabled={(statusCadastro === "Vistoria aprovada") || (statusCadastro === "Vistoria reprovada")}
+                        />
+                        <a href={planoAdequacoes[0].arquivo} target="_blank" rel="noopener noreferrer">
+                          <Botao
+                            style={BUTTON_STYLE.BLUE_OUTLINE}
+                            type={BUTTON_TYPE.BUTTON}
+                            icon={BUTTON_ICON.DOWNLOAD}
+                            className="w-50"
+                          />
+                        </a>
+                      </>
+                    ) : (
+                      (statusCadastro === "Aguardando relatório de vistoria") || 
+                      (statusCadastro === "Relatório da vistoria") || 
+                      (statusCadastro === "Aguardando laudo de valor locatício") ||
+                      (statusCadastro === "Laudo de valor locatício") ?
+                      (
+                        <Field
+                          component={InputFile}
+                          className="inputfile"
+                          texto="Adicionar"
+                          name="plano_adequacoes"
+                          accept=".png, .doc, .pdf, .docx, .jpeg, .jpg"
+                          setFiles={(files) =>
+                            uploadAnexo(files, TIPO_DOCUMENTO.PLANO_ADEQUACOES, aguardandoRelatorioLog)
+                          }
+                        />
+                      ) : (
+                        <Botao
+                          texto="Adicionar"
+                          style={BUTTON_STYLE.BLUE_OUTLINE}
+                          icon={BUTTON_ICON.PLUS}
+                          type={BUTTON_TYPE.BUTTON}
+                          disabled={true}
+                        />
+                      )
+                    )} 
+                  </div>
+                  <div className="col-2">
+                  <p className="anexoLabel">Laudo de valor locatício</p>
+                  { (laudoValorLocaticio.length > 0) ? (
+                      <>
+                        <Botao
+                          style={BUTTON_STYLE.BLUE_OUTLINE}
+                          type={BUTTON_TYPE.BUTTON}
+                          icon={BUTTON_ICON.TRASH}
+                          className="w-50 br-none"
+                          onClick={() => removerAnexo(laudoValorLocaticio[0].uuid)}
+                          disabled={(statusCadastro === "Vistoria aprovada") || (statusCadastro === "Vistoria reprovada")}
+                        />
+                        <a href={laudoValorLocaticio[0].arquivo} target="_blank" rel="noopener noreferrer">
+                          <Botao
+                            style={BUTTON_STYLE.BLUE_OUTLINE}
+                            type={BUTTON_TYPE.BUTTON}
+                            icon={BUTTON_ICON.DOWNLOAD}
+                            className="w-50"
+                          />
+                        </a>
+                      </>
+                    ) : (
+                      (statusCadastro === "Aguardando laudo de valor locatício") ||
+                      (statusCadastro === "Laudo de valor locatício") ?
+                      (
+                        <Field
+                          component={InputFile}
+                          className="inputfile"
+                          texto="Adicionar"
+                          name="laudo_valor_locaticio"
+                          accept=".png, .doc, .pdf, .docx, .jpeg, .jpg"
+                          setFiles={(files) => enviarLaudo(values, files, TIPO_DOCUMENTO.LAUDO_VALOR_LOCATICIO, laudoValorLocaticioLog)}
+                        />
+                      ) : (
+                        <Botao
+                          texto="Adicionar"
+                          style={BUTTON_STYLE.BLUE_OUTLINE}
+                          icon={BUTTON_ICON.PLUS}
+                          type={BUTTON_TYPE.BUTTON}
+                          disabled={true}
+                        />
+                      )
+                    )} 
+                  </div>
+                  <div className="col-6"></div>
+                  <div className="col-4">
+                    <Field
+                      component={SelectText}
+                      name="resultado_vistoria"
+                      label="Resultado da vistoria"
+                      placeholder={"Selecione um resultado"}
+                      defaultValue={(vistoriaAprovadaLog.length > 0) ? 0 : (vistoriaReprovadaLog.length ? 1 : undefined)}
+                      options={OPCOES_VISTORIA}
+                      labelClassName="font-weight-bold color-black"
+                      disabled={(relatorioVistoria.length === 0) || (plantaAdequacoes.length === 0) ||
+                                (laudoValorLocaticio.length === 0) || (planoAdequacoes.length === 0) ||
+                                (relatorioFotografico.length === 0) || (plantaAtual.length === 0) || 
+                                vistoriaAprovada || vistoriaReprovada
+                               }
+                    />
+                  </div>
+                  <div className="col-8"></div>
+                  <div className="col-7">
+                    <p className="mt-3"style={{color: '#42474A'}}>
+                      Deseja enviar e-mail com retorno ao proprietário?
+                    </p>
+                    <p className="mt-1 emailEnviado"style={{color: '#42474A'}}>
+                      <i>
+                        { (vistoriaAprovadaLog.length > 0 && vistoriaAprovadaLog[0].email_enviado) && (
+                          `${vistoriaAprovadaLog[0].usuario.nome} RF: ${vistoriaAprovadaLog[0].usuario.username} 
+                          - ${new Date(vistoriaAprovadaLog[0].criado_em).toLocaleString('br-BR')} 
+                          - Email enviado`
+                        )}
+                        { (vistoriaAprovadaLog.length > 0 && !vistoriaAprovadaLog[0].email_enviado) && (
+                          `${vistoriaAprovadaLog[0].usuario.nome} RF: ${vistoriaAprovadaLog[0].usuario.username} 
+                          - ${new Date(vistoriaAprovadaLog[0].criado_em).toLocaleString('br-BR')} 
+                          - Email não enviado`
+                        )}
+                      </i>
+                    </p>
+                    <p className="mt-1 emailEnviado"style={{color: '#42474A'}}>
+                      <i>
+                        { (vistoriaReprovadaLog.length > 0 && vistoriaReprovadaLog[0].email_enviado) && (
+                          `${vistoriaReprovadaLog[0].usuario.nome} RF: ${vistoriaReprovadaLog[0].usuario.username} 
+                          - ${new Date(vistoriaReprovadaLog[0].criado_em).toLocaleString('br-BR')} 
+                          - Email enviado`
+                        )}
+                        { (vistoriaReprovadaLog.length > 0 && !vistoriaReprovadaLog[0].email_enviado) && (
+                          `${vistoriaReprovadaLog[0].usuario.nome} RF: ${vistoriaReprovadaLog[0].usuario.username} 
+                          - ${new Date(vistoriaReprovadaLog[0].criado_em).toLocaleString('br-BR')} 
+                          - Email não enviado`
+                        )}
+                      </i>
+                    </p>
+                  </div>
+                  <div className="col-5 mt-3">
+                    <Botao
+                      type={BUTTON_TYPE.BUTTON}
+                      style={BUTTON_STYLE.BLUE}
+                      texto="Enviar E-mail"
+                      className="enviarEmail"
+                      onClick={() => enviarResultadoVistoria(values, true)}
+                      disabled={(relatorioVistoria.length === 0) || (plantaAdequacoes.length === 0) ||
+                                (laudoValorLocaticio.length === 0) || (planoAdequacoes.length === 0) ||
+                                (relatorioFotografico.length === 0) || (plantaAtual.length === 0) ||
+                                (vistoriaAprovadaLog.length > 0) || (vistoriaReprovadaLog.length > 0)
+                               }
+                    />
+                  </div>
+                </div>
+
                 <div className='row'>
                   <div className="col-12 title mb-3 mt-3">
                     <Field
@@ -570,4 +1111,4 @@ export const ModalAtualizaStatus = ({
       </Modal.Footer>
     </Modal>
   );
-};
+}
