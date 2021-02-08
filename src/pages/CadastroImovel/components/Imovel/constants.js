@@ -40,3 +40,9 @@ export const OPCOES_ANALISE = [
   {label: 'Não atende as necessidades da SME', value: 2},
   {label: 'Enviado COMAPRE', value: 3},
 ];
+
+export const OPCOES_VISTORIA = [
+  {label: 'Selecione um resultado', value: undefined },
+  {label: 'Vistoria Aprovada', value: 0},
+  {label: 'Vistoria Reprovada', value: 1},
+];
