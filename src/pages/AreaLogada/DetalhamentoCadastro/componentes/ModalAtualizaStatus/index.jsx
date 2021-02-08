@@ -686,7 +686,7 @@ export const ModalAtualizaStatus = ({
                     />
                     <label htmlFor='relatorioVistoria' className="ml-2" >Relatório da Vistoria</label>
                   </div>
-                  <div className="col-2">
+                  <div className="col-3">
                     <p className="anexoLabel">Resultado de vistoria</p>
                     { (relatorioVistoria.length > 0) ? (
                       <>
@@ -732,7 +732,7 @@ export const ModalAtualizaStatus = ({
                       )
                     )} 
                   </div>
-                  <div className="col-2">
+                  <div className="col-3">
                     <p className="anexoLabel">Relatório fotográfico</p>
                     { (relatorioFotografico.length > 0) ? (
                       <>
@@ -780,8 +780,8 @@ export const ModalAtualizaStatus = ({
                       )
                     )}  
                   </div>
-                  <div className="col-2">
-                  <p className="anexoLabel" style={{marginBottom: "21px"}}>Planta atual</p>
+                  <div className="col-3">
+                  <p className="anexoLabel">Planta atual</p>
                   { (plantaAtual.length > 0) ? (
                       <>
                         <Botao
@@ -828,8 +828,8 @@ export const ModalAtualizaStatus = ({
                       )
                     )}
                   </div>
-                  <div className="col-6"></div>
-                  <div className="col-2">
+                  <div className="col-3"></div>
+                  <div className="col-3">
                     <p className="anexoLabel">Planta com adequações</p>
                     { (plantaAdequacoes.length > 0) ? (
                       <>
@@ -877,7 +877,7 @@ export const ModalAtualizaStatus = ({
                       )
                     )} 
                   </div>
-                  <div className="col-2">
+                  <div className="col-3">
                     <p className="anexoLabel">Plano de adequações</p>
                     { (planoAdequacoes.length > 0) ? (
                       <>
@@ -925,7 +925,7 @@ export const ModalAtualizaStatus = ({
                       )
                     )} 
                   </div>
-                  <div className="col-2">
+                  <div className="col-3">
                   <p className="anexoLabel">Laudo de valor locatício</p>
                   { (laudoValorLocaticio.length > 0) ? (
                       <>
@@ -969,8 +969,8 @@ export const ModalAtualizaStatus = ({
                       )
                     )} 
                   </div>
-                  <div className="col-6"></div>
-                  <div className="col-4">
+                  <div className="col-3"></div>
+                  <div className="col-4 mt-3">
                     <Field
                       component={SelectText}
                       name="resultado_vistoria"
