@@ -641,7 +641,7 @@ export const ModalAtualizaStatus = ({
                       name="data_vistoria"
                       defaultValue={vistoriaAgendadaLog.length ? (vistoriaAgendadaLog[0].data_agendada) : (agendamentoDaVistoria ? (new Date().toISOString().slice(0, 10)) : null )}
                       type="date"
-                      disabled={(cadastro.status !== 'Enviado à COMAPRE') && (statusCadastro !== 'Enviado à COMAPRE')}
+                      disabled={statusCadastro !== 'Enviado à COMAPRE'}
                     />
                   </div>
                   <div className="col-8"></div>
@@ -671,7 +671,7 @@ export const ModalAtualizaStatus = ({
                       texto="Enviar E-mail"
                       className="enviarEmail mt-3"
                       onClick={() => agendarVistoria(values, true)}
-                      disabled={(cadastro.status !== 'Enviado à COMAPRE') && (statusCadastro !== 'Enviado à COMAPRE')}
+                      disabled={statusCadastro !== 'Enviado à COMAPRE'}
                     />
                   </div>
                 </div>
