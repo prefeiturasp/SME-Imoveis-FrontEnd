@@ -125,6 +125,7 @@ export const DetalhamentoCadastro = () => {
                   showModal={showModal}
                   setShowModal={setShowModal}
                   cadastroProps={cadastro}
+                  setCadastroProps={setCadastro}
                   count={count}
                 />
               <Form

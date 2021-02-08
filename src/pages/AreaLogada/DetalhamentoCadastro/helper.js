@@ -50,3 +50,66 @@ export const formataPaylaodAtualizaCadastro = (values) => {
   }
   return stringParams.slice(0, -1);
 };
+
+export const formataPaylaodEnviarComapre = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  if (values.observacoes_analise !== undefined && values.observacoes_analise !== "") {
+    stringParams += `justificativa=${values.observacoes_analise}&`;
+  }
+  stringParams += `data_agendada=${values.data_envio_comapre}&`;
+  stringParams += `enviar_email=${values.enviar_email}&`;
+  return stringParams.slice(0, -1);
+};
+
+export const formataPaylaodFinalizaAnalise = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  if (values.observacoes_analise !== undefined && values.observacoes_analise !== "") {
+    stringParams += `justificativa=${values.observacoes_analise}&`;
+  }
+  if (values.resultado_da_analise === 0) {
+    stringParams += `resultado_da_analise=${values.resultado_da_analise}&`;
+  }
+  if (values.resultado_da_analise === 1) {
+    stringParams += `resultado_da_analise=${values.resultado_da_analise}&`;
+  }
+  if (values.resultado_da_analise === 2) {
+    stringParams += `resultado_da_analise=${values.resultado_da_analise}&`;
+  }
+  stringParams += `enviar_email=${values.enviar_email}&`;
+  return stringParams.slice(0, -1);
+};
+
+export const formataPaylaodAgendarVistoria = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  stringParams += `data_agendada=${values.data_vistoria}&`;
+  stringParams += `enviar_email=${values.enviar_email}&`;
+  return stringParams.slice(0, -1);
+};
+
+export const formataPaylaodEnviaRelatorio = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  return stringParams.slice(0, -1);
+};
+
+export const formataPaylaodEnviaLaudo = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  return stringParams.slice(0, -1);
+};
+
+export const formataPaylaodResultadoVistoria = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  if (values.resultado_vistoria === 0) {
+    stringParams += `resultado_da_vistoria=${values.resultado_vistoria}&`;
+  }
+  if (values.resultado_vistoria === 1) {
+    stringParams += `resultado_da_vistoria=${values.resultado_vistoria}&`;
+  }
+  stringParams += `enviar_email=${values.enviar_email}&`;
+  return stringParams.slice(0, -1);
+};
