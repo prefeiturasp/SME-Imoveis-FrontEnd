@@ -12,7 +12,7 @@ export const FluxoDeStatus = (props) => {
   return (
     <div className="w-100">
       <div className="row">
-        <div className="col-12">
+        <div className="col-12 p-0">
           <ul className={`progressbar-titles fluxos`}>
             {fluxoUtilizado.map((status, key) => {
               return (

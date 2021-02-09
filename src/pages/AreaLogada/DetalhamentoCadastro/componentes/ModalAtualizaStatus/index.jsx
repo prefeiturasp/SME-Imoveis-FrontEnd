@@ -38,7 +38,8 @@ export const ModalAtualizaStatus = ({
   const [resultadoAnalise, setResultadoAnalise ] = useState(); 
   const [statusCadastro, setStatusCadastro] = useState(cadastroProps.status);
   const [maximoCaracteres] = useState(200);
-  const [contador, setContador] = useState(0);
+  const [contadorAnalise, setContadorAnalise] = useState(0);
+  const [contadorComapre, setContadorComapre] = useState(0);
   const [aguardandoVistoria] = useState(
                                           (cadastroProps.status === "Aguardando relatório de vistoria") || 
                                           (cadastroProps.status === "Relatório da vistoria")
@@ -185,10 +186,10 @@ export const ModalAtualizaStatus = ({
           setAgendamentoDaVistoria(true);
         }
       }else {
-        toastError("A data não pode ser menor que a data de hoje.");
+        toastError("A data não pode ser posterior a atual");
       }
     } else {
-      toastError("É necessário preencher a data de envio.");
+      toastError("É necessário preencher a data de envio");
     }
   };
   
@@ -204,7 +205,7 @@ export const ModalAtualizaStatus = ({
         setResultadoAnalise(values.resultado_da_analise);
       }
     } else {
-      toastError("É necessário preencher o status final.");
+      toastError("É necessário preencher o status final");
     }
   };
 
@@ -221,10 +222,10 @@ export const ModalAtualizaStatus = ({
           setAgendamentoDaVistoria(false);
         }
       }else {
-        toastError("A data não pode ser menor que a data de hoje.");
+        toastError("A data não pode ser anterior a atual");
       }
     } else {
-      toastError("É necessário preencher a data de envio.");
+      toastError("É necessário preencher a data da vistoria");
     }
   };
 
@@ -562,26 +563,26 @@ export const ModalAtualizaStatus = ({
                     <Field
                       component={TextArea}
                       label="Observações"
-                      name="observacoes_analise"
+                      name="observacoes_comapre"
                       maxLength={`${maximoCaracteres}`}
-                      defaultValue={ analisePreviaLog.length ? (analisePreviaLog[0].justificativa) : '' }
+                      defaultValue={ enviadoComapreLog.length ? (enviadoComapreLog[0].justificativa) : '' }
                       style={{minHeight: "100px", height: "100px", maxHeight: '100px'}}
                       labelClassName="font-weight-bold color-black"
-                      disabled={(cadastro.status !== "Solicitação Realizada") || (statusCadastro !== "Solicitação Realizada")}
+                      disabled={!enviadoComapre || (statusCadastro !== "Solicitação Realizada")}
                       />
-                    <OnChange name="observacoes_analise">
+                    <OnChange name="observacoes_comapre">
                       {async (value, previous) => {
                         if(value.length && value.length <= maximoCaracteres) {
-                          setContador(value.length);
+                          setContadorComapre(value.length);
                         } else {
-                          setContador(0);
+                          setContadorComapre(0);
                         }
                       }}
                     </OnChange>
                   </div>
                   <div className="col-12">
                       <p className="contador">
-                        {`${contador}/${maximoCaracteres}`}
+                        {`${contadorComapre}/${maximoCaracteres}`}
                       </p>
                   </div>
                   <div className="col-7">
@@ -979,10 +980,8 @@ export const ModalAtualizaStatus = ({
                       defaultValue={(vistoriaAprovadaLog.length > 0) ? 0 : (vistoriaReprovadaLog.length ? 1 : undefined)}
                       options={OPCOES_VISTORIA}
                       labelClassName="font-weight-bold color-black"
-                      disabled={(relatorioVistoria.length === 0) || (plantaAdequacoes.length === 0) ||
-                                (laudoValorLocaticio.length === 0) || (planoAdequacoes.length === 0) ||
-                                (relatorioFotografico.length === 0) || (plantaAtual.length === 0) || 
-                                vistoriaAprovada || vistoriaReprovada
+                      disabled={(relatorioVistoria.length === 0) || (laudoValorLocaticio.length === 0) ||
+                                (vistoriaAprovadaLog.length > 0) || (vistoriaReprovadaLog.length > 0)
                                }
                     />
                   </div>
@@ -1027,15 +1026,12 @@ export const ModalAtualizaStatus = ({
                       texto="Enviar E-mail"
                       className="enviarEmail"
                       onClick={() => enviarResultadoVistoria(values, true)}
-                      disabled={(relatorioVistoria.length === 0) || (plantaAdequacoes.length === 0) ||
-                                (laudoValorLocaticio.length === 0) || (planoAdequacoes.length === 0) ||
-                                (relatorioFotografico.length === 0) || (plantaAtual.length === 0) ||
+                      disabled={(relatorioVistoria.length === 0) || (laudoValorLocaticio.length === 0) ||
                                 (vistoriaAprovadaLog.length > 0) || (vistoriaReprovadaLog.length > 0)
                                }
                     />
                   </div>
                 </div>
-
                 <div className='row'>
                   <div className="col-12 title mb-3 mt-3">
                     <Field
@@ -1060,6 +1056,32 @@ export const ModalAtualizaStatus = ({
                     />
                   </div>
                   <div className="col-8"></div>
+                  <div className="observacoes col-12 mb-4">
+                    <Field
+                      component={TextArea}
+                      label="Observações"
+                      name="observacoes_analise"
+                      maxLength={`${maximoCaracteres}`}
+                      defaultValue={ analisePreviaLog.length ? (analisePreviaLog[0].justificativa) : '' }
+                      style={{minHeight: "100px", height: "100px", maxHeight: '100px'}}
+                      labelClassName="font-weight-bold color-black"
+                      disabled={!finalizado || analiseFinalizadaLog.length }
+                      />
+                    <OnChange name="observacoes_analise">
+                      {async (value, previous) => {
+                        if(value.length && value.length <= maximoCaracteres) {
+                          setContadorAnalise(value.length);
+                        } else {
+                          setContadorAnalise(0);
+                        }
+                      }}
+                    </OnChange>
+                  </div>
+                  <div className="col-12">
+                      <p className="contador">
+                        {`${contadorAnalise}/${maximoCaracteres}`}
+                      </p>
+                  </div>
                   <div className="col-7">
                     <p className="mt-3"style={{color: '#42474A'}}>
                       Deseja enviar e-mail com retorno ao proprietário?
