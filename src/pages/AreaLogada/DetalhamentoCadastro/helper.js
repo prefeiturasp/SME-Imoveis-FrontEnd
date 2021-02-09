@@ -54,8 +54,8 @@ export const formataPaylaodAtualizaCadastro = (values) => {
 export const formataPaylaodEnviarComapre = (values) => {
   let stringParams = "&";
   stringParams += `imovel=${values.id}&`;
-  if (values.observacoes_analise !== undefined && values.observacoes_analise !== "") {
-    stringParams += `justificativa=${values.observacoes_analise}&`;
+  if (values.observacoes_comapre !== undefined && values.observacoes_comapre !== "") {
+    stringParams += `justificativa=${values.observacoes_comapre}&`;
   }
   stringParams += `data_agendada=${values.data_envio_comapre}&`;
   stringParams += `enviar_email=${values.enviar_email}&`;
