@@ -11,15 +11,15 @@ import { TIPO_DOCUMENTO} from "./constants";
 import { getImovel } from "services/Imovel.service";
 import { BUTTON_STYLE, BUTTON_TYPE, BUTTON_ICON } from "components/Botao/constants";
 import { SITUACAO, OPCOES_ANALISE, OPCOES_VISTORIA } from "pages/CadastroImovel/components/Imovel/constants";
-import { codigoEscolaMask } from "helpers/textMask";
+import { codigoEscolaMask, processoSeiMask } from "helpers/textMask";
 import HTTP_STATUS from "http-status-codes";
-import { getEscola, updateStatus, enviaComapre, finalizaAnalise, 
+import { getEscola, updateStatus, enviaComapre, finaliza, 
           agendaVistoria, setAnexo, deleteAnexo, enviaRelatorio,
-          enviaLaudo, enviaResultadoVistoria} from "services/cadastros.service";
+          enviaLaudo, enviaResultadoVistoria, enviaDre} from "services/cadastros.service";
 import { formataPaylaodAtualizaCadastro, formataPaylaodEnviarComapre, 
-          formataPaylaodFinalizaAnalise, formataPaylaodAgendarVistoria,
+          formataPaylaodFinaliza, formataPaylaodAgendarVistoria,
           formataPaylaodEnviaRelatorio, formataPaylaodEnviaLaudo,
-          formataPaylaodResultadoVistoria } from "../../helper";
+          formataPaylaodResultadoVistoria, formataPaylaodEnviarDre } from "../../helper";
 import { toastError, toastSuccess } from "components/Toast/dialogs";
 import { EH_PERFIL_DRE, EH_PERFIL_CONSULTA_SECRETARIA } from "helpers/utils";
 import "./style.scss";
@@ -31,11 +31,15 @@ export const ModalAtualizaStatus = ({
   setShowModal,
 }) => {
   const [cadastro, setCadastro] = useState(null);
-  const [finalizado, setFinalizado] = useState(false);
+  const [finalizado, setFinalizado] = useState(
+                                                cadastroProps.status === "Enviado à DRE" || 
+                                                cadastroProps.status === "Vistoria reprovada" ||
+                                                cadastroProps.status === "Finalizado - Reprovado"
+                                              );
   const [enviadoComapre, setEnviadoComapre] = useState(false);
   const [agendamentoDaVistoria, setAgendamentoDaVistoria] = useState((cadastroProps.status === "Enviado à COMAPRE"));
   const [opcoesFinalizacao, setOpcoesFinalizacao] = useState([{ label: 'Selecione um status', value: undefined },]);
-  const [resultadoAnalise, setResultadoAnalise ] = useState(); 
+  const [resultadoAnalise, setResultadoAnalise ] = useState();
   const [statusCadastro, setStatusCadastro] = useState(cadastroProps.status);
   const [maximoCaracteres] = useState(200);
   const [contadorAnalise, setContadorAnalise] = useState(0);
@@ -44,9 +48,6 @@ export const ModalAtualizaStatus = ({
                                           (cadastroProps.status === "Aguardando relatório de vistoria") || 
                                           (cadastroProps.status === "Relatório da vistoria")
                                         );
-  const [vistoriaAprovada] = useState(statusCadastro === "Vistoria aprovada");
-  const [vistoriaReprovada] = useState(statusCadastro === "Vistoria reprovada");
-
   const analisePreviaLog = (cadastroProps && cadastroProps.logs) ? ( 
     cadastroProps.logs.filter((log) => log.status_evento_explicacao === "SME analisou previamente")
   ) : [];
@@ -78,6 +79,18 @@ export const ModalAtualizaStatus = ({
     cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Vistoria reprovada")
   ) : [];
 
+  const enviadoDreLog = (cadastroProps && cadastroProps.logs) ? (
+    cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Enviado à DRE")
+  ) : [];
+
+  const finalizadoAprovadoLog = (cadastroProps && cadastroProps.logs) ? (
+    cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Finalizado - Aprovado")
+  ) : [];
+
+  const finalizadoReporvadoLog = (cadastroProps && cadastroProps.logs) ? (
+    cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Finalizado - Reprovado")
+  ) : [];
+  
   const relatorioFotografico = ((cadastroProps && cadastroProps.logs) &&
                                 (aguardandoRelatorioLog.length > 0)) ? (
     aguardandoRelatorioLog[0].anexos.filter((anexo) => anexo.get_tipo_documento_display === "Relatório fotográfico")
@@ -145,12 +158,30 @@ export const ModalAtualizaStatus = ({
         { label: 'Finalizado - Não atende as necessidades da SME', value: 2 }
       ]);
     }
+    if (cadastroProps.status === 'Finalizado - Aprovado' || cadastroProps.status === 'Enviado à DRE') {
+      setResultadoAnalise(3);
+      setOpcoesFinalizacao([
+        { label: 'Selecione um status', value: undefined },
+        { label: 'Aprovado', value: 3 }
+      ]);
+    }
+    if (cadastroProps.status === "Finalizado - Reprovado" || cadastroProps.status === "Vistoria reprovada") {
+      setResultadoAnalise(4);
+      setOpcoesFinalizacao([
+        { label: 'Selecione um status', value: undefined },
+        { label: "Finalizado - Reprovado", value: 4 }
+      ]);
+    }
   }, []);
 
   const onSubmit = async (values) => {
     if (enviadoComapre) {
       enviarComapre(values, false);
-    } else if (finalizado) {
+    } else if (finalizado && 
+               (cadastroProps.status === "Solicitação Realizada" || 
+                cadastroProps.status === "Enviado à DRE" || 
+                cadastroProps.status === "Vistoria reprovada")
+              ) {
       finalizarAnalise(values, false);
     } else if (agendamentoDaVistoria) {
       agendarVistoria(values, false);
@@ -158,9 +189,12 @@ export const ModalAtualizaStatus = ({
                plantaAtual && relatorioVistoria && 
                laudoValorLocaticio && relatorioFotografico && 
                cadastroProps.status !== "Vistoria aprovada" &&
-               cadastroProps.status !== "Vistoria reprovada"
+               cadastroProps.status !== "Vistoria reprovada" &&
+               cadastroProps.status === "Laudo de valor locatício"
               ) {
       enviarResultadoVistoria(values, false);
+    }else if (cadastroProps.status === "Vistoria aprovada") {
+      enviarDre(values, false);
     }else {
       const response = await updateStatus(formataPaylaodAtualizaCadastro(values));
       if (!response) toastError("Erro ao atualizar cadastro");
@@ -196,13 +230,13 @@ export const ModalAtualizaStatus = ({
   const finalizarAnalise = async (values, enviar_email) => {
     if(values.status_final !== undefined) {
       values.enviar_email=enviar_email;
-      const response = await finalizaAnalise(formataPaylaodFinalizaAnalise(values));
+      const response = await finaliza(formataPaylaodFinaliza(values));
       if (!response) toastError("Erro ao atualizar cadastro");
       else if (response.status === HTTP_STATUS.OK) {
         toastSuccess("Cadastro finalizado sucesso")
         setStatusCadastro(response.data.status);
         setCadastroProps(response.data);
-        setResultadoAnalise(values.resultado_da_analise);
+        setResultadoAnalise(values.status_final);
       }
     } else {
       toastError("É necessário preencher o status final");
@@ -238,6 +272,13 @@ export const ModalAtualizaStatus = ({
           toastSuccess("Resultado salvo com sucesso")        
           setStatusCadastro(response.data.status);
           setCadastroProps(response.data);
+          if(values.resultado_vistoria === 1) {
+            setFinalizado(true)
+            setOpcoesFinalizacao([
+              { label: 'Selecione um status', value: undefined },
+              { label: 'Finalizado - Reprovado', value: 4 }
+            ]);
+          }
         }
       }else {
         toastError("É necessário preencher o resultado da vistoria");
@@ -331,6 +372,42 @@ export const ModalAtualizaStatus = ({
     }
   };
 
+  const enviarDre = async (values, enviar_email) => {
+    if(values.data_envio_dre) {
+      if(values.data_envio_dre <= (new Date().toISOString().slice(0, 10))) {
+        if(values.numero_processo_sei){
+          if(values.numero_processo_sei.length === 19){
+            if(values.nome_da_unidade) {
+              values.enviar_email=enviar_email;
+              const response = await enviaDre(formataPaylaodEnviarDre(values));
+              if (!response) toastError("Erro ao atualizar cadastro");
+              else if (response.status === HTTP_STATUS.OK) {
+                toastSuccess("Enviado para DRE com sucesso")        
+                setStatusCadastro(response.data.status);
+                setCadastroProps(response.data);
+                setFinalizado(true);
+                setOpcoesFinalizacao([
+                  { label: 'Selecione um status', value: undefined },
+                  { label: 'Aprovado', value: 3 }
+                ]);
+              }
+            } else {
+              toastError("O nome da unidade não pode ficar em branco");
+            }
+          } else {
+            toastError("O número do processo SEI deve conter 16 dígitos");
+          }
+        } else {
+          toastError("É necessário preencher o número do processo SEI");
+        }
+      }else {
+        toastError("A data não pode ser posterior a atual");
+      }
+    } else {
+      toastError("É necessário preencher a data de envio");
+    }
+  };
+  
   return (
     <Modal
       dialogClassName="modal-70w"
@@ -593,12 +670,12 @@ export const ModalAtualizaStatus = ({
                       <i>
                         { (enviadoComapreLog.length > 0 && enviadoComapreLog[0].email_enviado) && (
                           `${enviadoComapreLog[0].usuario.nome} RF: ${enviadoComapreLog[0].usuario.username} 
-                          - ${new Date(enviadoComapreLog[0].criado_em).toLocaleString('br-BR')} 
+                          - ${enviadoComapreLog[0].criado_em} 
                           - Email enviado`
                         )}
                         { (enviadoComapreLog.length > 0 && !enviadoComapreLog[0].email_enviado) && (
                           `${enviadoComapreLog[0].usuario.nome} RF: ${enviadoComapreLog[0].usuario.username} 
-                          - ${new Date(enviadoComapreLog[0].criado_em).toLocaleString('br-BR')} 
+                          - ${enviadoComapreLog[0].criado_em} 
                           - Email não enviado`
                         )}
                       </i>
@@ -630,7 +707,11 @@ export const ModalAtualizaStatus = ({
                                 (statusCadastro === "Aguardando laudo de valor locatício") ||
                                 (statusCadastro === "Laudo de valor locatício") ||
                                 (statusCadastro === "Vistoria aprovada") ||
-                                (statusCadastro === "Vistoria reprovada")
+                                (statusCadastro === "Vistoria reprovada") ||
+                                (statusCadastro === "Finalizado - Aprovado") ||
+                                (statusCadastro === "Enviado à DRE") ||
+                                (statusCadastro === "Cancelado") ||
+                                (statusCadastro === "Finalizado - Reprovado")
                               }
                     />
                     <label htmlFor='agendamento_vistoria' className="ml-2" >Agendamento da vistoria</label>
@@ -654,12 +735,12 @@ export const ModalAtualizaStatus = ({
                       <i>
                         { (vistoriaAgendadaLog.length > 0 && vistoriaAgendadaLog[0].email_enviado) && (
                           `${vistoriaAgendadaLog[0].usuario.nome} RF: ${vistoriaAgendadaLog[0].usuario.username} 
-                          - ${new Date(vistoriaAgendadaLog[0].criado_em).toLocaleString('br-BR')} 
+                          - ${vistoriaAgendadaLog[0].criado_em} 
                           - Email enviado`
                         )}
                         { (vistoriaAgendadaLog.length > 0 && !vistoriaAgendadaLog[0].email_enviado) && (
                           `${vistoriaAgendadaLog[0].usuario.nome} RF: ${vistoriaAgendadaLog[0].usuario.username} 
-                          - ${new Date(vistoriaAgendadaLog[0].criado_em).toLocaleString('br-BR')} 
+                          - ${vistoriaAgendadaLog[0].criado_em} 
                           - Email não enviado`
                         )}
                       </i>
@@ -697,7 +778,12 @@ export const ModalAtualizaStatus = ({
                           icon={BUTTON_ICON.TRASH}
                           className="w-50 br-none"
                           onClick={() => removerAnexo(relatorioVistoria[0].uuid)}
-                          disabled={(statusCadastro === "Vistoria aprovada") || (statusCadastro === "Vistoria reprovada")}
+                          disabled={(statusCadastro === "Vistoria aprovada") || 
+                                    (statusCadastro === "Vistoria reprovada") ||
+                                    (statusCadastro === "Enviado à DRE") ||
+                                    (statusCadastro === "Finalizado - Aprovado") ||
+                                    (statusCadastro === "Cancelado")
+                                   }
                         />
                         <a href={relatorioVistoria[0].arquivo} target="_blank" rel="noopener noreferrer">
                           <Botao
@@ -743,7 +829,12 @@ export const ModalAtualizaStatus = ({
                           icon={BUTTON_ICON.TRASH}
                           className="w-50 br-none"
                           onClick={() => removerAnexo(relatorioFotografico[0].uuid)}
-                          disabled={(statusCadastro === "Vistoria aprovada") || (statusCadastro === "Vistoria reprovada")}
+                          disabled={(statusCadastro === "Vistoria aprovada") || 
+                                    (statusCadastro === "Vistoria reprovada") ||
+                                    (statusCadastro === "Enviado à DRE") ||
+                                    (statusCadastro === "Finalizado - Aprovado") ||
+                                    (statusCadastro === "Cancelado")
+                                   }
                         />
                         <a href={relatorioFotografico[0].arquivo} target="_blank" rel="noopener noreferrer">
                           <Botao
@@ -791,7 +882,12 @@ export const ModalAtualizaStatus = ({
                           icon={BUTTON_ICON.TRASH}
                           className="w-50 br-none"
                           onClick={() => removerAnexo(plantaAtual[0].uuid)}
-                          disabled={(statusCadastro === "Vistoria aprovada") || (statusCadastro === "Vistoria reprovada")}
+                          disabled={(statusCadastro === "Vistoria aprovada") || 
+                                    (statusCadastro === "Vistoria reprovada") ||
+                                    (statusCadastro === "Enviado à DRE") ||
+                                    (statusCadastro === "Finalizado - Aprovado") ||
+                                    (statusCadastro === "Cancelado")
+                                   }
                         />
                         <a href={plantaAtual[0].arquivo} target="_blank" rel="noopener noreferrer">
                           <Botao
@@ -840,7 +936,12 @@ export const ModalAtualizaStatus = ({
                           icon={BUTTON_ICON.TRASH}
                           className="w-50 br-none"
                           onClick={() => removerAnexo(plantaAdequacoes[0].uuid)}
-                          disabled={(statusCadastro === "Vistoria aprovada") || (statusCadastro === "Vistoria reprovada")}
+                          disabled={(statusCadastro === "Vistoria aprovada") || 
+                                    (statusCadastro === "Vistoria reprovada") ||
+                                    (statusCadastro === "Enviado à DRE") ||
+                                    (statusCadastro === "Finalizado - Aprovado") ||
+                                    (statusCadastro === "Cancelado")
+                                   }
                         />
                         <a href={plantaAdequacoes[0].arquivo} target="_blank" rel="noopener noreferrer">
                           <Botao
@@ -888,7 +989,12 @@ export const ModalAtualizaStatus = ({
                           icon={BUTTON_ICON.TRASH}
                           className="w-50 br-none"
                           onClick={() => removerAnexo(planoAdequacoes[0].uuid)}
-                          disabled={(statusCadastro === "Vistoria aprovada") || (statusCadastro === "Vistoria reprovada")}
+                          disabled={(statusCadastro === "Vistoria aprovada") || 
+                                    (statusCadastro === "Vistoria reprovada") ||
+                                    (statusCadastro === "Enviado à DRE") ||
+                                    (statusCadastro === "Finalizado - Aprovado") ||
+                                    (statusCadastro === "Cancelado")
+                                   }
                         />
                         <a href={planoAdequacoes[0].arquivo} target="_blank" rel="noopener noreferrer">
                           <Botao
@@ -936,7 +1042,12 @@ export const ModalAtualizaStatus = ({
                           icon={BUTTON_ICON.TRASH}
                           className="w-50 br-none"
                           onClick={() => removerAnexo(laudoValorLocaticio[0].uuid)}
-                          disabled={(statusCadastro === "Vistoria aprovada") || (statusCadastro === "Vistoria reprovada")}
+                          disabled={(statusCadastro === "Vistoria aprovada") || 
+                                    (statusCadastro === "Vistoria reprovada") ||
+                                    (statusCadastro === "Enviado à DRE") ||
+                                    (statusCadastro === "Finalizado - Aprovado") ||
+                                    (statusCadastro === "Cancelado")
+                                   }
                         />
                         <a href={laudoValorLocaticio[0].arquivo} target="_blank" rel="noopener noreferrer">
                           <Botao
@@ -994,12 +1105,12 @@ export const ModalAtualizaStatus = ({
                       <i>
                         { (vistoriaAprovadaLog.length > 0 && vistoriaAprovadaLog[0].email_enviado) && (
                           `${vistoriaAprovadaLog[0].usuario.nome} RF: ${vistoriaAprovadaLog[0].usuario.username} 
-                          - ${new Date(vistoriaAprovadaLog[0].criado_em).toLocaleString('br-BR')} 
+                          - ${vistoriaAprovadaLog[0].criado_em} 
                           - Email enviado`
                         )}
                         { (vistoriaAprovadaLog.length > 0 && !vistoriaAprovadaLog[0].email_enviado) && (
                           `${vistoriaAprovadaLog[0].usuario.nome} RF: ${vistoriaAprovadaLog[0].usuario.username} 
-                          - ${new Date(vistoriaAprovadaLog[0].criado_em).toLocaleString('br-BR')} 
+                          - ${vistoriaAprovadaLog[0].criado_em} 
                           - Email não enviado`
                         )}
                       </i>
@@ -1008,12 +1119,12 @@ export const ModalAtualizaStatus = ({
                       <i>
                         { (vistoriaReprovadaLog.length > 0 && vistoriaReprovadaLog[0].email_enviado) && (
                           `${vistoriaReprovadaLog[0].usuario.nome} RF: ${vistoriaReprovadaLog[0].usuario.username} 
-                          - ${new Date(vistoriaReprovadaLog[0].criado_em).toLocaleString('br-BR')} 
+                          - ${vistoriaReprovadaLog[0].criado_em} 
                           - Email enviado`
                         )}
                         { (vistoriaReprovadaLog.length > 0 && !vistoriaReprovadaLog[0].email_enviado) && (
                           `${vistoriaReprovadaLog[0].usuario.nome} RF: ${vistoriaReprovadaLog[0].usuario.username} 
-                          - ${new Date(vistoriaReprovadaLog[0].criado_em).toLocaleString('br-BR')} 
+                          - ${vistoriaReprovadaLog[0].criado_em} 
                           - Email não enviado`
                         )}
                       </i>
@@ -1032,6 +1143,83 @@ export const ModalAtualizaStatus = ({
                     />
                   </div>
                 </div>
+                <div className="row">
+                  <div className="col-12 title mb-3 mt-3">
+                    <Field
+                      component='input'
+                      className="envioDre"
+                      name="envioDre"
+                      type="checkbox"
+                      checked={(statusCadastro === "Vistoria aprovada") ||
+                               (statusCadastro === "Enviado à DRE") ||
+                               (statusCadastro === "Finalizado - Aprovado")                              }
+                    />
+                    <label htmlFor='envioDre' className="ml-2" >Envio DRE</label>
+                  </div>
+                  <div className="col-3">
+                      <Field
+                        component={InputText}
+                        label="Enviado em"
+                        name="data_envio_dre"
+                        disabled={false}
+                        type="date"
+                        defaultValue={enviadoDreLog.length ? (enviadoDreLog[0].data_agendada) : (statusCadastro === "Vistoria aprovada" ? (new Date().toISOString().slice(0, 10)) : null )}
+                        disabled={(statusCadastro !== "Vistoria aprovada")}
+                        />
+                    </div>
+                  <div className="col-4">
+                    <Field
+                      component={InputText}
+                      name="numero_processo_sei"
+                      label="Número processo SEI"
+                      type="text"
+                      labelClassName="font-weight-bold color-black"
+                      defaultValue={enviadoDreLog.length ? enviadoDreLog[0].processo_sei : null}
+                      customChange={processoSeiMask}
+                      disabled={(statusCadastro !== "Vistoria aprovada")}
+                    />
+                  </div>
+                  <div className="col-5">
+                    <Field
+                      component={InputText}
+                      name="nome_da_unidade"
+                      label="Nome da Unidade"
+                      type="text"
+                      defaultValue={enviadoDreLog.length ? enviadoDreLog[0].nome_da_unidade : null}
+                      labelClassName="font-weight-bold color-black"
+                      disabled={(statusCadastro !== "Vistoria aprovada")}
+                    />
+                  </div>
+                  <div className="col-7">
+                    <p className="mt-3"style={{color: '#42474A'}}>
+                      Deseja enviar e-mail com retorno ao proprietário?
+                    </p>
+                    <p className="mt-1 emailEnviado"style={{color: '#42474A'}}>
+                      <i>
+                        { (enviadoDreLog.length > 0 && enviadoDreLog[0].email_enviado) && (
+                          `${enviadoDreLog[0].usuario.nome} RF: ${enviadoDreLog[0].usuario.username} 
+                          - ${enviadoDreLog[0].criado_em} 
+                          - Email enviado`
+                        )}
+                        { (enviadoDreLog.length > 0 && !enviadoDreLog[0].email_enviado) && (
+                          `${enviadoDreLog[0].usuario.nome} RF: ${enviadoDreLog[0].usuario.username} 
+                          - ${enviadoDreLog[0].criado_em} 
+                          - Email não enviado`
+                        )}
+                      </i>
+                    </p>
+                  </div>
+                  <div className="col-5 mt-3">
+                    <Botao
+                      type={BUTTON_TYPE.BUTTON}
+                      style={BUTTON_STYLE.BLUE}
+                      texto="Enviar E-mail"
+                      className="enviarEmail"
+                      onClick={() => enviarDre(values, true)}
+                      disabled={statusCadastro !== "Vistoria aprovada"}
+                    />
+                  </div>
+                </div>
                 <div className='row'>
                   <div className="col-12 title mb-3 mt-3">
                     <Field
@@ -1039,7 +1227,9 @@ export const ModalAtualizaStatus = ({
                       className="finalizaStatus"
                       name="finalizacao"
                       type="checkbox"
-                      checked={finalizado || analiseFinalizadaLog.length }
+                      checked={finalizado || analiseFinalizadaLog.length || 
+                               enviadoDreLog.length || cadastroProps.status === "Cancelado"
+                              }
                     />
                     <label htmlFor='finalizacao' className="ml-2" >Finalização</label>
                   </div>
@@ -1050,10 +1240,17 @@ export const ModalAtualizaStatus = ({
                       label="Status final do cadastro"
                       placeholder={"Selecione um status"}
                       options={opcoesFinalizacao}
-                      defaultValue={analiseFinalizadaLog.length ? resultadoAnalise : undefined}
+                      defaultValue={analiseFinalizadaLog.length ? resultadoAnalise : 
+                                    (finalizadoAprovadoLog.length ? resultadoAnalise : 
+                                      (finalizadoReporvadoLog.length ? resultadoAnalise : undefined)
+                                    )
+                                   }
                       labelClassName="font-weight-bold color-black"
-                      disabled={!finalizado || analiseFinalizadaLog.length }
+                      disabled={!finalizado || analiseFinalizadaLog.length || 
+                                finalizadoAprovadoLog.length || finalizadoReporvadoLog.length 
+                               }
                     />
+                    {console.log(finalizadoReporvadoLog)}
                   </div>
                   <div className="col-8"></div>
                   <div className="observacoes col-12 mb-4">
@@ -1062,11 +1259,18 @@ export const ModalAtualizaStatus = ({
                       label="Observações"
                       name="observacoes_analise"
                       maxLength={`${maximoCaracteres}`}
-                      defaultValue={ analisePreviaLog.length ? (analisePreviaLog[0].justificativa) : '' }
+                      defaultValue={analiseFinalizadaLog.length ? analisePreviaLog[0].justificativa : 
+                        (finalizadoAprovadoLog.length ? finalizadoAprovadoLog[0].justificativa : 
+                          (finalizadoReporvadoLog.length ? finalizadoReporvadoLog[0].justificativa : '')
+                        )
+                       }
                       style={{minHeight: "100px", height: "100px", maxHeight: '100px'}}
                       labelClassName="font-weight-bold color-black"
-                      disabled={!finalizado || analiseFinalizadaLog.length }
+                      disabled={!finalizado || analiseFinalizadaLog.length || 
+                                finalizadoAprovadoLog.length || finalizadoReporvadoLog.length 
+                               }
                       />
+                      {console.log(finalizadoAprovadoLog)}
                     <OnChange name="observacoes_analise">
                       {async (value, previous) => {
                         if(value.length && value.length <= maximoCaracteres) {
@@ -1090,12 +1294,40 @@ export const ModalAtualizaStatus = ({
                       <i>
                         { (analiseFinalizadaLog.length > 0 && analiseFinalizadaLog[0].email_enviado) && (
                           `${analiseFinalizadaLog[0].usuario.nome} RF: ${analiseFinalizadaLog[0].usuario.username} 
-                          - ${new Date(analiseFinalizadaLog[0].criado_em).toLocaleString('br-BR')} 
+                          - ${analiseFinalizadaLog[0].criado_em} 
                           - Email enviado`
                         )}
                         { (analiseFinalizadaLog.length > 0 && !analiseFinalizadaLog[0].email_enviado) && (
                           `${analiseFinalizadaLog[0].usuario.nome} RF: ${analiseFinalizadaLog[0].usuario.username} 
-                          - ${new Date(analiseFinalizadaLog[0].criado_em).toLocaleString('br-BR')} 
+                          - ${analiseFinalizadaLog[0].criado_em} 
+                          - Email não enviado`
+                        )}
+                      </i>
+                    </p>
+                    <p className="mt-1 emailEnviado"style={{color: '#42474A'}}>
+                      <i>
+                        { (finalizadoAprovadoLog.length > 0 && finalizadoAprovadoLog[0].email_enviado) && (
+                          `${finalizadoAprovadoLog[0].usuario.nome} RF: ${finalizadoAprovadoLog[0].usuario.username} 
+                          - ${finalizadoAprovadoLog[0].criado_em} 
+                          - Email enviado`
+                        )}
+                        { (finalizadoAprovadoLog.length > 0 && !finalizadoAprovadoLog[0].email_enviado) && (
+                          `${finalizadoAprovadoLog[0].usuario.nome} RF: ${finalizadoAprovadoLog[0].usuario.username} 
+                          - ${finalizadoAprovadoLog[0].criado_em} 
+                          - Email não enviado`
+                        )}
+                      </i>
+                    </p>
+                    <p className="mt-1 emailEnviado"style={{color: '#42474A'}}>
+                      <i>
+                        { (finalizadoReporvadoLog.length > 0 && finalizadoReporvadoLog[0].email_enviado) && (
+                          `${finalizadoReporvadoLog[0].usuario.nome} RF: ${finalizadoReporvadoLog[0].usuario.username} 
+                          - ${finalizadoReporvadoLog[0].criado_em} 
+                          - Email enviado`
+                        )}
+                        { (finalizadoReporvadoLog.length > 0 && !finalizadoReporvadoLog[0].email_enviado) && (
+                          `${finalizadoReporvadoLog[0].usuario.nome} RF: ${finalizadoReporvadoLog[0].usuario.username} 
+                          - ${finalizadoReporvadoLog[0].criado_em} 
                           - Email não enviado`
                         )}
                       </i>
@@ -1108,7 +1340,8 @@ export const ModalAtualizaStatus = ({
                       texto="Enviar E-mail"
                       className="enviarEmail"
                       onClick={() => finalizarAnalise(values, true)}
-                      disabled={!finalizado || analiseFinalizadaLog.length}
+                      disabled={!finalizado || analiseFinalizadaLog.length ||
+                                finalizadoAprovadoLog.length || finalizadoReporvadoLog.length}
                     />
                   </div>
                 </div>
