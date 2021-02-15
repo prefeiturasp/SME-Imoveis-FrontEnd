@@ -115,7 +115,7 @@ export const Login = () => {
                         type="text"
                         maxLength="7"
                         tooltipMessage={
-                          "Digite seu RF. Para usuários externos, insira seus dados de usuário. Caso não possua, procure a SMEs"
+                          "Digite seu RF. Para usuários externos, insira seus dados de usuário. Caso não possua, procure a SME"
                         }
                         validate={composeValidators(required, numericInteger)}
                       />
@@ -222,7 +222,7 @@ export const Login = () => {
                         type="text"
                         maxLength="7"
                         tooltipMessage={
-                          "Digite seu RF. Para usuários externos, insira seus dados de usuário. Caso não possua, procure a SMEs"
+                          "Digite seu RF. Para usuários externos, insira seus dados de usuário. Caso não possua, procure a SME"
                         }
                         validate={composeValidators(required, numericInteger)}
                       />
