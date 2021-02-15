@@ -62,20 +62,26 @@ export const formataPaylaodEnviarComapre = (values) => {
   return stringParams.slice(0, -1);
 };
 
-export const formataPaylaodFinalizaAnalise = (values) => {
+export const formataPaylaodFinaliza = (values) => {
   let stringParams = "&";
   stringParams += `imovel=${values.id}&`;
   if (values.observacoes_analise !== undefined && values.observacoes_analise !== "") {
     stringParams += `justificativa=${values.observacoes_analise}&`;
   }
-  if (values.resultado_da_analise === 0) {
-    stringParams += `resultado_da_analise=${values.resultado_da_analise}&`;
+  if (values.status_final === 0) {
+    stringParams += `resultado=${values.status_final}&`;
   }
-  if (values.resultado_da_analise === 1) {
-    stringParams += `resultado_da_analise=${values.resultado_da_analise}&`;
+  if (values.status_final === 1) {
+    stringParams += `resultado=${values.status_final}&`;
   }
-  if (values.resultado_da_analise === 2) {
-    stringParams += `resultado_da_analise=${values.resultado_da_analise}&`;
+  if (values.status_final === 2) {
+    stringParams += `resultado=${values.status_final}&`;
+  }
+  if (values.status_final === 3) {
+    stringParams += `resultado=${values.status_final}&`;
+  }
+  if (values.status_final === 4) {
+    stringParams += `resultado=${values.status_final}&`;
   }
   stringParams += `enviar_email=${values.enviar_email}&`;
   return stringParams.slice(0, -1);
@@ -111,5 +117,15 @@ export const formataPaylaodResultadoVistoria = (values) => {
     stringParams += `resultado_da_vistoria=${values.resultado_vistoria}&`;
   }
   stringParams += `enviar_email=${values.enviar_email}&`;
+  return stringParams.slice(0, -1);
+};
+
+export const formataPaylaodEnviarDre = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  stringParams += `data_agendada=${values.data_envio_dre}&`;
+  stringParams += `enviar_email=${values.enviar_email}&`;
+  stringParams += `processo_sei=${values.numero_processo_sei}&`;
+  stringParams += `nome_da_unidade=${values.nome_da_unidade}&`;
   return stringParams.slice(0, -1);
 };
