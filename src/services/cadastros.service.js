@@ -177,8 +177,8 @@ export const enviaComapre = (queryParams) => {
     });
 };
 
-export const finalizaAnalise = (queryParams) => {
-  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/finaliza-analise/?${queryParams}`
+export const finaliza = (queryParams) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/finaliza/?${queryParams}`
   let status = 0;
   return fetch(url, {
     method: "POST",
@@ -315,6 +315,28 @@ export const enviaRelatorio = (queryParams) => {
 
 export const enviaLaudo = (queryParams) => {
   const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/laudo-locaticio/?${queryParams}`
+  let status = 0;
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `JWT ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+};
+
+export const enviaDre = (queryParams) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/envia-dre/?${queryParams}`
   let status = 0;
   return fetch(url, {
     method: "POST",

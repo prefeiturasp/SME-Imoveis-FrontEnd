@@ -71,12 +71,17 @@ export const tipoDeStatus = (status) => {
     case "Relatório da vistoria":
     case "Laudo de valor locatício":
     case "Vistoria aprovada":
+    case "Enviado à DRE":
+    case "Finalizado - Aprovado":
       return "prosseguiu";
     case "Finalizado - Área Insuficiente":
     case "Finalizado - Demanda Insuficiente":
     case "Finalizado - Não atende as necessidades da SME":
-    case "Vistoria reprovada":
+    case "Finalizado - Reprovado":
+    case "Cancelado":
       return "reprovado";
+    case "Vistoria reprovada":
+      return "questionado"
     default:
       return "";
   }

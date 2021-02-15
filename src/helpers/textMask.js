@@ -49,3 +49,9 @@ export const iptuMask = value => {
   const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
   return formatString("999.999.9999.9", cleanedValue);
 };
+
+
+export const processoSeiMask = value => {
+  const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
+  return formatString("9999.9999/9999999-9", cleanedValue);
+};
