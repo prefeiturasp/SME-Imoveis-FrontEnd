@@ -356,3 +356,47 @@ export const enviaDre = (queryParams) => {
       return console.log(error);
     });
 };
+
+export const cancela = (id) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/cancela/?imovel=${id}`
+  let status = 0;
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `JWT ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+};
+
+export const reativa = (id) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/reativa/?imovel=${id}`
+  let status = 0;
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `JWT ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+};
