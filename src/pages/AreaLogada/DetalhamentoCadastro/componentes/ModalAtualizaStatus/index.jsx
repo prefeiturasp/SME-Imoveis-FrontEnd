@@ -15,7 +15,8 @@ import { codigoEscolaMask, processoSeiMask } from "helpers/textMask";
 import HTTP_STATUS from "http-status-codes";
 import { getEscola, updateStatus, enviaComapre, finaliza, 
           agendaVistoria, setAnexo, deleteAnexo, enviaRelatorio,
-          enviaLaudo, enviaResultadoVistoria, enviaDre} from "services/cadastros.service";
+          enviaLaudo, enviaResultadoVistoria, enviaDre, cancela,
+          reativa } from "services/cadastros.service";
 import { formataPaylaodAtualizaCadastro, formataPaylaodEnviarComapre, 
           formataPaylaodFinaliza, formataPaylaodAgendarVistoria,
           formataPaylaodEnviaRelatorio, formataPaylaodEnviaLaudo,
@@ -90,7 +91,11 @@ export const ModalAtualizaStatus = ({
   const finalizadoReporvadoLog = (cadastroProps && cadastroProps.logs) ? (
     cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Finalizado - Reprovado")
   ) : [];
-  
+
+  const canceladoLog = (cadastroProps && cadastroProps.logs) ? (
+    cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Cancelado")
+  ) : [];
+
   const relatorioFotografico = ((cadastroProps && cadastroProps.logs) &&
                                 (aguardandoRelatorioLog.length > 0)) ? (
     aguardandoRelatorioLog[0].anexos.filter((anexo) => anexo.get_tipo_documento_display === "Relatório fotográfico")
@@ -170,6 +175,13 @@ export const ModalAtualizaStatus = ({
       setOpcoesFinalizacao([
         { label: 'Selecione um status', value: undefined },
         { label: "Finalizado - Reprovado", value: 4 }
+      ]);
+    }
+    if (cadastroProps.status === "Cancelado") {
+      setResultadoAnalise(5);
+      setOpcoesFinalizacao([
+        { label: 'Selecione um status', value: undefined },
+        { label: "Cancelado", value: 5 }
       ]);
     }
   }, []);
@@ -407,7 +419,34 @@ export const ModalAtualizaStatus = ({
       toastError("É necessário preencher a data de envio");
     }
   };
-  
+
+  const cancelar = async (values) => {
+    const response = await cancela(values.id);
+    if (!response) toastError("Erro ao atualizar cadastro");
+    else if (response.status === HTTP_STATUS.OK) {
+      toastSuccess("Cadastro cancelado")        
+      setStatusCadastro(response.data.status);
+      setCadastroProps(response.data);
+      setResultadoAnalise(5);
+      setOpcoesFinalizacao([
+        { label: 'Selecione um status', value: undefined },
+        { label: 'Cancelado', value: 5 }
+      ]);
+    }
+  };
+
+  const reativar = async (values) => {
+    const response = await reativa(values.id);
+    if (!response) toastError("Erro ao atualizar cadastro");
+    else if (response.status === HTTP_STATUS.OK) {
+      toastSuccess("Cadastro reativado")        
+      setStatusCadastro(response.data.status);
+      setCadastroProps(response.data);
+      setOpcoesFinalizacao([{ label: 'Selecione um status', value: undefined },])
+      setResultadoAnalise(undefined);
+    }
+  };
+
   return (
     <Modal
       dialogClassName="modal-70w"
@@ -1242,7 +1281,9 @@ export const ModalAtualizaStatus = ({
                       options={opcoesFinalizacao}
                       defaultValue={analiseFinalizadaLog.length ? resultadoAnalise : 
                                     (finalizadoAprovadoLog.length ? resultadoAnalise : 
-                                      (finalizadoReporvadoLog.length ? resultadoAnalise : undefined)
+                                      (finalizadoReporvadoLog.length ? resultadoAnalise : 
+                                        ( canceladoLog.length ? resultadoAnalise : undefined)
+                                      )
                                     )
                                    }
                       labelClassName="font-weight-bold color-black"
@@ -1250,7 +1291,6 @@ export const ModalAtualizaStatus = ({
                                 finalizadoAprovadoLog.length || finalizadoReporvadoLog.length 
                                }
                     />
-                    {console.log(finalizadoReporvadoLog)}
                   </div>
                   <div className="col-8"></div>
                   <div className="observacoes col-12 mb-4">
@@ -1355,6 +1395,31 @@ export const ModalAtualizaStatus = ({
                       onClick={() => onSubmit(values)}
                       disabled={EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
                     />
+                    {cadastroProps.status === "Cancelado" ? (
+                      <Botao
+                        type={BUTTON_TYPE.BUTTON}
+                        style={BUTTON_STYLE.GREEN}
+                        texto="Reativar Cadastro"
+                        className="float-right mr-2"
+                        onClick={() => reativar(values)}
+                        disabled={EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
+                      />
+                    ) : (
+                      <Botao
+                        type={BUTTON_TYPE.BUTTON}
+                        style={BUTTON_STYLE.RED}
+                        texto="Cancelar Cadastro"
+                        className="float-right mr-2"
+                        onClick={() => cancelar(values)}
+                        disabled={ EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA || 
+                                   cadastroProps.status === 'Finalizado - Área Insuficiente' ||
+                                   cadastroProps.status === 'Finalizado - Demanda Insuficiente' ||
+                                   cadastroProps.status === 'Finalizado - Não atende as necessidades da SME' ||
+                                   cadastroProps.status === 'Vistoria reprovada' ||
+                                   cadastroProps.status === 'Finalizado - Reprovado'
+                                 }
+                      />
+                    )}
                   </div>
                 </div>
               </form>
