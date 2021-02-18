@@ -78,10 +78,10 @@ export const tipoDeStatus = (status) => {
     case "Finalizado - Demanda Insuficiente":
     case "Finalizado - Não atende as necessidades da SME":
     case "Finalizado - Reprovado":
-    case "Cancelado":
-      return "reprovado";
     case "Vistoria reprovada":
-      return "questionado"
+      return "reprovado";
+    case "Cancelado":
+      return "cancelado"
     default:
       return "";
   }
