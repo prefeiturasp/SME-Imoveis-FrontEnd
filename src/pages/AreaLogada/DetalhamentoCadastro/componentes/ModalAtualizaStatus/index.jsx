@@ -1411,13 +1411,7 @@ export const ModalAtualizaStatus = ({
                         texto="Cancelar Cadastro"
                         className="float-right mr-2"
                         onClick={() => cancelar(values)}
-                        disabled={ EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA || 
-                                   cadastroProps.status === 'Finalizado - Área Insuficiente' ||
-                                   cadastroProps.status === 'Finalizado - Demanda Insuficiente' ||
-                                   cadastroProps.status === 'Finalizado - Não atende as necessidades da SME' ||
-                                   cadastroProps.status === 'Vistoria reprovada' ||
-                                   cadastroProps.status === 'Finalizado - Reprovado'
-                                 }
+                        disabled={ EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA }
                       />
                     )}
                   </div>
