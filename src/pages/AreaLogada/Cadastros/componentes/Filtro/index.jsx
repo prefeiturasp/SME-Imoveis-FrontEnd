@@ -29,13 +29,19 @@ export const Filtro = ({
   const [status, setStatus] = useState([
     { label: 'Selecione', value: undefined },
     { label: 'Solicitação Realizada', value: 'SOLICITACAO_REALIZADA' },
-    { label: 'SME analisou previamente', value: 'AGUARDANDO_ANALISE_PREVISA_SME' },
+    { label: 'SME analisou previamente', value: 'AGUARDANDO_ANALISE_PREVIA_SME' },
     { label: 'Enviado à COMAPRE', value: 'ENVIADO_COMAPRE' },
+    { label: 'Agendamento da vistoria', value: 'AGENDAMENTO_DA_VISTORIA' },
     { label: 'Aguardando relatório de vistoria', value: 'AGUARDANDO_RELATORIO_DE_VISTORIA' },
     { label: 'Aguardando laudo de valor locatício', value: 'AGUARDANDO_LAUDO_DE_VALOR_LOCATICIO' },
-    { label: 'Aprovado', value: 'APROVADO' },
+    { label: 'Vistoria aprovada', value: 'VISTORIA_APROVADA' },
+    { label: 'Vistoria reprovada', value: 'VISTORIA_REPROVADA' },
     { label: 'Enviado à DRE', value: 'ENVIADO_DRE' },
-    { label: 'Finalizado', value: 'FINALIZADO' },
+    { label: 'Finalizado - Área Insuficiente', value: 'FINALIZADO_AREA_INSUFICIENTE' },
+    { label: 'Finalizado - Demanda Insuficiente', value: 'FINALIZADO_DEMANDA_INSUFICIENTE' },
+    { label: 'Finalizado - Não atende as necessidades da SME', value: 'FINALIZADO_NAO_ATENDE_NECESSIDADES' },
+    { label: 'Finalizado - Aprovado', value: 'FINALIZADO_APROVADO' },
+    { label: 'Finalizado - Reprovado', value: 'FINALIZADO_REPROVADO' },
     { label: 'Cancelado', value: 'CANCELADO' },
   ])
   const [areas, setAreas] = useState([

@@ -627,7 +627,7 @@ export const ModalAtualizaStatus = ({
                       defaultValue={enviadoComapreLog.length ? 3 : (analiseFinalizadaLog.length ? resultadoAnalise : undefined ) }
                       options={OPCOES_ANALISE}
                       labelClassName="font-weight-bold color-black"
-                      disabled={(cadastro.status !== "Solicitação Realizada") || (statusCadastro !== "Solicitação Realizada")}
+                      disabled={(statusCadastro !== "Solicitação Realizada")}
                     />
                     <OnChange name="resultado_da_analise">
                       {async (value, previous) => {
@@ -727,7 +727,7 @@ export const ModalAtualizaStatus = ({
                       texto="Enviar E-mail"
                       className="enviarEmail"
                       onClick={() => enviarComapre(values, true)}
-                      disabled={(cadastro.status !== "Solicitação Realizada" || !enviadoComapre)}
+                      disabled={(statusCadastro !== "Solicitação Realizada" || !enviadoComapre || statusCadastro === "Cancelado")}
                     />
                   </div>
                 </div>
@@ -1131,7 +1131,8 @@ export const ModalAtualizaStatus = ({
                       options={OPCOES_VISTORIA}
                       labelClassName="font-weight-bold color-black"
                       disabled={(relatorioVistoria.length === 0) || (laudoValorLocaticio.length === 0) ||
-                                (vistoriaAprovadaLog.length > 0) || (vistoriaReprovadaLog.length > 0)
+                                (vistoriaAprovadaLog.length > 0) || (vistoriaReprovadaLog.length > 0) || 
+                                (statusCadastro === "Cancelado")
                                }
                     />
                   </div>
@@ -1177,7 +1178,8 @@ export const ModalAtualizaStatus = ({
                       className="enviarEmail"
                       onClick={() => enviarResultadoVistoria(values, true)}
                       disabled={(relatorioVistoria.length === 0) || (laudoValorLocaticio.length === 0) ||
-                                (vistoriaAprovadaLog.length > 0) || (vistoriaReprovadaLog.length > 0)
+                                (vistoriaAprovadaLog.length > 0) || (vistoriaReprovadaLog.length > 0) || 
+                                (statusCadastro === "Cancelado")
                                }
                     />
                   </div>
@@ -1191,7 +1193,9 @@ export const ModalAtualizaStatus = ({
                       type="checkbox"
                       checked={(statusCadastro === "Vistoria aprovada") ||
                                (statusCadastro === "Enviado à DRE") ||
-                               (statusCadastro === "Finalizado - Aprovado")                              }
+                               (statusCadastro === "Finalizado - Aprovado") ||
+                               (vistoriaAprovadaLog.length > 0) || 
+                               (vistoriaReprovadaLog.length > 0)}
                     />
                     <label htmlFor='envioDre' className="ml-2" >Envio DRE</label>
                   </div>
@@ -1255,7 +1259,7 @@ export const ModalAtualizaStatus = ({
                       texto="Enviar E-mail"
                       className="enviarEmail"
                       onClick={() => enviarDre(values, true)}
-                      disabled={statusCadastro !== "Vistoria aprovada"}
+                      disabled={statusCadastro !== "Vistoria aprovada" || statusCadastro === "Cancelado"}
                     />
                   </div>
                 </div>
@@ -1288,7 +1292,8 @@ export const ModalAtualizaStatus = ({
                                    }
                       labelClassName="font-weight-bold color-black"
                       disabled={!finalizado || analiseFinalizadaLog.length || 
-                                finalizadoAprovadoLog.length || finalizadoReporvadoLog.length 
+                                finalizadoAprovadoLog.length || finalizadoReporvadoLog.length || 
+                                statusCadastro === "Cancelado" 
                                }
                     />
                   </div>
@@ -1307,7 +1312,8 @@ export const ModalAtualizaStatus = ({
                       style={{minHeight: "100px", height: "100px", maxHeight: '100px'}}
                       labelClassName="font-weight-bold color-black"
                       disabled={!finalizado || analiseFinalizadaLog.length || 
-                                finalizadoAprovadoLog.length || finalizadoReporvadoLog.length 
+                                finalizadoAprovadoLog.length || finalizadoReporvadoLog.length || 
+                                statusCadastro === "Cancelado" 
                                }
                       />
                       {console.log(finalizadoAprovadoLog)}
@@ -1381,7 +1387,8 @@ export const ModalAtualizaStatus = ({
                       className="enviarEmail"
                       onClick={() => finalizarAnalise(values, true)}
                       disabled={!finalizado || analiseFinalizadaLog.length ||
-                                finalizadoAprovadoLog.length || finalizadoReporvadoLog.length}
+                                finalizadoAprovadoLog.length || finalizadoReporvadoLog.length || 
+                                statusCadastro === "Cancelado"}
                     />
                   </div>
                 </div>
@@ -1395,25 +1402,31 @@ export const ModalAtualizaStatus = ({
                       onClick={() => onSubmit(values)}
                       disabled={EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
                     />
-                    {cadastroProps.status === "Cancelado" ? (
-                      <Botao
-                        type={BUTTON_TYPE.BUTTON}
-                        style={BUTTON_STYLE.GREEN}
-                        texto="Reativar Cadastro"
-                        className="float-right mr-2"
-                        onClick={() => reativar(values)}
-                        disabled={EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
-                      />
-                    ) : (
-                      <Botao
-                        type={BUTTON_TYPE.BUTTON}
-                        style={BUTTON_STYLE.RED}
-                        texto="Cancelar Cadastro"
-                        className="float-right mr-2"
-                        onClick={() => cancelar(values)}
-                        disabled={ EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA }
-                      />
-                    )}
+                    {((cadastroProps.status === "Cancelado") || 
+                      (cadastroProps.status === "Finalizado - Área Insuficiente") || 
+                      (cadastroProps.status === "Finalizado - Demanda Insuficiente") || 
+                      (cadastroProps.status === "Finalizado - Não atende as necessidades da SME")|| 
+                      (cadastroProps.status === "Finalizado - Reprovado")) ? 
+                          (
+                            <Botao
+                              type={BUTTON_TYPE.BUTTON}
+                              style={BUTTON_STYLE.GREEN}
+                              texto="Reativar Cadastro"
+                              className="float-right mr-2"
+                              onClick={() => reativar(values)}
+                              disabled={EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
+                            />
+                          ) : (
+                            <Botao
+                              type={BUTTON_TYPE.BUTTON}
+                              style={BUTTON_STYLE.RED}
+                              texto="Cancelar Cadastro"
+                              className="float-right mr-2"
+                              onClick={() => cancelar(values)}
+                              disabled={ EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA }
+                            />
+                          )
+                    }
                   </div>
                 </div>
               </form>
