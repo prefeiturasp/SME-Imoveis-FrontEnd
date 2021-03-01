@@ -9,6 +9,7 @@ export const TabelaDemanda = ({ cadastro }) => {
         <div>Não há informações sobre a demanda para este imóvel.</div>
       )}
       {cadastro.demandaimovel && (
+        <>
         <table className="tabela-demanda">
           <thead>
             <tr>
@@ -33,6 +34,10 @@ export const TabelaDemanda = ({ cadastro }) => {
             </tr>
           </tbody>
         </table>
+        </>
+      )}
+      {cadastro.demandaimovel && (
+        <div className="data_atualizacao">{cadastro.demandaimovel.data_atualizacao} </div>
       )}
     </div>
   );
