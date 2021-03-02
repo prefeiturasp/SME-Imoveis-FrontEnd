@@ -130,17 +130,24 @@ export default class Menu extends Component {
                 {!esconderLinkBuscaEscola && (
                   <li className="nav-item">
                     <Link className="nav-link text-secondary mb-1 pb-0" to="/">
-                      Home
+                      Página Inicial
                     </Link>
                   </li>
                 )}
-
                 <li className="nav-item">
                   <a
                     className="nav-link text-secondary mb-1 pb-0"
-                    href="http://dados.prefeitura.sp.gov.br/organization/educacao1"
+                    href="/cadastro-imovel"
                   >
-                    Portal da Transparência
+                    Cadastro de Imóvel
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link text-secondary mb-1 pb-0"
+                    href="/consulta-imovel"
+                  >
+                    Acompanhamento de Protocolo
                   </a>
                 </li>
                 <li className="nav-item">

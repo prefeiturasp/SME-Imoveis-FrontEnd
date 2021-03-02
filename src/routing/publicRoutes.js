@@ -1,5 +1,6 @@
 import Home from "pages/Home";
 import CadastroImovel from "pages/CadastroImovel";
+import ConsultaImovel from "pages/ConsultaImovel";
 import { Login } from "pages/Login";
 import { SemPermissao } from "pages/SemPermissao";
 import { RecuperarSenha } from "pages/RecuperarSenha";
@@ -23,6 +24,11 @@ export const publicRoutes = [
   {
     path: "/cadastro-imovel",
     component: CadastroImovel,
+    exact: true,
+  },
+  {
+    path: "/consulta-imovel",
+    component: ConsultaImovel,
     exact: true,
   },
   {
