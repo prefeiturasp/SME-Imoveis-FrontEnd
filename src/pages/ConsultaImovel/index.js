@@ -160,7 +160,7 @@ const ConsultaImovel = () => {
 															<div className="col-4">
 																<Field
 																	component={InputText}
-																	defaultValue={imovel.iptu}
+																	defaultValue={imovel.numero_iptu}
 																	name="iptu"
 																	label={<b>IPTU</b>}
 																	disabled={true}
@@ -189,7 +189,7 @@ const ConsultaImovel = () => {
 															<div className="col-6">
 																<Field
 																	component={InputText}
-																	defaultValue={imovel.setor.dre.nome}
+																	defaultValue={imovel.setor ? imovel.setor.dre.nome : ""}
 																	name={"dre"}
 																	label={<b>DRE</b>}
 																	disabled={true}
@@ -198,7 +198,7 @@ const ConsultaImovel = () => {
 															<div className="col-3">
 																<Field
 																	component={InputText}
-																	defaultValue={imovel.setor.distrito.nome}
+																	defaultValue={imovel.setor ? imovel.setor.distrito.nome : ""}
 																	name={"distrito"}
 																	label={<b>Distrito</b>}
 																	disabled={true}
@@ -207,7 +207,7 @@ const ConsultaImovel = () => {
 															<div className="col-3">
 																<Field
 																	component={InputText}
-																	defaultValue={imovel.setor.codigo}
+																	defaultValue={imovel.setor ? imovel.setor.codigo: ""}
 																	name={"setor"}
 																	label={<b>Setor</b>}
 																	disabled={true}
