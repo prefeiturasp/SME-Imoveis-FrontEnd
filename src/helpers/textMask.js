@@ -58,5 +58,5 @@ export const processoSeiMask = value => {
 
 export const numeroProtocolo = value => {
   const cleanedValue = value.replace(/[^a-z0-9]/gi, "").replace(/\D/g, "");
-  return formatString("000/00", cleanedValue);
+  return formatString("000/0000", cleanedValue);
 };
