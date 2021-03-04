@@ -30,10 +30,10 @@ export const setTextContent = (tipoEmail, imovel) => {
   if (tipoEmail === "vistoria_agendada") {
     content =	<VistoriaAgendada imovel={imovel}/>
   }
-  if (tipoEmail === "vistoria_aprovada") {
+  if (tipoEmail === "vistoria_reprovada") {
     content =	<VistoriaReprovada imovel={imovel}/>
   }
-  if (tipoEmail === "vistoria_reprovada") {
+  if (tipoEmail === "vistoria_aprovada") {
     content =	<VistoriaAprovada imovel={imovel}/>
   }
   if (tipoEmail === "enviado_dre") {
