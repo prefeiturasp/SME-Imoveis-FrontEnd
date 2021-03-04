@@ -13,7 +13,7 @@ const Cancelado = (imovel) => {
         <p>
           Em atendimento a solicitação de V.Sa. referente ao cadastro de imóvel, <b>protocolo nº 
             {imovel.imovel.protocolo}</b>, conforme dados a seguir, efetuamos o 
-            cancelamento do cadastro na presente data <b>[data_hoje]</b>.
+            cancelamento do cadastro na presente data <b>{imovel.imovel.data_cancelamento}</b>.
         </p>
         <p>
           Obrigado.
