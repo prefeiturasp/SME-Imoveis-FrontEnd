@@ -1,4 +1,5 @@
 import PaginaHeaderSidebar from "components/PaginaHeaderSidebar";
+import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import HTTP_STATUS from "http-status-codes";
 import React, { useEffect, useState } from "react";
 import {
@@ -80,6 +81,9 @@ export const Notificacoes = () => {
       {erro && <div>Erro ao carregar dados de notificação</div>}
       {!LOADING && !erro && notificacoes && (
         <>
+          <Breadcrumb>
+            <Breadcrumb.Item href="/adm-imoveis"><i class="fas fa-home"></i> Home</Breadcrumb.Item>
+          </Breadcrumb>
           <Ultimos30Dias notificacoes={notificacoes} />
           <CardPorStatus
             titulo="NOVOS CADASTROS"

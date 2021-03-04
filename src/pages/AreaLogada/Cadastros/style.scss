@@ -100,3 +100,18 @@ div.cadastros {
   border: 1px solid #e9eaea;
   border-radius: "2px";
 }
+
+ol.breadcrumb {
+  background-color: #F8F5F5;
+  a {
+    color: #035D96;
+  }
+}
+
+li.breadcrumb-item.active::before{
+  color: #035D96;
+  text-align: center;
+  font-family: "Font Awesome 5 Free";
+  content: '\f138';
+  font-weight: 600;
+}

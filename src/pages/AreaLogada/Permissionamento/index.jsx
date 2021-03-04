@@ -3,6 +3,7 @@ import PaginaHeaderSidebar from "components/PaginaHeaderSidebar";
 import { TabelaUsuarios } from "./componentes/TabelaUsuarios";
 import { Filtro } from "./componentes/Filtro";
 import { ModalEditarUsuario } from "./componentes/ModalEditarUsuario";
+import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import "./style.scss";
 
 const Permissionamento = () => {
@@ -15,6 +16,12 @@ const Permissionamento = () => {
 
   return (
     <PaginaHeaderSidebar>
+      <Breadcrumb className='breadcrumb-bootstrap'>
+        <Breadcrumb.Item href="/adm-imoveis"><i class="fas fa-home"></i>Home</Breadcrumb.Item>
+        <Breadcrumb.Item active href="/adm-imoveis/permissionamento">
+          Permissionamento
+        </Breadcrumb.Item>
+      </Breadcrumb>
       <div className="permissionamento">
         <div className="card">
           <div className="card-body">
