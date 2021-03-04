@@ -4,6 +4,7 @@ import { Filtro } from "./componentes/Filtro";
 import { Link } from "react-router-dom";
 import { BUTTON_ICON, BUTTON_STYLE } from "components/Botao/constants";
 import { TabelaCadastros } from "./componentes/TabelaCadastros";
+import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import "components/Botao/style.scss"
 import "./style.scss";
 
@@ -18,19 +19,13 @@ const Cadastros = () => {
 
   return (
     <PaginaHeaderSidebar>
+      <Breadcrumb>
+        <Breadcrumb.Item href="/adm-imoveis"><i class="fas fa-home"></i> Home</Breadcrumb.Item>
+        <Breadcrumb.Item active href="/adm-imoveis/cadastros-realizados">
+          Cadastros Realizados
+        </Breadcrumb.Item>
+      </Breadcrumb>
       <div className="cadastros">
-        <div className="offset-sm-10 col-sm-2 mb-2">
-          <Link to="/adm-imoveis">
-            <button
-              className={`general-button ${BUTTON_STYLE.BLUE} col-12`}
-              type='button'
-              data-cy="Voltar"
-              >
-                <i className={`${BUTTON_ICON.ARROW_LEFT} ${"Voltar" && "text-and-icon"}`} />
-                Voltar
-            </button>
-          </Link>
-        </div>
         <div className="card">
           <div className="card-body">
             <h1 className="card-title">Gestão de Cadastros Realizados</h1>
