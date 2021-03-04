@@ -1,0 +1,26 @@
+@import "styles/variaveis.scss";
+
+.title-email {
+  width: 600px;
+  margin: 0 auto;
+  text-align: center ;
+  padding-top: 10px; 
+  padding-bottom: 10px;
+}
+
+.title-content-email {
+  color: #42474A; 
+  font-family: 'Open Sans'; 
+  font-size: 24px;
+}
+
+.textarea-email {
+  width: 600px;
+  text-align: justify; 
+  padding-top: 5px; 
+  padding-bottom: 15px;
+  color: #42474A; 
+  font-family: 'Open Sans'; 
+  font-size: 16px;
+  margin: 0 auto;
+}
