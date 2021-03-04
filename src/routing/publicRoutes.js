@@ -4,6 +4,7 @@ import ConsultaImovel from "pages/ConsultaImovel";
 import { Login } from "pages/Login";
 import { SemPermissao } from "pages/SemPermissao";
 import { RecuperarSenha } from "pages/RecuperarSenha";
+import Emails from "pages/Emails";
 
 export const publicRoutes = [
   {
@@ -34,6 +35,11 @@ export const publicRoutes = [
   {
     path: "/recuperar-senha",
     component: RecuperarSenha,
+    exact: true,
+  },
+  {
+    path: "/email",
+    component: Emails,
     exact: true,
   },
 ];
