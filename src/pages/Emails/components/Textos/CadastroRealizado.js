@@ -19,9 +19,6 @@ const CadastroRealizado = (imovel) => {
             as condições do imóvel e enviará retorno com o parecer no e-mail cadastrado.
             Favor aguardar nosso contato.
         </p>
-        <p>
-          Obrigado.
-        </p>
       </div>
     </>
   );

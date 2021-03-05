@@ -171,7 +171,7 @@ export const TabelaCadastros = ({
                         )
                       }
                     >
-                      {cadastro.area_construida}
+                      {cadastro.area_construida | 0}
                     </td>
                     <td>
                       <button

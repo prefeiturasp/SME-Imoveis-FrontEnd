@@ -21,8 +21,8 @@ const DemandaInsuficiente = (imovel) => {
       <DadosDemanda imovel={imovel}/>
       <div className="textarea-email">
         <p>
-          A Secretaria Municipal de Educação – SME está priorizando vistorias de imóveis 
-            em regiões com alta demanda. Contudo, seu imóvel continuará em nosso em banco 
+          A Secretaria Municipal de Educação – SME prioriza vistorias de imóveis 
+            em regiões com alta demanda. Contudo, seu imóvel continuará em nosso banco 
             de dados, e caso, haja necessidade, faremos novo contato oportunamente.
         </p>
       </div>
