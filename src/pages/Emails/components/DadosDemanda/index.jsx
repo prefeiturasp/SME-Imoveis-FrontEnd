@@ -7,20 +7,22 @@ const DadosDemanda = (imovel) => {
       <div className="title-wrapper">
         <div className="title-content">
           <label className="title">
-            Dados da Demanda [data_atualizacao_demanda]
+            Dados da Demanda {imovel.imovel.data_atualizacao_demanda}
           </label>
         </div>
       </div>
       <div className="body-wrapper">
         <div className="body-content">
           <label className="body-info">
-            Berçário I: 
+            Berçário I: {imovel.imovel.bercario_i}
             <br/>
-            Berçário II: 
+            Berçário II: {imovel.imovel.bercario_ii}
             <br/>
-            Mini Grupo I: 
+            Mini Grupo I: {imovel.imovel.mini_grupo_i}
             <br/>
-            Mini Grupo II: 
+            Mini Grupo II: {imovel.imovel.mini_grupo_ii}
+            <br/>
+            Total: {imovel.imovel.demanda_total}
             <br/>
           </label>
         </div>

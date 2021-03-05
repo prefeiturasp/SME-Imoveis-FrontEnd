@@ -14,7 +14,7 @@ const EnviadoDre = (imovel) => {
           Em continuidade as ações referentes ao cadastro de imóvel, <b>protocolo nº {imovel.imovel.protocolo}</b>, conforme dados a seguir, informamos que após o parecer favorável da vistoria, foi encaminhado para o Setor de Parcerias da Diretoria Regional de Educação {imovel.imovel.diretoria_regional_educacao}.
         </p>
         <p>
-          Aguarde contato do Engenheiro/Arquiteto para a realização da vistoria no imóvel.
+          Aguarde contato do Gestor de Parcerias para novas orientações.
         </p>
       </div>
     </>
