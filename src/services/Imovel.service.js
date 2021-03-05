@@ -35,10 +35,6 @@ export const getImovel = async (uuid) => {
   return await api.get(`cadastro-imovel/${uuid}/`);
 };
 
-export const getImovelByProtocolo = async (uuid, criado_em) => {
-  return await api.get(`cadastro-imovel/imoveis/get-by-protocolo/?imovel=${uuid}&criado_em=${criado_em}`);
-};
-
 export const getImovelAsDict = async (uuid) => {
   return await api.get(`cadastro-imovel/imoveis/get-as-dict/?imovel=${uuid}`);
 };
