@@ -18,7 +18,7 @@ const DemandaInsuficiente = (imovel) => {
             uma parceria nesse momento, conforme dados a seguir:
         </p>
       </div>
-      <DadosDemanda imovel={imovel}/>
+      <DadosDemanda imovel={imovel.imovel}/>
       <div className="textarea-email">
         <p>
           A Secretaria Municipal de Educação – SME prioriza vistorias de imóveis 
