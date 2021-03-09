@@ -102,13 +102,7 @@ export const TabelaCadastros = ({
                         )
                       }
                     >
-                      {`${
-                        cadastro.protocolo.split("/")[0]
-                      }/${cadastro.protocolo
-                        .split("/")[1]
-                        .charAt(2)}${cadastro.protocolo
-                        .split("/")[1]
-                        .charAt(3)}`}
+                      {`${cadastro.protocolo}`}
                     </td>
                     <td
                       onClick={() =>
