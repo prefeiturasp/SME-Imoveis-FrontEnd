@@ -48,24 +48,30 @@ body {
   line-height: 12px;
   li {
     a {
-      color: white;
+      color: white !important;
+    }
+    a:hover {
+      color: white !important;
+      text-decoration: underline !important;
     }
   }
 }
 
 .links-menu {
-  border-bottom: 1px solid #dee2e6;
-
-  @media (max-width: 576px) {
-    border-bottom: 0 none !important;
-  }
-
-  .nav-link {
-    border: 0 none !important;
-
-    &:hover {
-      border: 0 none;
-      padding: 0.5rem 1rem;
+  
+  .nav-tabs {
+    border-bottom: 1px solid #534F54;
+    
+    @media (max-width: 576px) {
+      border-bottom: 0 none !important;
+    }
+    .nav-link {
+      border: 0 none !important;
+  
+      &:hover {
+        border: 0 none;
+        padding: 0.5rem 1rem;
+      }
     }
   }
 }
@@ -74,34 +80,171 @@ body {
 
 .oferta-imoveis {
   background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(255, 255, 255, 0.9) 33.83%,
-      rgba(255, 255, 255, 0.648) 64.77%,
-      rgba(255, 255, 255, 0.324) 92.11%
-    ),
-    url("../img/01.jpg"), #c4c4c4;
-  color: $corPretoPortal;
+      rgba(66, 71, 74, 0.6),rgba(66, 71, 74, 0.6)
+    ), url("../img/04.jpg");
+  color: #fff;
   height: 490px;
   background-repeat: no-repeat;
   background-size: cover;
   .conteudo {
+    text-align: center;
     margin: 0 auto;
     z-index: 1;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     h1 {
+      color: #fff;
       font-size: 40px;
       font-weight: bold;
     }
     p {
-      font-size: 20px;
-      line-height: 26px;
+      font-family: Roboto;
       font-style: normal;
-      font-weight: bold;
+      font-weight: normal;
+      font-size: 20px;
+      line-height: 23px;
     }
   }
+}
+
+.duvidas {
+  h1{
+    font-weight: 700;
+    text-align: center;
+    color: #196CBD;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 35px;
+    line-height: 41px;
+  }
+  p {
+    color: #42474A;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+  }
+}
+
+.demanda-regioes {
+  background: linear-gradient(
+      rgba(66, 71, 74, 0.6),rgba(66, 71, 74, 0.6)
+    ), url("../img/06.png");
+  color: #fff;
+  height: 500px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  .botao-cadastro {
+    height: 50px;
+    width: 277px;
+    background: #086397;
+    border: 0px solid #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+    color: #FFFFFF;
+  }
+
+  .conteudo {
+    text-align: center;
+    margin: 0 auto;
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    h1 {
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+    }
+    p {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 20px;
+      line-height: 23px;
+    }
+  }
+}
+
+.home {
+  h1{
+    font-weight: 700;
+    text-align: center;
+    color: #196CBD;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 35px;
+    line-height: 41px;
+  }
+  img{
+    width: 100%;
+    height: 200px;
+  }
+  .conteudo {
+    p {
+      color: #42474A;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 20px;
+      line-height: 23px;
+      text-align: justify;
+    }
+
+    a {
+      color: #086397;
+
+    }
+    a:hover {
+      text-decoration: underline;
+      color: #004a99;
+
+    }
+  }
+  .ajuda {
+    text-align: center;
+    border:rgba(66, 71, 74, 0.6) solid 1px;
+    border-radius: 5px;
+    padding: 2%;
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+.cadastro {
+  background: #196CBD;
+  text-align: center;
+
+  .botao-cadastro {
+    height: 50px;
+    width: 277px;
+    background: #086397;
+    border: 1px solid #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+    color: #FFFFFF;
+  }
+}
+
+.justify-conteudo {
+  text-align: justify;
 }
 
 .btn {
@@ -118,11 +261,6 @@ body {
       font-size: 18px;
     }
   }
-}
-
-.o-que-e-necessario {
-  display: flex;
-  align-items: center;
 }
 
 .sociedade-governo {
