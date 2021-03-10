@@ -5,12 +5,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebookSquare,
   faInstagram,
-  faTwitter,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import "./style.scss";
 
 export default class Menu extends Component {
+  constructor() {
+    super();
+    this.abrirNovaJanela = this.abrirNovaJanela.bind(this);
+  }
+
+  abrirNovaJanela(path) {
+    window.open(path, 'NewButtonWindowName','width=2000,height=800,scrollbars=yes')
+  }
   render() {
     const { esconderLinkBuscaEscola } = this.props;
     return (
@@ -65,22 +72,27 @@ export default class Menu extends Component {
               <div className="col-lg-6 col-xs-12 d-flex justify-content-lg-start justify-content-center">
                 <ul className="list-inline mt-3">
                   <li className="list-inline-item">
-                    <a href="http://transparencia.prefeitura.sp.gov.br/acesso-a-informacao">
+                    <a className="links-nova-janela" onClick={() => this.abrirNovaJanela("https://educacao.sme.prefeitura.sp.gov.br")}>
+                      Acesso ao Portal da SME
+                    </a>
+                  </li>
+                  <li className="list-inline-item">
+                    <a className="links-nova-janela" onClick={() => this.abrirNovaJanela("http://transparencia.prefeitura.sp.gov.br/acesso-a-informacao/Paginas/default.aspx")}>
                       Acesso à informação e-sic
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="https://www.prefeitura.sp.gov.br/cidade/secretarias/ouvidoria/fale_com_a_ouvidoria/index.php?p=464">
+                    <a className="links-nova-janela" onClick={() => this.abrirNovaJanela("https://www.prefeitura.sp.gov.br/cidade/secretarias/ouvidoria/fale_com_a_ouvidoria/index.php?p=464")}>
                       Ouvidoria
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="http://dados.prefeitura.sp.gov.br/organization/educacao1">
+                    <a className="links-nova-janela" onClick={() => this.abrirNovaJanela("http://dados.prefeitura.sp.gov.br/organization/educacao1")}>
                       Portal da Transparência
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="https://sp156.prefeitura.sp.gov.br/portal/servicos">
+                    <a className="links-nova-janela" onClick={() => this.abrirNovaJanela("https://sp156.prefeitura.sp.gov.br/portal/servicos")}>
                       SP 156
                     </a>
                   </li>
@@ -89,22 +101,17 @@ export default class Menu extends Component {
               <div className="col-lg-6 col-xs-12 d-flex justify-content-lg-end justify-content-center">
                 <ul className="list-inline my-auto">
                   <li className="list-inline-item">
-                    <a href="https://pt-br.facebook.com/EducaPrefSP/">
+                    <a className="links-nova-janela" onClick={() => this.abrirNovaJanela("https://www.facebook.com/EducaPrefSP/")}>
                       <FontAwesomeIcon size="2x" icon={faFacebookSquare} />
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="https://www.instagram.com/educaprefsp/">
+                    <a className="links-nova-janela" onClick={() => this.abrirNovaJanela("https://www.instagram.com/educaprefsp/")}>
                       <FontAwesomeIcon size="2x" icon={faInstagram} />
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="https://twitter.com/EducaPrefSP">
-                      <FontAwesomeIcon size="2x" icon={faTwitter} />
-                    </a>
-                  </li>
-                  <li className="list-inline-item">
-                    <a href="https://www.youtube.com/c/EducaPrefSP">
+                    <a className="links-nova-janela" onClick={() => this.abrirNovaJanela("https://www.youtube.com/c/EducaPrefSP")}>
                       <FontAwesomeIcon size="2x" icon={faYoutube} />
                     </a>
                   </li>
@@ -115,19 +122,22 @@ export default class Menu extends Component {
         </div>
         <div className="container">
           <div className="row mt-4 mb-4">
-            <div className="col-lg-3 col-sm-12 d-flex justify-content-lg-start justify-content-center align-items-end mb-4 mb-lg-0">
+            <div className="col-lg-4 col-sm-12">
               <h1 className="m-0">
                 <a href="https://educacao.sme.prefeitura.sp.gov.br/">
                   <img src={logo} alt="Escola Aberta" className="img-fluid" />
                 </a>
               </h1>
             </div>
+            <div className="offset-lg-6 col-lg-2 col-sm-12">
+              <img src='https://educacao.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/06/Logo_Educacao.png' alt="Logo SME" className="img-fluid logo-sme"></img>
+            </div>
             <div
               id="menu-principal"
-              className="col-lg-9 col-sm-12 d-flex links-menu align-items-end justify-content-lg-end justify-content-center pr-lg-0 mb-xs-4"
+              className="offset-lg-4 col-lg-8 col-sm-12 d-flex links-menu align-items-end justify-content-lg-end justify-content-center pr-lg-0 mb-xs-4"
             >
-              <ul className="nav nav-tabs border-0">
-                {!esconderLinkBuscaEscola && (
+              <ul className="nav nav-tabs">
+                {(window.location.pathname !== '/' )&& (
                   <li className="nav-item">
                     <Link className="nav-link text-secondary mb-1 pb-0" to="/">
                       Página Inicial

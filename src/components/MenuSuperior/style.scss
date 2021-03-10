@@ -23,9 +23,25 @@ div.header-acessibilidade {
   span.span-accesskey {
     margin-left: 5px;
     padding: 1px 6px;
-    background-color: #196cbd;
+    background-color: #636464;
   }
   svg {
     margin-left: 5px;
+  }
+}
+
+.logo-sme {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button-to-top {
+  img {
+    z-index: 1;
+    top: 80%;
+    left: 90%;
+    position: fixed;
+    width: 75px;
   }
 }
