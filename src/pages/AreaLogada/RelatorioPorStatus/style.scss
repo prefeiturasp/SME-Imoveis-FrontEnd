@@ -27,12 +27,14 @@ h1.card-title {
   background-color: #fff !important;
 }
 
-.nav-tabs {
-  a {
-    width: 50%;
-    color: #42474A;
-  }
-  a:hover {
-    color: #42474A;
+.relatorio {
+  .nav-tabs {
+    a {
+      width: 50%;
+      color: #42474A;
+    }
+    a:hover {
+      color: #42474A;
+    }
   }
 }
