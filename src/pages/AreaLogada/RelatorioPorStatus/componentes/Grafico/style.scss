@@ -1,0 +1,54 @@
+@import "styles/variaveis.scss";
+
+.center-text {
+  text-align: center;
+}
+
+.informacoes {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 22px;
+  color: #42474A;
+}
+
+.valores {
+  font-family: Roboto;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 22px;
+  color: #929494;
+}
+
+.emAnalise {
+  border: #FF6384 solid 2px;
+  height: 45px;
+  margin-top: 1%;
+  background-color: #FF6384;
+}
+.finalizadoReprovado {
+  border: #36A2EB solid 2px;
+  height: 45px;
+  margin-top: 1%;
+  background-color: #36A2EB;
+}
+.vistoriaAprovada {
+  border: #FFCE56 solid 2px;
+  height: 45px;
+  margin-top: 1%;
+  background-color: #FFCE56;
+}
+.vistoriaReprovada {
+  border: #8ee886 solid 2px;
+  height: 45px;
+  margin-top: 1%;
+  background-color: #8ee886;
+}
+.cancelado {
+  border: #762487 solid 2px;
+  height: 45px;
+  margin-top: 1%;
+  background-color: #762487;
+}
