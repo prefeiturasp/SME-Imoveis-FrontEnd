@@ -109,6 +109,13 @@ export class Sidebar extends Component {
                   >
                     Relatórios Gerenciais
                   </NavLink>
+                  <NavLink
+                    activeClassName="active"
+                    className="collapse-item"
+                    to="/adm-imoveis/relatorio-por-status"
+                  >
+                    Cadastros de imóveis por Status
+                  </NavLink>
                 </div>
               </div>
             </li>
