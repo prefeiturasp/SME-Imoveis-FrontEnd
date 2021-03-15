@@ -23,7 +23,7 @@ export const Grafico = ({
             <div className="emAnalise col-1">
             </div>
             <div className="col-11">
-              <label className="valores">{resultado.em_analise} ({(resultado.em_analise/resultado.total)*100}%)</label>
+              <label className="valores">{resultado.em_analise} ({((resultado.em_analise/resultado.total)*100).toFixed(2)}%)</label>
               <p className="informacoes">Em análise</p>
             </div>
           </div>
@@ -33,7 +33,7 @@ export const Grafico = ({
             <div className="finalizadoReprovado col-1">
             </div>
             <div className="col-11">
-              <label className="valores">{resultado.finalizados_reprovados} ({(resultado.finalizados_reprovados/resultado.total)*100}%)</label>
+              <label className="valores">{resultado.finalizados_reprovados} ({((resultado.finalizados_reprovados/resultado.total)*100).toFixed(2)}%)</label>
               <p className="informacoes">Finalizados reprovados</p>
             </div>
           </div>
@@ -43,7 +43,7 @@ export const Grafico = ({
             <div className="vistoriaAprovada col-1">
             </div>
             <div className="col-11">
-              <label className="valores">{resultado.aprovados_na_vistoria} ({(resultado.aprovados_na_vistoria/resultado.total)*100}%)</label>
+              <label className="valores">{resultado.aprovados_na_vistoria} ({((resultado.aprovados_na_vistoria/resultado.total)*100).toFixed(2)}%)</label>
               <p className="informacoes">Aprovados vistoria</p>
             </div>
           </div>
@@ -53,7 +53,7 @@ export const Grafico = ({
             <div className="vistoriaReprovada col-1">
             </div>
             <div className="col-11">
-              <label className="valores">{resultado.reprovados_na_vistoria} ({(resultado.reprovados_na_vistoria/resultado.total)*100}%)</label>
+              <label className="valores">{resultado.reprovados_na_vistoria} ({((resultado.reprovados_na_vistoria/resultado.total)*100).toFixed(2)}%)</label>
               <p className="informacoes">Reprovados vistoria</p>
             </div>
           </div>
@@ -63,7 +63,7 @@ export const Grafico = ({
             <div className="cancelado col-1">
             </div>
             <div className="col-11">
-              <label className="valores">{resultado.cancelados} ({(resultado.cancelados/resultado.total)*100}%)</label>
+              <label className="valores">{resultado.cancelados} ({((resultado.cancelados/resultado.total)*100).toFixed(2)}%)</label>
               <p className="informacoes">Cancelados</p>
             </div>
           </div>

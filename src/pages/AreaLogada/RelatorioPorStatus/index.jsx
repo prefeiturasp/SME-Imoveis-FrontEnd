@@ -29,7 +29,7 @@ const RelatorioPorStatus = () => {
             setResultado={setResultado}
           />
           {resultado && (
-            <div className="card mt-5">
+            <div className="relatorio card mt-5">
               <Tabs defaultActiveKey="relatorio" id="uncontrolled-tab-example">
                 <Tab eventKey="relatorio" title="Resumo">
                   <Relatorio
