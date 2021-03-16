@@ -23,7 +23,7 @@ export const Relatorio = ({
             var url = window.URL.createObjectURL(response.data);
             var a = document.createElement('a');
             a.href = url;
-            a.download = "cadastros-realizados.xlsx";
+            a.download = "relatorio-por-status.xlsx";
             document.body.appendChild(a);
             a.click();
             a.remove();
