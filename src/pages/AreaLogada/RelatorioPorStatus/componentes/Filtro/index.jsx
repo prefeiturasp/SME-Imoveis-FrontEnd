@@ -34,7 +34,7 @@ export const Filtro = ({
   }, []);
 
   const onSubmit = async () => {
-    const params = formataPayloadFiltros(filtros); 
+    const params = formataPayloadFiltros(filtros);
     filtrar(params)
       .then((response) => {
         if (response.status === HTTP_STATUS.OK) {

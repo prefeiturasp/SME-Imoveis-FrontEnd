@@ -45,3 +45,25 @@ export const filtrar = (params) => {
       return console.log(error);
     });
 };
+
+export const exportar = (params) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/exportar-relatorio-por-status?${params}`;
+  let status = 0;
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `JWT ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.blob();
+    })
+    .then((blob) => {
+      return { data: blob, status: status };
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+};
