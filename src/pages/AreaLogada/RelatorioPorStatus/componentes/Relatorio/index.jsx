@@ -1,10 +1,37 @@
-import React, { useState } from "react";
+import React from "react";
+import Botao from "components/Botao";
+import { BUTTON_ICON, BUTTON_STYLE } from "components/Botao/constants";
+import { formataPayloadFiltros } from "../../helper"
+import { exportar } from "services/relatorios.service";
+import HTTP_STATUS from "http-status-codes";
 import "./style.scss";
-
 
 export const Relatorio = ({
   resultado,
+  filtros,
 }) => {
+
+  const exportarRelatorio = (e) => {
+    e.preventDefault();
+    const params = formataPayloadFiltros(filtros);
+    exportar(params)
+      .then((response) => {
+        if (response.status === HTTP_STATUS.OK){
+          if (!window.confirm('Deseja gerar arquivo?')) {
+            e.stopPropagation();
+          } else {
+            var url = window.URL.createObjectURL(response.data);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = "relatorio-por-status.xlsx";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+          }
+        }
+      })
+  }
+
   return (
     <div>
       <table className="relatorio">
@@ -31,6 +58,19 @@ export const Relatorio = ({
           </tr>
         </tbody>
       </table>
+      <div className="row mt-3 p-3">
+        <div className="offset-sm-8 col-sm-2 mb-2">
+        </div>
+        <div className="col-sm-2 mb-2">
+          <Botao
+            icon={BUTTON_ICON.FILE_ALT}
+            style={BUTTON_STYLE.BLUE_OUTLINE}
+            className="col-12"
+            texto="Exportar"
+            onClick={(e) => exportarRelatorio(e)}
+          />
+        </div>
+      </div>
     </div>
   );
 };
