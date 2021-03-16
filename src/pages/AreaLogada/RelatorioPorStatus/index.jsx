@@ -34,6 +34,7 @@ const RelatorioPorStatus = () => {
                 <Tab eventKey="relatorio" title="Resumo">
                   <Relatorio
                     resultado={resultado}
+                    filtros={filtros}
                   />
                 </Tab>
                 <Tab eventKey="grafico" title="Gráfico">
