@@ -47,7 +47,17 @@ export const Filtro = ({
   };
 
   const changeAno = (event) => {
-    const anos = event.target.value.filter((value) => value !== undefined)
+    var anos = []
+    var todos = opcoesAnos.map((opcao) => opcao.value)
+                            .filter((value) => value !== undefined && value !== "todos")
+    if (event.target.value.includes("todos")) {
+      anos = todos
+      if (todos.length === (event.target.value.length - 1)){
+        anos = []
+      }
+    } else {
+      anos = event.target.value.filter((value) => value !== undefined)
+    }
     setFiltros({
       ...filtros,
       anos: anos,
@@ -55,7 +65,17 @@ export const Filtro = ({
   };
 
   const changeStatus = (event) => {
-    const status = event.target.value.filter((value) => value !== undefined)
+    var status = []
+    var todos = opcoesStatus.map((opcao) => opcao.value)
+                            .filter((value) => value !== undefined && value !== "todos")
+    if (event.target.value.includes("todos")) {
+      status = todos
+      if (todos.length === (event.target.value.length - 1)){
+        status = []
+      }
+    } else {
+      status = event.target.value.filter((value) => value !== undefined)
+    }
     setFiltros({
       ...filtros,
       status: status,

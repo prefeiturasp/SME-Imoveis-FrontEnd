@@ -1,6 +1,7 @@
 export const getOpcoesStatus = () => {
   const status = [
     { label: "Selecione os status", value: undefined },
+    { label: "Todos", value: "todos" },
     { label: "Em análise", value: 1 },
     { label: "Aprovados vistoria", value: 2 },
     { label: "Reprovados vistoria", value: 3 },
@@ -11,7 +12,8 @@ export const getOpcoesStatus = () => {
 };
 
 export const normalizaOpcoesAnos = (data) => {
-  var anos = [{ label: "Selecione os status", value: undefined }];
+  var anos = [{ label: "Selecione os status", value: undefined }, 
+              { label: "Todos", value: "todos" }];
   for (let idx = 0; idx < data.length; idx++) {
     anos.push({label: data[idx], value: data[idx]});
   }
