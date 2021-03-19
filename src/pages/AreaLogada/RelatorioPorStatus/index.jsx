@@ -7,10 +7,12 @@ import { Grafico } from "./componentes/Grafico";
 import "./style.scss";
 import { Tabs } from "react-bootstrap";
 import { Tab } from "bootstrap";
+import Spin from "antd/es/spin";
 
 const RelatorioPorStatus = () => {
   const [filtros, setFiltros] = useState({status: [], anos: []});
   const [resultado, setResultado] = useState(null);
+  const [carregando, setCarregando] = useState(false)
 
   return (
     <PaginaHeaderSidebar>
@@ -27,23 +29,27 @@ const RelatorioPorStatus = () => {
             filtros={filtros}
             setFiltros={setFiltros}
             setResultado={setResultado}
+            setCarregando={setCarregando}
           />
           {resultado && (
-            <div className="relatorio card mt-5">
-              <Tabs defaultActiveKey="relatorio" id="uncontrolled-tab-example">
-                <Tab eventKey="relatorio" title="Resumo">
-                  <Relatorio
-                    resultado={resultado}
-                    filtros={filtros}
-                  />
-                </Tab>
-                <Tab eventKey="grafico" title="Gráfico">
-                  <Grafico
-                    resultado={resultado}
-                  />
-                </Tab>
-              </Tabs>
-            </div>
+            <Spin spinning={carregando}>
+              <div className="relatorio card mt-5">
+                <Tabs defaultActiveKey="relatorio" id="uncontrolled-tab-example">
+                  <Tab eventKey="relatorio" title="Resumo">
+                    <Relatorio
+                      resultado={resultado}
+                      filtros={filtros}
+                      setCarregando={setCarregando}
+                    />
+                  </Tab>
+                  <Tab eventKey="grafico" title="Gráfico">
+                    <Grafico
+                      resultado={resultado}
+                    />
+                  </Tab>
+                </Tabs>
+              </div>
+            </Spin>
           )}
         </div>
       </div>

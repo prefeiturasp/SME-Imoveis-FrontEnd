@@ -16,6 +16,7 @@ export const Filtro = ({
   filtros,
   setFiltros,
   setResultado,
+  setCarregando,
 }) => {
   
   const [opcoesAnos, setOpcoesAnos] = useState([{ label: "Selecione os anos", value: undefined }])
@@ -34,11 +35,13 @@ export const Filtro = ({
   }, []);
 
   const onSubmit = async () => {
+    setCarregando(true);
     const params = formataPayloadFiltros(filtros);
     filtrar(params)
       .then((response) => {
         if (response.status === HTTP_STATUS.OK) {
           setResultado(response.data);
+          setCarregando(false);
         }
       })
       .catch(() => {

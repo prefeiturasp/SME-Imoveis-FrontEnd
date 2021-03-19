@@ -9,6 +9,7 @@ import "./style.scss";
 export const Relatorio = ({
   resultado,
   filtros,
+  setCarregando,
 }) => {
 
   const downloadArquivo = (e, response, filename) => {
@@ -26,21 +27,25 @@ export const Relatorio = ({
   }
 
   const exportarRelatorioPDF = (e) => {
+    setCarregando(true);
     e.preventDefault();
     const params = formataPayloadFiltros(filtros);
     exportarPDF(params)
       .then((response) => {
         downloadArquivo(e, response, "relatorio-por-status.pdf")
+        setCarregando(false);
       })
   }
 
   const exportarRelatorioCSV = (e) => {
+    setCarregando(true);
     e.preventDefault();
     const params = formataPayloadFiltros(filtros);
     exportarCSV(params)
       .then((response) => {
         if (response.status === HTTP_STATUS.OK){
           downloadArquivo(e, response, "relatorio-por-status.xlsx")
+          setCarregando(false);
         }
       })
   }
