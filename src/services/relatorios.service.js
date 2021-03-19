@@ -46,8 +46,30 @@ export const filtrar = (params) => {
     });
 };
 
-export const exportar = (params) => {
-  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/exportar-relatorio-por-status?${params}`;
+export const exportarCSV = (params) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/relatorio-por-status-xls?${params}`;
+  let status = 0;
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `JWT ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      status = res.status;
+      return res.blob();
+    })
+    .then((blob) => {
+      return { data: blob, status: status };
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+};
+
+export const exportarPDF = (params) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/relatorio-por-status-pdf?${params}`;
   let status = 0;
   return fetch(url, {
     method: "GET",
