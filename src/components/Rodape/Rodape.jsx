@@ -75,18 +75,6 @@ export default class Rodape extends Component {
               </div>
 
               <div className="cc col-sm-3 align-middle text-center">
-                <a 
-                  className="sa sat seloa mt-1" href="http://selodigital.imprensaoficial.com.br/validacao/SMPED/0118119073598c7823" target="_blank">
-					        <img 
-                    src="https://educacao.sme.prefeitura.sp.gov.br/wp-content/themes/sme-portal-institucional//img/sa2.svg" 
-                    alt="Este sitio possui um selo de acessibilidade digital." 
-                    className="img-fluid"
-                  />
-					        <div class="st">
-                    <div>Selo de Acessibilidade Digital</div>Nº do Selo: 2020-AD/102<br />Validade: 18/12/2022<br />Clique para mais informações
-					        </div>
-				        </a>
-                
                 <p></p>
                 <figure>
                   <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR">
