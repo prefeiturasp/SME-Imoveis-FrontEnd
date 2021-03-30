@@ -37,7 +37,7 @@ export const Filtro = ({
   const onSubmit = async () => {
     setCarregando(true);
     const params = formataPayloadFiltros(filtros);
-    filtrar(params)
+    filtrar(params, '/cadastro-imovel/imoveis/filtrar-por-status/')
       .then((response) => {
         if (response.status === HTTP_STATUS.OK) {
           setResultado(response.data);
