@@ -1,0 +1,72 @@
+@import "styles/variaveis.scss";
+
+table.relatorio {
+  text-align: center;
+  width: 90%;
+  border: 1px solid #e9eaea;
+  border-radius: 4px;
+  font-size: 12px;
+  margin: 0 auto;
+  margin-top: 3%;
+  thead {
+    tr {
+      color: $blackInput;
+      text-align: center;
+      border: 1px solid #e9eaea;
+      background-color: #f5f6f8;
+      th {
+        padding: 15px;
+        border-right: 1px solid #e9eaea;
+      }
+    }
+  }
+  tbody {
+    tr {
+      &.hovered {
+        cursor: pointer;
+        background-color: $blueBackgroundToastInfo;
+      }
+      color: $blackInput;
+      border: 1px solid #e9eaea;
+      td {
+        padding: 15px;
+        border-right: 1px solid #e9eaea;
+        &.link {
+          cursor: pointer;
+          color: $blue;
+          font-size: 12px;
+          padding: 10px;
+          text-align: center;
+          &.red {
+            color: $red;
+          }
+        }
+      }
+      &.guia,
+      &.guia-alimento {
+        font-weight: normal;
+        border-top: 1px solid #e9eaea;
+        td {
+          border: none;
+          span {
+            font-weight: bold;
+          }
+        }
+      }
+      &.guia-alimento {
+        border-top: hidden;
+      }
+    }
+  }
+}
+
+.card-header {
+  background-color: #FFFFFF !important;
+}
+
+.collapseButton {
+  background-color: #FFFFFF;
+  border: none;
+  outline: none;
+}
+

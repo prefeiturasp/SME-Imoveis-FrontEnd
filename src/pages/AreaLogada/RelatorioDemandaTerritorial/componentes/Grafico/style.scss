@@ -1,0 +1,23 @@
+@import "styles/variaveis.scss";
+
+.center-text {
+  text-align: center;
+}
+
+.informacoes {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 22px;
+  color: #42474A;
+}
+
+.valores {
+  font-family: Roboto;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 22px;
+  color: #929494;
+}
