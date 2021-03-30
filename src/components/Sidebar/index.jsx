@@ -116,6 +116,13 @@ export class Sidebar extends Component {
                   >
                     Cadastros de imóveis por Status
                   </NavLink>
+                  <NavLink
+                    activeClassName="active"
+                    className="collapse-item"
+                    to="/adm-imoveis/relatorio-demanda-territorial"
+                  >
+                    Região por Demanda
+                  </NavLink>
                 </div>
               </div>
             </li>
