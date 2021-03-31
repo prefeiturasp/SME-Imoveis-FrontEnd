@@ -41,7 +41,7 @@ export const Relatorio = ({
     setCarregando(true);
     e.preventDefault();
     const params = formataPayloadFiltros(filtros);
-    exportarCSV(params)
+    exportarCSV(params, 'imoveis/relatorio-por-status-xls')
       .then((response) => {
         if (response.status === HTTP_STATUS.OK){
           downloadArquivo(e, response, "relatorio-por-status.xlsx")
