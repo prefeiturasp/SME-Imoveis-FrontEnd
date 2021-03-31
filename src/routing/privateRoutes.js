@@ -3,6 +3,7 @@ import Permissionamento from "pages/AreaLogada/Permissionamento";
 import Cadastros from "pages/AreaLogada/Cadastros";
 import { DetalhamentoCadastro } from "pages/AreaLogada/DetalhamentoCadastro";
 import RelatorioPorStatus from "pages/AreaLogada/RelatorioPorStatus";
+import RelatorioDemandaTerritorial from "pages/AreaLogada/RelatorioDemandaTerritorial";
 
 export const privateRoutes = [
   {
@@ -28,6 +29,11 @@ export const privateRoutes = [
   {
     path: "/adm-imoveis/relatorio-por-status",
     component: RelatorioPorStatus,
+    exact: true,
+  },
+  {
+    path: "/adm-imoveis/relatorio-demanda-territorial",
+    component: RelatorioDemandaTerritorial,
     exact: true,
   },
 ];

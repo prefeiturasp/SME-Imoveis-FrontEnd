@@ -3,6 +3,9 @@ import Botao from "components/Botao";
 import { BUTTON_ICON, BUTTON_STYLE } from "components/Botao/constants";
 import { formataPayloadFiltros } from "../../helper"
 import { exportarPDF, exportarCSV } from "services/relatorios.service";
+import { RelatorioPorDRE } from "./componentes/RelatorioPorDRE";
+import { RelatorioPorDistrito } from "./componentes/RelatorioPorDistrito";
+import { RelatorioPorSetor } from "./componentes/RelatorioPorSetor";
 import HTTP_STATUS from "http-status-codes";
 import "./style.scss";
 
@@ -10,6 +13,8 @@ export const Relatorio = ({
   resultado,
   filtros,
   setCarregando,
+  tipoResultado,
+  todasDemandas,
 }) => {
 
   const downloadArquivo = (e, response, filename) => {
@@ -32,7 +37,7 @@ export const Relatorio = ({
     const params = formataPayloadFiltros(filtros);
     exportarPDF(params)
       .then((response) => {
-        downloadArquivo(e, response, "relatorio-por-status.pdf")
+        downloadArquivo(e, response, "relatorio-por-demanda-territorial.pdf")
         setCarregando(false);
       })
   }
@@ -41,42 +46,36 @@ export const Relatorio = ({
     setCarregando(true);
     e.preventDefault();
     const params = formataPayloadFiltros(filtros);
-    exportarCSV(params, 'imoveis/relatorio-por-status-xls')
+    exportarCSV(params, 'imoveis/relatorio-por-demanda-xls')
       .then((response) => {
         if (response.status === HTTP_STATUS.OK){
-          downloadArquivo(e, response, "relatorio-por-status.xlsx")
+          downloadArquivo(e, response, "relatorio-por-demanda-territorial.xlsx")
           setCarregando(false);
         }
       })
   }
 
   return (
-    <div>
-      <table className="relatorio">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Cadastrados</th>
-            { resultado.em_analise !== 0 && (<th>Em análise</th>)}
-            { resultado.finalizados_reprovados !== 0 && (<th>Finalizados reprovado</th>)}
-            { resultado.aprovados_na_vistoria !== 0 && (<th>Aprovados vistoria</th>)}
-            { resultado.reprovados_na_vistoria !== 0 && (<th>Reprovados vistoria</th>)}
-            { resultado.cancelados !== 0 && (<th>Cancelados</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Quantidade de Imóveis</td>
-            <td>{resultado.total}</td>
-            { resultado.em_analise !== 0 && (<td>{resultado.em_analise}</td>)}
-            { resultado.finalizados_reprovados !== 0 && (<td>{resultado.finalizados_reprovados}</td>)}
-            { resultado.aprovados_na_vistoria !== 0 && (<td>{resultado.aprovados_na_vistoria}</td>)}
-            { resultado.reprovados_na_vistoria !== 0 && (<td>{resultado.reprovados_na_vistoria}</td>)}
-            { resultado.cancelados !== 0 && (<td>{resultado.cancelados}</td>)}
-          </tr>
-        </tbody>
-      </table>
-      <div className="row mt-3 p-3">
+    <div className="mb-3">
+      {(tipoResultado === 'dre') && (
+        <RelatorioPorDRE
+          resultado={resultado}
+          todasDemandas={todasDemandas}
+        />
+      )}
+      {(tipoResultado === 'distrito') && (
+        <RelatorioPorDistrito
+          resultado={resultado}
+          todasDemandas={todasDemandas}
+        />
+      )}
+      {(tipoResultado === 'setor') && (
+        <RelatorioPorSetor
+          resultado={resultado}
+          todasDemandas={todasDemandas}
+        />
+      )}
+      <div className="row p-3">
         <div className="offset-sm-6 col-sm-3 mb-3">
           <Botao
             icon={BUTTON_ICON.FILE_ALT}

@@ -24,8 +24,8 @@ export const getAnos = () => {
     });
 };
 
-export const filtrar = (params) => {
-  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/filtrar-por-status/?${params}`;
+export const filtrar = (params, urlApi) => {
+  const url = `${endPonts.API_URL}${urlApi}?${params}`;
   let status = 0;
   return fetch(url, {
     method: "GET",
@@ -46,8 +46,9 @@ export const filtrar = (params) => {
     });
 };
 
-export const exportarCSV = (params) => {
-  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/relatorio-por-status-xls?${params}`;
+
+export const exportarCSV = (params, urlApi) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/${urlApi}?${params}`;
   let status = 0;
   return fetch(url, {
     method: "GET",
