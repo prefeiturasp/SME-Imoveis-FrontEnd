@@ -10,7 +10,7 @@ import { Tab } from "bootstrap";
 import Spin from "antd/es/spin";
 
 const RelatorioDemandaTerritorial = () => {
-  const [filtros, setFiltros] = useState({ demandas: [], dres: '', distritos: [],
+  const [filtros, setFiltros] = useState({ demandas: '', dres: '', distritos: [],
                                            setores: [], anos: [], tipo_resultado: 'dre'});
   const [resultado, setResultado] = useState(null);
   const [carregando, setCarregando] = useState(false);

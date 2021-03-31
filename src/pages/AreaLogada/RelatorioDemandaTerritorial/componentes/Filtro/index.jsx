@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import HTTP_STATUS from "http-status-codes";
 import { getOpcoesDemandas, normalizaOpcoesAnos, normalizaOpcoesDres, 
-          formataPayloadFiltros, formataPayloadDistritos, normalizaOpcoesDistritos,
+          formataPayloadFiltros, normalizaOpcoesDistritos,
           normalizaOpcoesSetores, formataPayloadSetores} from "../../helper"
 import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
 import Botao from "components/Botao";
@@ -187,22 +187,17 @@ export const Filtro = ({
   };
 
   const changeDemandas = (event) => {
-    var demandas = []
-    var todos = opcoesDemandas.map((opcao) => opcao.value)
-                            .filter((value) => value !== undefined && value !== "todos")
-    if (event.target.value.includes("todos")) {
-      demandas = todos
-      if (todos.length === (event.target.value.length - 1)){
-        demandas = []
-      }
-    } else {
-      demandas = event.target.value.filter((value) => value !== undefined)
-    }
     setFiltros({
       ...filtros,
-      demandas: demandas,
+      demandas: event.target.value,
     });
   };
+
+  const limpar = () => {
+    setFiltros({ demandas: '', dres: '', distritos: [],
+                 setores: [], anos: [], tipo_resultado: 'dre'});
+    setResultado(null);
+  }
 
   return (
     <div className="filtro">
@@ -310,7 +305,6 @@ export const Filtro = ({
                 <FormControl className="fullWidth" variant="outlined">
                   <Select
                     id="demo-simple-select-outlined"
-                    multiple
                     className='selectFiltros fullWidth'
                     value={filtros['demandas']}
                     onChange={changeDemandas}
@@ -336,8 +330,7 @@ export const Filtro = ({
                   style={BUTTON_STYLE.BLUE_OUTLINE}
                   className="col-12"
                   texto="Limpar"
-                  onClick={() => setFiltros({ demandas: [], dres: [], distritos: [],
-                                              setores: [], anos: [], tipo_resultado: 'dre'})}
+                  onClick={() => limpar()}
                 />
               </div>
               <div className="alinhar-botao col-sm-12 col-md-2 col-lg-2 col-xl-2">
