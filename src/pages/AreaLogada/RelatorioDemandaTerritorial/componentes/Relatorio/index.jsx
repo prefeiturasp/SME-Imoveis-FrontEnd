@@ -37,7 +37,7 @@ export const Relatorio = ({
     const params = formataPayloadFiltros(filtros);
     exportarPDF(params)
       .then((response) => {
-        downloadArquivo(e, response, "relatorio-por-status.pdf")
+        downloadArquivo(e, response, "relatorio-por-demanda-territorial.pdf")
         setCarregando(false);
       })
   }
@@ -46,10 +46,10 @@ export const Relatorio = ({
     setCarregando(true);
     e.preventDefault();
     const params = formataPayloadFiltros(filtros);
-    exportarCSV(params)
+    exportarCSV(params, 'imoveis/relatorio-por-demanda-xls')
       .then((response) => {
         if (response.status === HTTP_STATUS.OK){
-          downloadArquivo(e, response, "relatorio-por-status.xlsx")
+          downloadArquivo(e, response, "relatorio-por-demanda-territorial.xlsx")
           setCarregando(false);
         }
       })
@@ -75,7 +75,7 @@ export const Relatorio = ({
           todasDemandas={todasDemandas}
         />
       )}
-      {/* <div className="row p-3">
+      <div className="row p-3">
         <div className="offset-sm-6 col-sm-3 mb-3">
           <Botao
             icon={BUTTON_ICON.FILE_ALT}
@@ -94,7 +94,7 @@ export const Relatorio = ({
             onClick={(e) => exportarRelatorioCSV(e)}
           />
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };
