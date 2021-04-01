@@ -69,8 +69,8 @@ export const exportarCSV = (params, urlApi) => {
     });
 };
 
-export const exportarPDF = (params) => {
-  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/relatorio-por-status-pdf?${params}`;
+export const exportarPDF = (params, urlApi) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/${urlApi}?${params}`;
   let status = 0;
   return fetch(url, {
     method: "GET",

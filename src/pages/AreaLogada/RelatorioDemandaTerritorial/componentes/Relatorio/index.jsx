@@ -35,7 +35,7 @@ export const Relatorio = ({
     setCarregando(true);
     e.preventDefault();
     const params = formataPayloadFiltros(filtros);
-    exportarPDF(params)
+    exportarPDF(params, 'imoveis/relatorio-por-demanda-pdf')
       .then((response) => {
         downloadArquivo(e, response, "relatorio-por-demanda-territorial.pdf")
         setCarregando(false);
