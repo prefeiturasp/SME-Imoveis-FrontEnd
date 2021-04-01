@@ -30,7 +30,7 @@ export const Relatorio = ({
     setCarregando(true);
     e.preventDefault();
     const params = formataPayloadFiltros(filtros);
-    exportarPDF(params)
+    exportarPDF(params, 'imoveis/relatorio-por-status-pdf')
       .then((response) => {
         downloadArquivo(e, response, "relatorio-por-status.pdf")
         setCarregando(false);
