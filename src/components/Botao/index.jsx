@@ -14,7 +14,6 @@ export const Botao = (props) => {
     titulo,
     texto,
     type,
-    onHover,
     onMouseEnter
   } = props;
   return (
@@ -26,7 +25,6 @@ export const Botao = (props) => {
       onClick={onClick}
       disabled={disabled}
       accept={accept}
-      onHover={onHover}
       onMouseEnter={onMouseEnter}
     >
       {icon && <i className={`${icon} ${texto && "text-and-icon"}`} />}

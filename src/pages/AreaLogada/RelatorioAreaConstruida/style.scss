@@ -1,0 +1,40 @@
+@import "styles/variaveis.scss";
+
+h1.card-title {
+  font-size: 35px;
+  color: $blue;
+  font-weight: 700;
+}
+
+.content-wrapper-div {
+  min-height: 600px;
+}
+
+.selectFiltros {
+  margin: 1px;
+  min-width: 120px;
+  width: 196px; 
+  height: 35px;
+}
+
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #8dcdfc !important;
+  border-width: 3px !important;
+}
+
+.MuiSelect-select{
+  background-color: #fff !important;
+}
+
+.relatorio {
+  .nav-tabs {
+    a {
+      width: 50%;
+      color: #42474A;
+    }
+    a:hover {
+      color: #42474A;
+    }
+  }
+}

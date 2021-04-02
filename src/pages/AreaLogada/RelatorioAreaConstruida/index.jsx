@@ -9,17 +9,19 @@ import { Tabs } from "react-bootstrap";
 import { Tab } from "bootstrap";
 import Spin from "antd/es/spin";
 
-const RelatorioPorStatus = () => {
-  const [filtros, setFiltros] = useState({status: [], anos: []});
+const RelatorioAreaConstruida = () => {
+  const [filtros, setFiltros] = useState({areas: [], ano: ''});
   const [resultado, setResultado] = useState(null);
   const [carregando, setCarregando] = useState(false)
+
+  console.log(resultado)
 
   return (
     <PaginaHeaderSidebar>
       <Breadcrumb className='breadcrumb-bootstrap'>
         <Breadcrumb.Item href="/adm-imoveis"><i className="fas fa-home"></i>Home</Breadcrumb.Item>
-        <Breadcrumb.Item active href="/adm-imoveis/relatorio-por-status/">
-          Cadastro de Imóveis por Status
+        <Breadcrumb.Item active href="/adm-imoveis/relatorio-area-construida/">
+          Cadastro de Imóveis por Área Construída
         </Breadcrumb.Item>
       </Breadcrumb>
       <div className="card">
@@ -57,4 +59,4 @@ const RelatorioPorStatus = () => {
   );
 };
 
-export default RelatorioPorStatus;
+export default RelatorioAreaConstruida;

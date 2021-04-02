@@ -22,16 +22,16 @@ export default class Rodape extends Component {
               </div>
               <div className="governo-ul col-lg-4 col-xs-12 border-left mb-3 mb-lg-0">
                 <p className="footer-title font-weight-bold mb-3">Secretaria Municipal de Educação</p>
-                <p><i class="fa fa-map-marker" aria-hidden="true"></i> Rua Borges Lagoa, 1230<br />Vila Clementino<br />CEP: 04038-003</p>
+                <p><i className="fa fa-map-marker" aria-hidden="true"></i> Rua Borges Lagoa, 1230<br />Vila Clementino<br />CEP: 04038-003</p>
                 <p>
-                  <i class="fa fa-comment" aria-hidden="true"></i> 
+                  <i className="fa fa-comment" aria-hidden="true"></i> 
                   <a className="ml-1" href="https://educacao.sme.prefeitura.sp.gov.br/lista-de-servidores-e-contatos/">Lista de Servidores e Contatos</a>
                 </p>
               </div>
 
               <div className="col-lg-2 col-xs-12">
                 <p className="footer-title font-weight-bold mb-3">Contatos</p>
-                <p><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:156">156</a></p>
+                <p><i className="fa fa-phone" aria-hidden="true"></i> <a href="tel:156">156</a></p>
                 <ul className="list-unstyled mb-0 mt-0">
                   <li className="footer-title font-weight-bold mb-2">
                     Redes sociais

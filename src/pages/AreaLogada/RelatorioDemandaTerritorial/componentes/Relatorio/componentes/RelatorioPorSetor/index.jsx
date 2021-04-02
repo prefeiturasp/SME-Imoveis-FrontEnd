@@ -26,7 +26,7 @@ export const RelatorioPorSetor = ({
                     </div>
                     <div className="col-1">
                       <button className="collapseButton" onClick={(e) => collapseResultado(e, index)}>
-                        <i class="fas fa-bars"></i>
+                        <i className="fas fa-bars"></i>
                       </button>
                     </div>
                   </div>

@@ -4,6 +4,7 @@ import Cadastros from "pages/AreaLogada/Cadastros";
 import { DetalhamentoCadastro } from "pages/AreaLogada/DetalhamentoCadastro";
 import RelatorioPorStatus from "pages/AreaLogada/RelatorioPorStatus";
 import RelatorioDemandaTerritorial from "pages/AreaLogada/RelatorioDemandaTerritorial";
+import RelatorioAreaConstruida from "pages/AreaLogada/RelatorioAreaConstruida";
 
 export const privateRoutes = [
   {
@@ -34,6 +35,11 @@ export const privateRoutes = [
   {
     path: "/adm-imoveis/relatorio-demanda-territorial",
     component: RelatorioDemandaTerritorial,
+    exact: true,
+  },
+  {
+    path: "/adm-imoveis/relatorio-area-construida",
+    component: RelatorioAreaConstruida,
     exact: true,
   },
 ];
