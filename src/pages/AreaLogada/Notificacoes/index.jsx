@@ -82,7 +82,7 @@ export const Notificacoes = () => {
       {!LOADING && !erro && notificacoes && (
         <>
           <Breadcrumb>
-            <Breadcrumb.Item href="/adm-imoveis"><i class="fas fa-home"></i> Home</Breadcrumb.Item>
+            <Breadcrumb.Item href="/adm-imoveis"><i className="fas fa-home"></i> Home</Breadcrumb.Item>
           </Breadcrumb>
           <Ultimos30Dias notificacoes={notificacoes} />
           <CardPorStatus

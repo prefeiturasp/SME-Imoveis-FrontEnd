@@ -17,7 +17,7 @@ const RelatorioPorStatus = () => {
   return (
     <PaginaHeaderSidebar>
       <Breadcrumb className='breadcrumb-bootstrap'>
-        <Breadcrumb.Item href="/adm-imoveis"><i class="fas fa-home"></i>Home</Breadcrumb.Item>
+        <Breadcrumb.Item href="/adm-imoveis"><i className="fas fa-home"></i>Home</Breadcrumb.Item>
         <Breadcrumb.Item active href="/adm-imoveis/relatorio-por-status/">
           Cadastro de Imóveis por Status
         </Breadcrumb.Item>
