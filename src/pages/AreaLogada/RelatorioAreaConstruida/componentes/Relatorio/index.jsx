@@ -81,8 +81,8 @@ export const Relatorio = ({
             texto="Exportar PDF"
             onClick={(e) => exportarRelatorioPDF(e)}
           />
-        </div>
-        <div className="col-sm-3 mb-3">
+        </div> */}
+        <div className="offset-9 col-sm-3 mb-3">
           <Botao
             icon={BUTTON_ICON.FILE_ALT}
             style={BUTTON_STYLE.BLUE_OUTLINE}
@@ -90,7 +90,7 @@ export const Relatorio = ({
             texto="Exportar Excel"
             onClick={(e) => exportarRelatorioCSV(e)}
           />
-        </div> */}
+        </div>
       </div>
     </div>
   );
