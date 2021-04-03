@@ -73,7 +73,7 @@ export const Relatorio = ({
         </tbody>
       </table>
       <div className="row mt-3 p-3">
-        {/* <div className="offset-sm-6 col-sm-3 mb-3">
+        <div className="offset-sm-6 col-sm-3 mb-3">
           <Botao
             icon={BUTTON_ICON.FILE_ALT}
             style={BUTTON_STYLE.BLUE_OUTLINE}
@@ -81,8 +81,8 @@ export const Relatorio = ({
             texto="Exportar PDF"
             onClick={(e) => exportarRelatorioPDF(e)}
           />
-        </div> */}
-        <div className="offset-9 col-sm-3 mb-3">
+        </div>
+        <div className="col-sm-3 mb-3">
           <Botao
             icon={BUTTON_ICON.FILE_ALT}
             style={BUTTON_STYLE.BLUE_OUTLINE}
