@@ -77,6 +77,11 @@ export const Filtro = ({
     });
   };
 
+  const limpar = () => {
+    setFiltros({areas: [], ano: ''})
+    setResultado(null)
+  }
+
   return (
     <div className="filtro">
       <Form onSubmit={onSubmit}>
@@ -134,7 +139,7 @@ export const Filtro = ({
                   style={BUTTON_STYLE.BLUE_OUTLINE}
                   className="col-12"
                   texto="Limpar"
-                  onClick={() => setFiltros({areas: [], ano: ''})}
+                  onClick={() => limpar()}
                 />
               </div>
               <div className="alinhar-botao col-sm-12 col-md-2 col-lg-2 col-xl-2">
