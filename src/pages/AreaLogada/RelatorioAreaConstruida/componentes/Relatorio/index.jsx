@@ -30,9 +30,9 @@ export const Relatorio = ({
     setCarregando(true);
     e.preventDefault();
     const params = formataPayloadFiltros(filtros);
-    exportarPDF(params, 'imoveis/relatorio-por-status-pdf')
+    exportarPDF(params, 'imoveis/relatorio-area-construida-pdf')
       .then((response) => {
-        downloadArquivo(e, response, "relatorio-por-status.pdf")
+        downloadArquivo(e, response, "relatorio-area-construida.pdf")
         setCarregando(false);
       })
   }
@@ -41,10 +41,10 @@ export const Relatorio = ({
     setCarregando(true);
     e.preventDefault();
     const params = formataPayloadFiltros(filtros);
-    exportarCSV(params, 'imoveis/relatorio-por-status-xls')
+    exportarCSV(params, 'imoveis/relatorio-area-construida-xls')
       .then((response) => {
         if (response.status === HTTP_STATUS.OK){
-          downloadArquivo(e, response, "relatorio-por-status.xlsx")
+          downloadArquivo(e, response, "relatorio-area-construida.xlsx")
           setCarregando(false);
         }
       })
@@ -57,22 +57,18 @@ export const Relatorio = ({
           <tr>
             <th></th>
             <th>Cadastrados</th>
-            { resultado.em_analise !== 0 && (<th>Em análise</th>)}
-            { resultado.finalizados_reprovados !== 0 && (<th>Finalizados reprovado</th>)}
-            { resultado.aprovados_na_vistoria !== 0 && (<th>Aprovados vistoria</th>)}
-            { resultado.reprovados_na_vistoria !== 0 && (<th>Reprovados vistoria</th>)}
-            { resultado.cancelados !== 0 && (<th>Cancelados</th>)}
+            { resultado['ate_200'] !== 0 && (<th>Abaixo de 200m²</th>)}
+            { resultado['200_a_500'] !== 0 && (<th>Entre 200m² e 500m²</th>)}
+            { resultado['maior_500'] !== 0 && (<th>Acima de 500m²</th>)}
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>Quantidade de Imóveis</td>
-            <td>{resultado.total}</td>
-            { resultado.em_analise !== 0 && (<td>{resultado.em_analise}</td>)}
-            { resultado.finalizados_reprovados !== 0 && (<td>{resultado.finalizados_reprovados}</td>)}
-            { resultado.aprovados_na_vistoria !== 0 && (<td>{resultado.aprovados_na_vistoria}</td>)}
-            { resultado.reprovados_na_vistoria !== 0 && (<td>{resultado.reprovados_na_vistoria}</td>)}
-            { resultado.cancelados !== 0 && (<td>{resultado.cancelados}</td>)}
+            <td>{resultado['total_imoveis']}</td>
+            { resultado['ate_200'] !== 0 && (<td>{resultado['ate_200']}</td>)}
+            { resultado['200_a_500'] !== 0 && (<td>{resultado['200_a_500']}</td>)}
+            { resultado['maior_500'] !== 0 && (<td>{resultado['maior_500']}</td>)}
           </tr>
         </tbody>
       </table>

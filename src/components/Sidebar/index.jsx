@@ -57,7 +57,7 @@ export class Sidebar extends Component {
             <li className="nav-item">
               <Link
                 className={`nav-link collapsed`}
-                href="#teste"
+                to="#teste"
                 data-toggle="collapse"
                 data-target="#collapseCadastro"
                 aria-expanded="false"
@@ -86,7 +86,7 @@ export class Sidebar extends Component {
             <li className="nav-item">
               <Link
                 className={`nav-link collapsed`}
-                href="#teste"
+                to="#teste"
                 data-toggle="collapse"
                 data-target="#collapseRelatorios"
                 aria-expanded="false"
@@ -123,6 +123,13 @@ export class Sidebar extends Component {
                   >
                     Região por Demanda
                   </NavLink>
+                  <NavLink
+                    activeClassName="active"
+                    className="collapse-item"
+                    to="/adm-imoveis/relatorio-area-construida"
+                  >
+                    Região por Área Construída
+                  </NavLink>
                 </div>
               </div>
             </li>
@@ -130,7 +137,7 @@ export class Sidebar extends Component {
               <li className="nav-item">
                 <Link
                   className={`nav-link collapsed`}
-                  href="#teste"
+                  to="#teste"
                   data-toggle="collapse"
                   data-target="#collapseConfig"
                   aria-expanded="false"

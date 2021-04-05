@@ -36,6 +36,7 @@ export const Header = ({toggled}) => {
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
                 <Link
+                  to=""
                   onClick={() => setOpenAjuda(true)}
                   className="nav-link"
                 >
@@ -44,7 +45,7 @@ export const Header = ({toggled}) => {
                 <p className="title">Ajuda</p>
               </li>
               <li onClick={() => authService.logout()} className="nav-item">
-                <Link className="nav-link">
+                <Link className="nav-link" to="">
                   <img src={iconeSair} alt="Ícone de logout" />
                 </Link>
                 <p className="title">Sair</p>
