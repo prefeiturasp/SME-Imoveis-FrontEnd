@@ -205,7 +205,7 @@ export const Filtro = ({
   };
 
   const limpar = () => {
-    setFiltros({ demandas: '', dres: '', distritos: [],
+    setFiltros({ demandas: [], dres: '', distritos: [],
                  setores: [], anos: [], tipo_resultado: 'dre'});
     setResultado(null);
   }
