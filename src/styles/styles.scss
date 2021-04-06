@@ -89,10 +89,8 @@ body {
   .conteudo {
     text-align: center;
     margin: 0 auto;
-    z-index: 1;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 40%;
+    position: relative;
     h1 {
       color: #fff;
       font-size: 40px;
@@ -155,12 +153,10 @@ body {
   }
 
   .conteudo {
-    text-align: center;
+    top: 40%;
+    position: relative;
     margin: 0 auto;
-    z-index: 1;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    text-align: center;
     h1 {
       color: #fff;
       font-size: 40px;

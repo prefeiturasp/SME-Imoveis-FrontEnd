@@ -65,8 +65,10 @@ export const formataPayloadFiltros = (filtros) => {
       payload += `setores=${filtros.setores[index]}&`;
     }
   }
-  if (filtros.demandas !== '') {
-    payload += `demandas=${filtros.demandas}&`;
+  if (filtros.demandas) {
+    for (let index = 0; index < filtros.demandas.length; index++) {
+      payload += `demandas=${filtros.demandas[index]}&`;
+    }
   }
   if (filtros.tipo_resultado) {
     payload += `tipo_resultado=${filtros.tipo_resultado}&`;

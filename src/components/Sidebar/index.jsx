@@ -121,14 +121,14 @@ export class Sidebar extends Component {
                     className="collapse-item"
                     to="/adm-imoveis/relatorio-demanda-territorial"
                   >
-                    Região por Demanda
+                    Cadastros por Demanda Territorial
                   </NavLink>
                   <NavLink
                     activeClassName="active"
                     className="collapse-item"
                     to="/adm-imoveis/relatorio-area-construida"
                   >
-                    Região por Área Construída
+                    Cadastros por Área Construída
                   </NavLink>
                 </div>
               </div>
