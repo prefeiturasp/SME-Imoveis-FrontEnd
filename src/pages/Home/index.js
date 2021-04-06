@@ -30,15 +30,17 @@ export default class Home extends Component {
     return (
       <BaseHome>
         <div className="w-100 oferta-imoveis position-relative">
-          <div className="conteudo">
-            <div className="offset-lg-2 col-lg-8 offset-xl-2 col-xl-8 col-sm-12 ">
-              <h1>
-                O que é o Cadastro de Imóveis?
-              </h1>
-              <p>
-                O Cadastro de Imóveis tem por objetivo formar um banco de imóveis disponíveis para
-                locação para fins de implantação de Centro de Educação Infantil - CEI.
-              </p>
+          <div className="container conteudo">
+            <div className="row">
+              <div className="offset-lg-2 col-lg-8 offset-xl-2 col-xl-8 col-sm-12 ">
+                <h1>
+                  O que é o Cadastro de Imóveis?
+                </h1>
+                <p>
+                  O Cadastro de Imóveis tem por objetivo formar um banco de imóveis disponíveis para
+                  locação para fins de implantação de Centro de Educação Infantil - CEI.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -62,12 +64,6 @@ export default class Home extends Component {
                 Todas as regiões da cidade de São Paulo podem ter imóveis cadastrados para 
                 possível implantação e/ou substituição de Centro de Educação Infantil - CEI
               </p>
-              <button
-                onClick={this.openSubdistritos}
-                className="btn btn-primary botao-cadastro"
-              >
-                Relação dos Bairros
-              </button>
             </div>
           </div>
         </div>
@@ -120,7 +116,7 @@ export default class Home extends Component {
                   <div className="conteudo justify-conteudo">
                     O interessado receberá um número de protocolo para identificação da
                     solicitação. A área técnica da Secretaria Municipal de Educação
-                    analisará previamente as condições do imóvel e entrerá em contato 
+                    analisará previamente as condições do imóvel e entrará em contato 
                     oportunamente.
                   </div>
                 </BlocoTexto>
@@ -129,7 +125,7 @@ export default class Home extends Component {
                 <BlocoTexto>
                   <div className="conteudo ajuda">
                     Dúvidas? Entre em contato conosco através
-                    do email: <b>imóveis@sme.prefeitura.gov.br</b>
+                    do email: <b>imoveis@sme.prefeitura.sp.gov.br</b>
                   </div>
                 </BlocoTexto>
               </div>

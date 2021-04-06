@@ -27,7 +27,7 @@ export default class BasePage extends Component {
         <Menu {...this.props} />
 
         {this.props.children}
-        <a onClick={this.scrollToTop} className="button-to-top">
+        <a onClick={this.scrollToTop} className="button-to-top shadow-lg">
           <img src={arrowUp}></img>
         </a>
         <Rodape />

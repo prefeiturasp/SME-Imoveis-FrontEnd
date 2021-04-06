@@ -1,6 +1,9 @@
 import PaginaHeaderSidebar from "components/PaginaHeaderSidebar";
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import HTTP_STATUS from "http-status-codes";
+import Botao from "components/Botao";
+import { BUTTON_ICON, BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
+import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import {
   getImoveisNovosCadastros,
@@ -21,6 +24,7 @@ export const Notificacoes = () => {
   const [atrasados, setAtrasados] = useState(null);
   const [countAtrasados, setCountAtrasados] = useState(0);
   const [erro, setErro] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     getUltimos30dias()
@@ -84,6 +88,18 @@ export const Notificacoes = () => {
           <Breadcrumb>
             <Breadcrumb.Item href="/adm-imoveis"><i className="fas fa-home"></i> Home</Breadcrumb.Item>
           </Breadcrumb>
+          <div className="row">
+            <div className="col-12 text-right">
+              <Botao
+                style={BUTTON_STYLE.BLUE}
+                type={BUTTON_TYPE.BUTTON}
+                icon={BUTTON_ICON.ARROW_LEFT}
+                className="col-2 mb-3"
+                texto="voltar"
+                onClick={() => history.goBack()}
+              />
+            </div>
+          </div>
           <Ultimos30Dias notificacoes={notificacoes} />
           <CardPorStatus
             titulo="NOVOS CADASTROS"
