@@ -95,7 +95,7 @@ export const formataGrafico = (resultado) => {
   } else {
     if((resultado.total - somatorio) > 0) {
       labels.push("Cadastros Não Filtrados")
-      data.push(((resultado.total - somatorio)/resultado.total)*100).toFixed(2)
+      data.push((((resultado.total - somatorio)/resultado.total)*100).toFixed(2))
       backgroundColor.push('#8d65bf')
       hoverBackgroundColor.push('#8d65bf')
     }

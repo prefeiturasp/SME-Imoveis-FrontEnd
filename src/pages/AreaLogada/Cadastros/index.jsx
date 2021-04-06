@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import PaginaHeaderSidebar from "components/PaginaHeaderSidebar";
 import { Filtro } from "./componentes/Filtro";
 import { Link } from "react-router-dom";
-import { BUTTON_ICON, BUTTON_STYLE } from "components/Botao/constants";
+import Botao from "components/Botao";
+import { BUTTON_ICON, BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
 import { TabelaCadastros } from "./componentes/TabelaCadastros";
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
+import { useHistory } from "react-router-dom";
 import "components/Botao/style.scss"
 import "./style.scss";
 
@@ -16,6 +18,7 @@ const Cadastros = () => {
   const [dres, setDres] = useState(null);
   const [distritos, setDistritos] = useState(null);
   const [setores, setSetores] = useState(null);
+  const history = useHistory();
 
   return (
     <PaginaHeaderSidebar>
@@ -25,6 +28,18 @@ const Cadastros = () => {
           Cadastros Realizados
         </Breadcrumb.Item>
       </Breadcrumb>
+      <div className="row">
+        <div className="col-12 text-right">
+          <Botao
+            style={BUTTON_STYLE.BLUE}
+            type={BUTTON_TYPE.BUTTON}
+            icon={BUTTON_ICON.ARROW_LEFT}
+            className="col-2 mb-3"
+            texto="voltar"
+            onClick={() => history.goBack()}
+          />
+        </div>
+      </div>
       <div className="cadastros">
         <div className="card">
           <div className="card-body">

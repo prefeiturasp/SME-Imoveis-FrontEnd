@@ -187,9 +187,20 @@ export const Filtro = ({
   };
 
   const changeDemandas = (event) => {
+    var demandas = []
+    var todos = opcoesDemandas.map((opcao) => opcao.value)
+                            .filter((value) => value !== undefined && value !== "todos")
+    if (event.target.value.includes("todos")) {
+      demandas = todos
+      if (todos.length === (event.target.value.length - 1)){
+        demandas = []
+      }
+    } else {
+      demandas = event.target.value.filter((value) => value !== undefined)
+    }
     setFiltros({
       ...filtros,
-      demandas: event.target.value,
+      demandas: demandas,
     });
   };
 
@@ -306,6 +317,7 @@ export const Filtro = ({
                   <Select
                     id="demo-simple-select-outlined"
                     className='selectFiltros fullWidth'
+                    multiple
                     value={filtros['demandas']}
                     onChange={changeDemandas}
                   >

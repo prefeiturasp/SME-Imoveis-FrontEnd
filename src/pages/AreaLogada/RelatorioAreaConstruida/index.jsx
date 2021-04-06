@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import PaginaHeaderSidebar from "components/PaginaHeaderSidebar";
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
+import Botao from "components/Botao";
+import { BUTTON_ICON, BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
+import { useHistory } from "react-router-dom";
 import { Filtro } from "./componentes/Filtro";
 import { Relatorio } from "./componentes/Relatorio";
 import { Grafico } from "./componentes/Grafico";
@@ -12,7 +15,8 @@ import Spin from "antd/es/spin";
 const RelatorioAreaConstruida = () => {
   const [filtros, setFiltros] = useState({areas: [], ano: ''});
   const [resultado, setResultado] = useState(null);
-  const [carregando, setCarregando] = useState(false)
+  const [carregando, setCarregando] = useState(false);
+  const history = useHistory();
 
   console.log(resultado)
 
@@ -24,9 +28,21 @@ const RelatorioAreaConstruida = () => {
           Cadastro de Imóveis por Área Construída
         </Breadcrumb.Item>
       </Breadcrumb>
+      <div className="row">
+        <div className="col-12 text-right">
+          <Botao
+            style={BUTTON_STYLE.BLUE}
+            type={BUTTON_TYPE.BUTTON}
+            icon={BUTTON_ICON.ARROW_LEFT}
+            className="col-2 mb-3"
+            texto="voltar"
+            onClick={() => history.goBack()}
+          />
+        </div>
+      </div>
       <div className="card">
         <div className="card-body">
-          <h1 className="card-title">Cadastro de Imóveis por Status</h1>
+          <h1 className="card-title">Cadastros por Área Construída</h1>
           <Filtro
             filtros={filtros}
             setFiltros={setFiltros}
