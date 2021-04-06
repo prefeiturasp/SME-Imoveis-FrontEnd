@@ -77,7 +77,7 @@ export default class Menu extends Component {
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a className="links-nova-janela" onClick={() => this.abrirNovaJanela("http://transparencia.prefeitura.sp.gov.br/acesso-a-informacao/Paginas/default.aspx")}>
+                    <a className="links-nova-janela" onClick={() => this.abrirNovaJanela("http://transparencia.prefeitura.sp.gov.br/sistema-eletronico-de-informacao-ao-cidadao-e-sic/")}>
                       Acesso à informação e-sic
                     </a>
                   </li>

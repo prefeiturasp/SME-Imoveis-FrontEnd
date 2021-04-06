@@ -8,7 +8,7 @@ import DadosImovel from "./components/DadosImovel";
 import { setTextContent } from "./helper";
 
 const Emails = () => {
-  const [tipoEmail, setTipoEmail] = useState(null);
+  const [, setTipoEmail] = useState(null);
   const [imovel, setImovel] = useState(null);
   const [emailText, setEmailText] = useState(<div></div>)
 

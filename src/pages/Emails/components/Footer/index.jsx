@@ -8,8 +8,8 @@ const Footer = () => {
           Agradecemos o contato.
         </label>
       </div>
-      <a href="https://dev-imoveis.sme.prefeitura.sp.gov.br/" target="_blank" rel="noopener">
-        <img src="https://educacao.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/06/Logo_Educacao.png" width="auto" height="auto" />
+      <a href="https://dev-imoveis.sme.prefeitura.sp.gov.br/" target="_blank" rel="noopener noreferrer">
+        <img alt="" src="https://educacao.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/06/Logo_Educacao.png" width="auto" height="auto" />
       </a>
     </div>
   )
