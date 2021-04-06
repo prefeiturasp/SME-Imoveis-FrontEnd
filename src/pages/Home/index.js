@@ -32,7 +32,7 @@ export default class Home extends Component {
         <div className="w-100 oferta-imoveis position-relative">
           <div className="container conteudo">
             <div className="row">
-              <div className="offset-lg-2 col-lg-8 offset-xl-2 col-xl-8 col-sm-12 ">
+              <div className="col-12">
                 <h1>
                   O que é o Cadastro de Imóveis?
                 </h1>
@@ -82,7 +82,7 @@ export default class Home extends Component {
                   className="img-fluid rounded"
                 />
               </div>
-              <div className="col-lg-6">
+              <div className="col-lg-6 requisitos">
                 <BlocoTexto>
                   <div className="conteudo justify-conteudo">
                     <b>Condições básicas do imóvel:</b> prédio de alvenaria, com
