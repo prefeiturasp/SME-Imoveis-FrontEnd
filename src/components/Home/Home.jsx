@@ -51,7 +51,7 @@ export default class Home extends Component {
                 <img
                   src={imgSalaAula}
                   alt="Acompanhamento no desenvolvimento escolar"
-                  className="img-fluid rounded"
+                  className="rounded"
                 />
               </div>
               <div className="col-lg-6 o-que-e-necessario">
