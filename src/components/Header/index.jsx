@@ -36,7 +36,7 @@ export const Header = ({toggled}) => {
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
                 <Link
-                  to=""
+                  to="#"
                   onClick={() => setOpenAjuda(true)}
                   className="nav-link"
                 >
