@@ -73,29 +73,20 @@ export default class Home extends Component {
               <div className="col-lg-12">
                 <h1>Quais os requisitos para o Cadastro de Imóvel?</h1>                
               </div>
-            </div>
-            <div className="row mt-5 mb-5">
-              <div className="col-lg-6 mb-lg-0">
-                <img
-                  src={imgSalaAula}
-                  alt="Acompanhamento no desenvolvimento escolar"
-                  className="img-fluid rounded"
-                />
-              </div>
-              <div className="col-lg-6 requisitos">
+              <div className="col-lg-12 requisitos">
                 <BlocoTexto>
-                  <div className="conteudo justify-conteudo">
-                    <b>Condições básicas do imóvel:</b> prédio de alvenaria, com
-                    no mínimo 200m², bem ventilado, que receba iluminação
-                    natural, banheiros com possibilidade de adaptação para
-                    fraldário/vasos sanitários infantis, cozinha ampla, com
-                    espaço para refeitório e despensa, espaço externo para
-                    instalação de playground e solário. Clique aqui e veja todas as condições necessárias {""}
+                  <div className="text-center">
+                    Condições básicas do imóvel: prédio de alvenaria, com no mínimo 200m², 
+                    bem ventilado, que receba iluminação natural, banheiros com possibilidade de 
+                    adaptação para fraldário/vasos sanitários infantis, cozinha ampla, com espaço 
+                    para refeitório e despensa, espaço externo para instalação de playground e 
+                    solário. Clique a seguir e veja todas as condições necessárias. {""}
                     <a
+                      className="link-orientacao"
                       onClick={this.orientaçãoNormativa}
                     >
-                      (link da Orientação
-                      Normativa Nº 01/2015).
+                      Orientação
+                      Normativa Nº 01/2015
                     </a>
                   </div>
                 </BlocoTexto>
@@ -103,39 +94,33 @@ export default class Home extends Component {
             </div>
           </div>
         </div>
-        <div className="w-100 home mb-5">
-          <div className="container">
-            <div className="row mt-5">
-              <div className="col-12">
-                <h1>Detalhamento após o Cadastro de Imóvel</h1>                
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-sm-12 mb-sm-0 col-md-6 mb-md-0 col-lg-6 mb-lg-0 col-xl-6 mb-xl-0">
-                <BlocoTexto>
-                  <div className="conteudo justify-conteudo">
-                    O interessado receberá um número de protocolo para identificação da
-                    solicitação. A área técnica da Secretaria Municipal de Educação
-                    analisará previamente as condições do imóvel e entrará em contato 
-                    oportunamente.
-                  </div>
-                </BlocoTexto>
-              </div>
-              <div className="col-sm-12 mb-sm-0 col-md-6 mb-md-0 col-lg-6 mb-lg-0 col-xl-6 mb-xl-0">
-                <BlocoTexto>
-                  <div className="conteudo ajuda">
-                    Dúvidas? Entre em contato conosco através
-                    do email: <b>imoveis@sme.prefeitura.sp.gov.br</b>
-                  </div>
-                </BlocoTexto>
-              </div>
+        <div className="w-100 necessidades position-relative">
+          <div className="conteudo justify-conteudo">
+            <div className="offset-lg-2 col-lg-8 offset-xl-2 col-xl-8 col-sm-12 ">
+              <h1>
+                Detalhamento após o Cadastro de Imóvel?
+              </h1>
+              <p>
+                O interessado receberá um número de protocolo para identificação da
+                solicitação. A área técnica da Secretaria Municipal de Educação
+                analisará previamente as condições do imóvel e entrará em contato 
+                oportunamente.
+              </p>
             </div>
           </div>
         </div>
         <div className="w-100 cadastro">
           <div className="container">
-            <div className="row">
-              <div className="col-12 pt-5 pb-5">
+            <div className="row blue-wrapper">
+              <div className="col-6">
+                <div className="conteudo ajuda">
+                  <label>
+                    Dúvidas? Entre em contato conosco através
+                    do email: <b>imoveis@sme.prefeitura.sp.gov.br</b>
+                  </label>
+                </div>
+              </div>
+              <div className="col-6">
                 <button
                   onClick={this.irParaFormulario}
                   className="botao-cadastro"

@@ -133,7 +133,7 @@ body {
       rgba(66, 71, 74, 0.6),rgba(66, 71, 74, 0.6)
     ), url("../img/06.png");
   color: #fff;
-  height: 500px;
+  height: 250px;
   background-repeat: no-repeat;
   background-size: cover;
   .botao-cadastro {
@@ -172,6 +172,36 @@ body {
   }
 }
 
+.necessidades {
+  background: linear-gradient(
+      rgba(66, 71, 74, 0.6),rgba(66, 71, 74, 0.6)
+    ), url("../img/05.jpg");
+  color: #fff;
+  height: 300px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  .conteudo {
+    top: 40%;
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+    h1 {
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+    }
+    p {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 20px;
+      line-height: 23px;
+    }
+  }
+}
+
+
+
 .home {
   h1{
     font-weight: 700;
@@ -183,13 +213,31 @@ body {
     font-size: 35px;
     line-height: 41px;
   }
+  p {
+    color: #42474A;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+  }
   img{
     width: 100%;
     height: 250px;
     object-fit: cover;
   }
   .requisitos {
-    margin: 2.5% 0;
+    margin-bottom: 2.5%;
+    a {
+      color: #086397;
+
+    }
+    a:hover {
+      text-decoration: underline;
+      color: #004a99;
+
+    }
   }
   .conteudo {
     p {
@@ -212,34 +260,39 @@ body {
 
     }
   }
-  .ajuda {
-    text-align: center;
-    border:rgba(66, 71, 74, 0.6) solid 1px;
-    border-radius: 5px;
-    padding: 2%;
-    width: 80%;
-    margin: 0 auto;
-  }
 }
 
 .cadastro {
   background: #196CBD;
   text-align: center;
-
-  .botao-cadastro {
-    height: 50px;
-    width: 277px;
-    background: #086397;
-    border: 1px solid #FFFFFF;
-    box-sizing: border-box;
-    border-radius: 4px;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 23px;
-    text-align: center;
-    color: #FFFFFF;
+  .blue-wrapper {
+    display: flex;
+    align-items: center;
+    height: 135px;
+    .ajuda {
+      margin: auto;
+      text-align: center;
+      border: 1px solid #FFFFFF;
+      color: #FFFFFF;
+      border-radius: 5px;
+      padding: 2%;
+      width: 80%;
+    }
+  
+    .botao-cadastro {
+      height: 50px;
+      width: 277px;
+      background: #086397;
+      border: 1px solid #FFFFFF;
+      box-sizing: border-box;
+      border-radius: 4px;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 23px;
+      color: #FFFFFF;
+    }
   }
 }
 
