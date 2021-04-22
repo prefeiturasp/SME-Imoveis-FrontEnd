@@ -112,7 +112,7 @@ export default class Home extends Component {
         <div className="w-100 cadastro">
           <div className="container">
             <div className="row blue-wrapper">
-              <div className="col-6">
+              <div className="col-sm-12 col-md-6 col-lg-6 col-xs-6 mb-1">
                 <div className="conteudo ajuda">
                   <label>
                     Dúvidas? Entre em contato conosco através
@@ -120,7 +120,7 @@ export default class Home extends Component {
                   </label>
                 </div>
               </div>
-              <div className="col-6">
+              <div className="col-sm-12 col-md-6 col-lg-6 col-xs-6 mb-1">
                 <button
                   onClick={this.irParaFormulario}
                   className="botao-cadastro"
