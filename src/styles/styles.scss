@@ -133,7 +133,7 @@ body {
       rgba(66, 71, 74, 0.6),rgba(66, 71, 74, 0.6)
     ), url("../img/06.png");
   color: #fff;
-  height: 250px;
+  height: auto;
   background-repeat: no-repeat;
   background-size: cover;
   .botao-cadastro {
@@ -153,10 +153,11 @@ body {
   }
 
   .conteudo {
-    top: 40%;
     position: relative;
     margin: 0 auto;
     text-align: center;
+    padding: 4%;
+    
     h1 {
       color: #fff;
       font-size: 40px;
@@ -177,12 +178,11 @@ body {
       rgba(66, 71, 74, 0.6),rgba(66, 71, 74, 0.6)
     ), url("../img/05.jpg");
   color: #fff;
-  height: 300px;
+  height: auto;
   background-repeat: no-repeat;
   background-size: cover;
   .conteudo {
-    top: 40%;
-    position: relative;
+    padding: 5%;
     margin: 0 auto;
     text-align: center;
     h1 {
@@ -265,10 +265,11 @@ body {
 .cadastro {
   background: #196CBD;
   text-align: center;
+  padding: 1.5% 0;
   .blue-wrapper {
     display: flex;
     align-items: center;
-    height: 135px;
+    height: auto;
     .ajuda {
       margin: auto;
       text-align: center;
