@@ -624,7 +624,7 @@ export const ModalAtualizaStatus = ({
                       name="resultado_da_analise"
                       label="Resultado da Análise"
                       placeholder={"Selecione um status"}
-                      defaultValue={enviadoComapreLog.length ? 3 : (analiseFinalizadaLog.length ? resultadoAnalise : undefined ) }
+                      defaultValue={enviadoComapreLog.length ? 3 : (analiseFinalizadaLog.length ? resultadoAnalise : `` ) }
                       options={OPCOES_ANALISE}
                       labelClassName="font-weight-bold color-black"
                       disabled={(statusCadastro !== "Solicitação Realizada")}
@@ -1127,7 +1127,7 @@ export const ModalAtualizaStatus = ({
                       name="resultado_vistoria"
                       label="Resultado da vistoria"
                       placeholder={"Selecione um resultado"}
-                      defaultValue={(vistoriaAprovadaLog.length > 0) ? 0 : (vistoriaReprovadaLog.length ? 1 : undefined)}
+                      defaultValue={(vistoriaAprovadaLog.length > 0) ? 0 : (vistoriaReprovadaLog.length ? 1 : ``)}
                       options={OPCOES_VISTORIA}
                       labelClassName="font-weight-bold color-black"
                       disabled={(relatorioVistoria.length === 0) || (laudoValorLocaticio.length === 0) ||
