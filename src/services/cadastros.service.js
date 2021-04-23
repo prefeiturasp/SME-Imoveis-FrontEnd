@@ -1,7 +1,7 @@
 import endPonts from "../constants/endPonts.constants";
 import { getToken } from "./auth.service";
 
-export const getCadastros = (queryParams, pagina=1) => {
+export const getCadastros = (queryParams, pagina = 1) => {
   const url = `${endPonts.API_URL}/cadastro-imovel/?page=${pagina}${queryParams}`;
   let status = 0;
   return fetch(url, {
@@ -113,7 +113,7 @@ export const getSetores = (queryParams) => {
 };
 
 export const getEscola = (value) => {
-  const url = `https://escolaaberta.sme.prefeitura.sp.gov.br/api/escolas/${value}`;
+  const url = `https://escolaaberta.sme.prefeitura.sp.gov.br/api/escolas/${value}/`;
   let status = 0;
   return fetch(url, {
     method: "GET",
