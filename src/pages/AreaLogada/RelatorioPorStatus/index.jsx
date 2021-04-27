@@ -16,6 +16,7 @@ const RelatorioPorStatus = () => {
   const [filtros, setFiltros] = useState({status: [], anos: []});
   const [resultado, setResultado] = useState(null);
   const [carregando, setCarregando] = useState(false);
+  const [legenda, setLegenda] = useState(null);
   const history = useHistory();
 
   return (
@@ -46,6 +47,7 @@ const RelatorioPorStatus = () => {
             setFiltros={setFiltros}
             setResultado={setResultado}
             setCarregando={setCarregando}
+            setLegenda={setLegenda}
           />
           {resultado && (
             <Spin spinning={carregando}>
@@ -56,6 +58,7 @@ const RelatorioPorStatus = () => {
                       resultado={resultado}
                       filtros={filtros}
                       setCarregando={setCarregando}
+                      legenda={legenda}
                     />
                   </Tab>
                   <Tab eventKey="grafico" title="Gráfico">
