@@ -10,6 +10,7 @@ export const Relatorio = ({
   resultado,
   filtros,
   setCarregando,
+  legenda,
 }) => {
 
   const downloadArquivo = (e, response, filename) => {
@@ -77,6 +78,8 @@ export const Relatorio = ({
         </tbody>
       </table>
       <div className="row mt-3 p-3">
+        {legenda}
+        <div className="col-6"></div>
         <div className="offset-sm-6 col-sm-3 mb-3">
           <Botao
             icon={BUTTON_ICON.FILE_ALT}
