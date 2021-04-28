@@ -50,6 +50,38 @@ export const TabelaUsuarios = ({ usuarios, setShowModal, setUsuario }) => {
           </tbody>
         </table>
       )}
+      {usuarios && usuarios.length > 0 && (
+        <div className="mt-3 legenda">
+          <p>
+            Tipos de permissionamento referem-se á:
+          </p>
+          <div className="row">
+            <div className="col-6">
+              <ul>
+                <li>
+                  ADMIN: refere-se a permissão total do sistema onde a SME terá 
+                  no máximo 3 usuários.
+                </li>
+                <li>
+                  SECRETARIA: refere-se a permissão total do sistema, exceto ao 
+                  processo de permissionamento onde cada secretaria terá no máximo 
+                  3 usuários.
+                </li>
+                <li>
+                  CONSULTA SECRETARIA: refere-se a permissão de consulta do sistema.
+                </li>
+                <li>
+                  DRE: refere-se a permissão de consulta do sistema referente a sua DRE de acesso.
+                </li>
+                <li>
+                  SEM PERMISSÃO: usuário não terá acesso ao sistema.
+                </li>
+              </ul>
+            </div>
+            <div className="offset-6"></div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

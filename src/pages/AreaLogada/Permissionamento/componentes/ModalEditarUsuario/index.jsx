@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import HTTP_STATUS from "http-status-codes";
 import { Field, Form } from "react-final-form";
+import { OnChange } from "react-final-form-listeners";
 import { Modal } from "react-bootstrap";
 import Spin from "antd/es/spin";
 import "antd/es/spin/style/css";
@@ -21,6 +22,8 @@ export const ModalEditarUsuario = ({
   perfis,
   setUsuarios,
 }) => {
+  const [legenda, setLegenda] = useState(<div></div>);
+  
   const onSubmit = (values) => {
     setUsuario(values)
       .then((response) => {
@@ -113,6 +116,45 @@ export const ModalEditarUsuario = ({
                       options={normalizarPerfis(perfis)}
                       naoDesabilitarPrimeiraOpcao
                     />
+                    <OnChange name="perfil_">
+                      { (value, previous) => {
+                        if(value === undefined || value === ""){
+                          setLegenda(null);
+                        }
+                        if(value === 1){
+                          setLegenda(
+                            "ADMIN: refere-se a permissão total do sistema onde a SME terá no máximo 3 usuários."
+                          );
+                        }
+                        if(value === 2){
+                          setLegenda(
+                            "SECRETARIA: refere-se a permissão total do sistema, exceto ao processo de permissionamento onde cada secretaria terá no máximo 3 usuários."
+                          );
+                        }
+                        if(value === 3){
+                          setLegenda(
+                            "CONSULTA SECRETARIA: refere-se a permissão de consulta do sistema."
+                          );
+                        }
+                        if(value === 4){
+                          setLegenda(
+                            "DRE: refere-se a permissão de consulta do sistema referente a sua DRE de acesso."
+                          );
+                        }
+                        if(value === "SEM PERMISSAO"){
+                          setLegenda(
+                            "SEM PERMISSÃO: usuário não terá acesso ao sistema."
+                          );
+                        }
+                      }}
+                    </OnChange>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-6">
+                    <p className="legenda">
+                      {legenda}
+                    </p>
                   </div>
                 </div>
               </Modal.Body>
