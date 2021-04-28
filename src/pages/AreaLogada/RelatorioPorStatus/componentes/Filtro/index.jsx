@@ -38,76 +38,83 @@ export const Filtro = ({
   const updateLegenda = () => {
     if( filtros.status.length !== 0 && filtros.status.length !== 5) {
       setLegenda(
-        <div className="col-6 legenda">
-          { filtros.status.includes(1) && (
-            <>
-              <p> 
-                Em análise: refere-se a todos os cadastros nos 
-                quais estão em análise onde contempla os seguintes 
-                status de cadastros:
-              </p>
-              <ul>
-                <li>SME Analisou previamente</li>
-                <li>Enviado à COMAPRE</li>
-                <li>Agendamento da vistoria</li>
-                <li>Aguardando relatório de vistoria</li>
-                <li>Aguardando laudo de valor locatício</li>
-              </ul>
-            </>
-          )}
-          { filtros.status.includes(4) && (
-            <>
-              <p> 
-                Finalizados reprovados: refere-se a todos os
-                cadastros nos quais estão finalizados onde 
-                contempla os seguintes status de cadastros:
-              </p>
-              <ul>
-                <li>Finalizado - Área Insuficiente</li>
-                <li>Finalizado - Demanda Insuficiente</li>
-                <li>Finalizado - Não atende as necessidades da SME</li>
-              </ul>
-            </>
-          )}
-          { filtros.status.includes(2) && (
-            <>
-              <p> 
-                Aprovados vistoria: refere-se a todos os cadastros
-                de imóveis aprovados de vistoria onde contempla os
-                seguintes status de cadastros:
-              </p>
-              <ul>
-                <li>Vistoria Aprovada</li>
-                <li>Enviado à DRE</li>
-                <li>Finalizado Aprovado</li>
-              </ul>
-            </>
-          )}
-          { filtros.status.includes(3) && (
-            <>
-              <p> 
-                Reprovados vistoria: refere-se a todos os cadastros de
-                imóveis reprovados de vistoria onde contempla os 
-                seguintes status de cadastros:
-              </p>
-              <ul>
-                <li>Vistoria Reprovada</li>
-                <li>Finalizado Reprovado</li>
-              </ul>
-            </>
-          )}
-          { filtros.status.includes(5) && (
-            <>
-              <p> 
-                Cancelados: refere-se a todos os cadastros nos quais foram 
-                cancelados onde contempla o seguinte status de cadastros:
-              </p>
-              <ul>
-                <li>Cancelado</li>
-              </ul>
-            </>
-          )}
-        </div>
+        <>
+          <div className="col-12 titleLegenda">
+            <p>
+              Os filtros de status selecionados para extração do resumo referem-se aos seguintes status:
+            </p>
+          </div>
+          <div className="col-6 legenda">
+            { filtros.status.includes(1) && (
+              <>
+                <p> 
+                  Em análise: refere-se a todos os cadastros nos 
+                  quais estão em análise onde contempla os seguintes 
+                  status de cadastros:
+                </p>
+                <ul>
+                  <li>SME Analisou previamente</li>
+                  <li>Enviado à COMAPRE</li>
+                  <li>Agendamento da vistoria</li>
+                  <li>Aguardando relatório de vistoria</li>
+                  <li>Aguardando laudo de valor locatício</li>
+                </ul>
+              </>
+            )}
+            { filtros.status.includes(4) && (
+              <>
+                <p> 
+                  Finalizados reprovados: refere-se a todos os
+                  cadastros nos quais estão finalizados onde 
+                  contempla os seguintes status de cadastros:
+                </p>
+                <ul>
+                  <li>Finalizado - Área Insuficiente</li>
+                  <li>Finalizado - Demanda Insuficiente</li>
+                  <li>Finalizado - Não atende as necessidades da SME</li>
+                </ul>
+              </>
+            )}
+            { filtros.status.includes(2) && (
+              <>
+                <p> 
+                  Aprovados vistoria: refere-se a todos os cadastros
+                  de imóveis aprovados de vistoria onde contempla os
+                  seguintes status de cadastros:
+                </p>
+                <ul>
+                  <li>Vistoria Aprovada</li>
+                  <li>Enviado à DRE</li>
+                  <li>Finalizado Aprovado</li>
+                </ul>
+              </>
+            )}
+            { filtros.status.includes(3) && (
+              <>
+                <p> 
+                  Reprovados vistoria: refere-se a todos os cadastros de
+                  imóveis reprovados de vistoria onde contempla os 
+                  seguintes status de cadastros:
+                </p>
+                <ul>
+                  <li>Vistoria Reprovada</li>
+                  <li>Finalizado Reprovado</li>
+                </ul>
+              </>
+            )}
+            { filtros.status.includes(5) && (
+              <>
+                <p> 
+                  Cancelados: refere-se a todos os cadastros nos quais foram 
+                  cancelados onde contempla o seguinte status de cadastros:
+                </p>
+                <ul>
+                  <li>Cancelado</li>
+                </ul>
+              </>
+            )}
+          </div>
+        </>
       );
     } else {
       setLegenda( <div className="col-4 legenda"></div>)
