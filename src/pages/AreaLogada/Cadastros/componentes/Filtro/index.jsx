@@ -4,7 +4,7 @@ import { SelectText } from "components/Input/SelectText";
 import { InputText } from "components/Input/InputText";
 import { Field, Form } from "react-final-form";
 import { OnChange } from "react-final-form-listeners";
-import { getCadastros, getDres, getDistritos, getSetores, exportarCadastros } from "services/cadastros.service";
+import { getCadastros, getDres, getDistritos, getSetores } from "services/cadastros.service";
 import { normalizarOptions, normalizarSetores } from "helpers/utils";
 import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
 import Botao from "components/Botao";
@@ -20,7 +20,7 @@ export const Filtro = ({
   setDresProps, 
   setDistritosProps, 
   setSetoresProps,
-  setDataToExport
+  setCarregando,
 }) => {
   const [dres, setDres] = useState(null);
   const [erro, setErro] = useState(false);
@@ -72,17 +72,14 @@ export const Filtro = ({
 
 
   const onSubmit = async (values) => {
+    setCarregando(true);
     const response = await getCadastros(formataPaylaodBuscaCadastros(values));
     if (!response) toastError("Erro ao carregar os dados dos cadastros realizados");
     else if (response.status === HTTP_STATUS.OK) {
       setCadastros(response.data.results);
       setTotal(parseInt(response.data.count));
       setLastSearchParams(values);
-    }
-    const todosResultados = await exportarCadastros(formataPaylaodBuscaCadastros(values));
-    if (!todosResultados) toastError("Erro ao carregar os dados dos cadastros realizados");
-    else if (todosResultados.status === HTTP_STATUS.OK) {
-      setDataToExport(todosResultados.data);
+      setCarregando(false);
     }
   };
 
