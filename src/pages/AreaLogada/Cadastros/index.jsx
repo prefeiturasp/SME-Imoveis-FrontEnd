@@ -12,13 +12,13 @@ import "./style.scss";
 
 const Cadastros = () => {
   const [cadastros, setCadastros] = useState(null);
-  const [dataToExport, setDataToExport] = useState(null);
   const [total, setTotal] = useState(0);
   const [lastSearchParams, setLastSearchParams] = useState(null);
   const [dres, setDres] = useState(null);
   const [distritos, setDistritos] = useState(null);
   const [setores, setSetores] = useState(null);
   const history = useHistory();
+  const [carregando, setCarregando] = useState(false);
 
   return (
     <PaginaHeaderSidebar>
@@ -46,19 +46,20 @@ const Cadastros = () => {
             <h1 className="card-title">Gestão de Cadastros Realizados</h1>
             <Filtro
               setCadastros={setCadastros}
-              setDataToExport={setDataToExport}
               setTotal={setTotal}
               setDresProps={setDres}
               setDistritosProps={setDistritos}
               setSetoresProps={setSetores}
               setLastSearchParams={setLastSearchParams}
+              setCarregando={setCarregando}
             />
             <TabelaCadastros
               cadastros={cadastros}
-              dataToExport={dataToExport}
               total={total}
               lastSearchParams={lastSearchParams}
               setCadastros={setCadastros}
+              carregando={carregando}
+              setCarregando={setCarregando}
             />
           </div>
         </div>
