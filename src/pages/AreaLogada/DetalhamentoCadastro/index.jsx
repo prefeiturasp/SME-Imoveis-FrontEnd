@@ -31,6 +31,7 @@ import "./style.scss";
 import { formataValues, validateImovel } from "./helper";
 import { TextArea } from "components/TextArea/TextArea";
 import { ModalAtualizaStatus } from "./componentes/ModalAtualizaStatus";
+import { exportarPDF } from "services/relatorios.service";
 
 export const DetalhamentoCadastro = () => {
   const [cadastro, setCadastro] = useState(null);
@@ -66,6 +67,31 @@ export const DetalhamentoCadastro = () => {
         });
     }
   };
+
+  const downloadArquivo = (e, response, filename) => {
+    if (!window.confirm('Deseja gerar arquivo?')) {
+      e.stopPropagation();
+    } else {
+      var url = window.URL.createObjectURL(response.data);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+  }
+
+  const exportarRelatorioPDF = (e) => {
+    // setCarregando(true);
+    e.preventDefault();
+    const params = `id=${cadastro.id}`;
+    exportarPDF(params, 'imoveis/relatorio-cadastro-pdf')
+      .then((response) => {
+        downloadArquivo(e, response, "relatorio-cadastro.pdf")
+        // setCarregando(false);
+      })
+  }
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -147,6 +173,13 @@ export const DetalhamentoCadastro = () => {
                             style={BUTTON_STYLE.BLUE_OUTLINE}
                             type={BUTTON_TYPE.BUTTON}
                             className="col-2"
+                            texto="Exportar"
+                            onClick={(e) => exportarRelatorioPDF(e)}
+                          />
+                          <Botao
+                            style={BUTTON_STYLE.BLUE_OUTLINE}
+                            type={BUTTON_TYPE.BUTTON}
+                            className="col-2 ml-3"
                             texto="Atualizar status"
                             onClick={() => setShowModal(true)}
                           />

@@ -102,6 +102,9 @@
         background-color: $red;
         color: #fff;
       }
+      &:after {
+        background-color: $red;
+      }
     }
     &.cancelled {
       &:before {
