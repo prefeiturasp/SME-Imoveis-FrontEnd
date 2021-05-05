@@ -23,7 +23,6 @@ import { getEnderecoPorCEP } from "services/cep.service";
 import { toastError, toastSuccess } from "components/Toast/dialogs";
 import { georef } from "services/step2.service";
 import { ESTADOS } from "pages/CadastroImovel/components/Imovel/constants";
-import { getSetores } from "services/cadastros.service";
 import { TabelaDemanda } from "./componentes/Demanda";
 import { Anexos } from "./componentes/Anexos";
 import { DadosCadastrante } from "./componentes/DadosCadastrante";
@@ -109,15 +108,6 @@ export const DetalhamentoCadastro = () => {
           setErro(true);
         });
     }
-    getSetores()
-      .then((response) => {
-        if (response.status === HTTP_STATUS.OK) {
-          setSetores(response.data);
-        }
-      })
-      .catch(() => {
-        setErro(true);
-      });
   }, []);
 
   return (
@@ -429,38 +419,35 @@ export const DetalhamentoCadastro = () => {
                           disabled={!editar}
                         />
                       )}
-                      {!setores && <div>Carregando setores...</div>}
-                      {setores && (
-                        <div className="row">
-                          <div className="col-4">
-                            <Field
-                              component={InputText}
-                              name="setor.dre.nome"
-                              label="DRE"
-                              disabled
-                              labelClassName="font-weight-bold color-black"
-                            />
-                          </div>
-                          <div className="col-4">
-                            <Field
-                              component={InputText}
-                              name="setor.distrito.nome"
-                              label="Distrito"
-                              disabled
-                              labelClassName="font-weight-bold color-black"
-                            />
-                          </div>
-                          <div className="col-4">
-                            <Field
-                              component={InputText}
-                              name="setor.codigo"
-                              label="Setor"
-                              disabled
-                              labelClassName="font-weight-bold color-black"
-                            />
-                          </div>
+                      <div className="row">
+                        <div className="col-4">
+                          <Field
+                            component={InputText}
+                            name="setor.dre.nome"
+                            label="DRE"
+                            disabled
+                            labelClassName="font-weight-bold color-black"
+                          />
                         </div>
-                      )}
+                        <div className="col-4">
+                          <Field
+                            component={InputText}
+                            name="setor.distrito.nome"
+                            label="Distrito"
+                            disabled
+                            labelClassName="font-weight-bold color-black"
+                          />
+                        </div>
+                        <div className="col-4">
+                          <Field
+                            component={InputText}
+                            name="setor.codigo"
+                            label="Setor"
+                            disabled
+                            labelClassName="font-weight-bold color-black"
+                          />
+                        </div>
+                      </div>
                       <hr />
                       <TabelaDemanda cadastro={cadastro} />
                       <hr />
