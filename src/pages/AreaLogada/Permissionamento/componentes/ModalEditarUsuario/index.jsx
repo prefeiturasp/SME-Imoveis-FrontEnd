@@ -151,7 +151,12 @@ export const ModalEditarUsuario = ({
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-12">
+                    { legenda && (
+                      <p className="legenda">Tipos de permissionamento referem-se á:</p>
+                    )}
+                  </div>
+                  <div className="col-12">
                     <p className="legenda">
                       {legenda}
                     </p>
