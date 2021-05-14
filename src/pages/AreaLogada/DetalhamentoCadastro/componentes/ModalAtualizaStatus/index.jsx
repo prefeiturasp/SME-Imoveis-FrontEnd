@@ -187,33 +187,36 @@ export const ModalAtualizaStatus = ({
   }, []);
 
   const onSubmit = async (values) => {
-    if (enviadoComapre) {
-      enviarComapre(values, false);
-    } else if (finalizado && 
-               (cadastroProps.status === "Solicitação Realizada" || 
-                cadastroProps.status === "Enviado à DRE" || 
-                cadastroProps.status === "Vistoria reprovada")
-              ) {
-      finalizarAnalise(values, false);
-    } else if (agendamentoDaVistoria) {
-      agendarVistoria(values, false);
-    } else if (planoAdequacoes && plantaAdequacoes && 
-               plantaAtual && relatorioVistoria && 
-               laudoValorLocaticio && relatorioFotografico && 
-               cadastroProps.status !== "Vistoria aprovada" &&
-               cadastroProps.status !== "Vistoria reprovada" &&
-               cadastroProps.status === "Laudo de valor locatício"
-              ) {
-      enviarResultadoVistoria(values, false);
-    }else if (cadastroProps.status === "Vistoria aprovada") {
-      enviarDre(values, false);
-    }else {
+    if (values.situacao !== cadastroProps.situacao) {
       const response = await updateStatus(formataPaylaodAtualizaCadastro(values));
       if (!response) toastError("Erro ao atualizar cadastro");
       else if (response.status === HTTP_STATUS.OK) {
         toastSuccess("Cadastro atualizado com sucesso")
         setStatusCadastro(response.data.status);
         setCadastroProps(response.data)
+        setCadastro(response.data)
+      }
+    } else {
+      if (enviadoComapre) {
+        enviarComapre(values, false);
+      } else if (finalizado && 
+                 (cadastroProps.status === "Solicitação Realizada" || 
+                  cadastroProps.status === "Enviado à DRE" || 
+                  cadastroProps.status === "Vistoria reprovada")
+                ) {
+        finalizarAnalise(values, false);
+      } else if (agendamentoDaVistoria) {
+        agendarVistoria(values, false);
+      } else if (planoAdequacoes && plantaAdequacoes && 
+                 plantaAtual && relatorioVistoria && 
+                 laudoValorLocaticio && relatorioFotografico && 
+                 cadastroProps.status !== "Vistoria aprovada" &&
+                 cadastroProps.status !== "Vistoria reprovada" &&
+                 cadastroProps.status === "Laudo de valor locatício"
+                ) {
+        enviarResultadoVistoria(values, false);
+      }else if (cadastroProps.status === "Vistoria aprovada") {
+        enviarDre(values, false);
       }
     }
   };
@@ -1316,7 +1319,6 @@ export const ModalAtualizaStatus = ({
                                 statusCadastro === "Cancelado" 
                                }
                       />
-                      {console.log(finalizadoAprovadoLog)}
                     <OnChange name="observacoes_analise">
                       {async (value, previous) => {
                         if(value.length && value.length <= maximoCaracteres) {
