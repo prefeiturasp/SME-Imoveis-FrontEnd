@@ -1388,6 +1388,7 @@ export const ModalAtualizaStatus = ({
                       onClick={() => finalizarAnalise(values, true)}
                       disabled={!finalizado || analiseFinalizadaLog.length ||
                                 finalizadoAprovadoLog.length || finalizadoReporvadoLog.length || 
+                                vistoriaReprovadaLog.length || enviadoDreLog.length || 
                                 statusCadastro === "Cancelado"}
                     />
                   </div>
