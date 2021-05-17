@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import HTTP_STATUS from "http-status-codes";
-import { getOpcoesDemandas, normalizaOpcoesAnos, normalizaOpcoesDres, 
-          formataPayloadFiltros, normalizaOpcoesDistritos,
-          normalizaOpcoesSetores, formataPayloadSetores} from "../../helper"
+import {
+  getOpcoesDemandas, normalizaOpcoesAnos, normalizaOpcoesDres,
+  formataPayloadFiltros, normalizaOpcoesDistritos,
+  normalizaOpcoesSetores, formataPayloadSetores
+} from "../../helper"
 import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
 import Botao from "components/Botao";
 import { getAnos, filtrar } from "services/relatorios.service";
@@ -24,16 +26,16 @@ export const Filtro = ({
   setTodasDemandas,
   setTotalCadastrados,
 }) => {
-  
+
   const [opcoesAnos, setOpcoesAnos] = useState([{ label: "Selecione os anos", value: undefined }])
   const [opcoesDres, setOpcoesDres] = useState([{ label: "Selecione as DREs", value: undefined }])
   const [opcoesDistritos, setOpcoesDistritos] = useState([{ label: "Selecione os Distritos", value: undefined }])
   const [opcoesSetores, setOpcoesSetores] = useState([{ label: "Selecione os Setores", value: undefined }])
   const [opcoesDemandas] = useState(getOpcoesDemandas)
-  
+
   const [distritoDisabled, setDistritoDisabled] = useState(false);
   const [setorDisabled, setSetorDisabled] = useState(false);
-  
+
   useEffect(() => {
     getAnos()
       .then((response) => {
@@ -80,10 +82,10 @@ export const Filtro = ({
   const changeAno = (event) => {
     var anos = []
     var todos = opcoesAnos.map((opcao) => opcao.value)
-                            .filter((value) => value !== undefined && value !== "todos")
+      .filter((value) => value !== undefined && value !== "todos")
     if (event.target.value.includes("todos")) {
       anos = todos
-      if (todos.length === (event.target.value.length - 1)){
+      if (todos.length === (event.target.value.length - 1)) {
         anos = []
       }
     } else {
@@ -107,7 +109,7 @@ export const Filtro = ({
         distritos: [],
         setores: [],
         tipo_resultado: 'dre',
-      });  
+      });
     } else {
       if (event.target.value === 'todas') {
         setDistritoDisabled(true);
@@ -134,9 +136,9 @@ export const Filtro = ({
   const changeDistritos = async (event) => {
     var distritos = []
     var todos = opcoesDistritos.map((opcao) => opcao.value)
-                            .filter((value) => value !== undefined && value !== "todos")
+      .filter((value) => value !== undefined && value !== "todos")
     if (event.target.value.includes("todos")) {
-      if (todos.length === (event.target.value.length - 1)){
+      if (todos.length === (event.target.value.length - 1)) {
         distritos = []
         setSetorDisabled(false);
         setOpcoesSetores([{ label: "Selecione os Setores", value: undefined }]);
@@ -150,7 +152,7 @@ export const Filtro = ({
         }
       }
     } else {
-      distritos = event.target.value.filter((value) => value !== undefined)      
+      distritos = event.target.value.filter((value) => value !== undefined)
       setSetorDisabled(false);
       const response = await getSetores(formataPayloadSetores(distritos));
       if (!response) console.log("Erro ao carregar setores");
@@ -169,9 +171,9 @@ export const Filtro = ({
   const changeSetores = async (event) => {
     var setores = []
     var todos = opcoesSetores.map((opcao) => opcao.value)
-                            .filter((value) => value !== undefined && value !== "todos")
+      .filter((value) => value !== undefined && value !== "todos")
     if (event.target.value.includes("todos")) {
-      if (todos.length === (event.target.value.length - 1)){
+      if (todos.length === (event.target.value.length - 1)) {
         setores = []
       } else {
         setores = todos
@@ -189,10 +191,10 @@ export const Filtro = ({
   const changeDemandas = (event) => {
     var demandas = []
     var todos = opcoesDemandas.map((opcao) => opcao.value)
-                            .filter((value) => value !== undefined && value !== "todos")
+      .filter((value) => value !== undefined && value !== "todos")
     if (event.target.value.includes("todos")) {
       demandas = todos
-      if (todos.length === (event.target.value.length - 1)){
+      if (todos.length === (event.target.value.length - 1)) {
         demandas = []
       }
     } else {
@@ -205,8 +207,14 @@ export const Filtro = ({
   };
 
   const limpar = () => {
-    setFiltros({ demandas: [], dres: '', distritos: [],
-                 setores: [], anos: [], tipo_resultado: 'dre'});
+    setFiltros({
+      demandas: [], dres: '', distritos: [],
+      setores: [], anos: [], tipo_resultado: 'dre'
+    });
+    setDistritoDisabled(false);
+    setSetorDisabled(false);
+    setOpcoesDistritos([{ label: "Selecione os Distritos", value: undefined }]);
+    setOpcoesSetores([{ label: "Selecione os Setores", value: undefined }])
     setResultado(null);
   }
 
@@ -217,7 +225,7 @@ export const Filtro = ({
           <form onSubmit={handleSubmit}>
             <div className="row">
               <div className="col-sm-12 col-md-3 col-lg-3 col-xl-3">
-              <InputLabel>Ano</InputLabel>
+                <InputLabel>Ano</InputLabel>
                 <FormControl className="fullWidth" variant="outlined">
                   <Select
                     id="demo-simple-select-outlined"
@@ -226,7 +234,7 @@ export const Filtro = ({
                     value={filtros['anos']}
                     onChange={changeAno}
                   >
-                    { opcoesAnos.map((opcao, index)=>{
+                    {opcoesAnos.map((opcao, index) => {
                       return (
                         <MenuItem
                           key={index}
@@ -248,7 +256,7 @@ export const Filtro = ({
                     value={filtros['dres']}
                     onChange={changeDres}
                   >
-                    { opcoesDres.map((opcao, index)=>{
+                    {opcoesDres.map((opcao, index) => {
                       return (
                         <MenuItem
                           key={index}
@@ -274,7 +282,7 @@ export const Filtro = ({
                     onChange={changeDistritos}
                     disabled={distritoDisabled}
                   >
-                    { opcoesDistritos.map((opcao, index)=>{
+                    {opcoesDistritos.map((opcao, index) => {
                       return (
                         <MenuItem
                           key={index}
@@ -298,7 +306,7 @@ export const Filtro = ({
                     onChange={changeSetores}
                     disabled={setorDisabled}
                   >
-                    { opcoesSetores.map((opcao, index)=>{
+                    {opcoesSetores.map((opcao, index) => {
                       return (
                         <MenuItem
                           key={index}
@@ -321,7 +329,7 @@ export const Filtro = ({
                     value={filtros['demandas']}
                     onChange={changeDemandas}
                   >
-                    { opcoesDemandas.map((opcao, index)=>{
+                    {opcoesDemandas.map((opcao, index) => {
                       return (
                         <MenuItem
                           key={index}
