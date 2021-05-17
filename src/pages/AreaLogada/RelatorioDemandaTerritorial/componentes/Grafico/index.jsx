@@ -10,7 +10,7 @@ export const Grafico = ({
   todasDemandas,
   totalCadastrados,
 }) => {
-  
+
   return (
     <div className="card-body">
       <div className="container">
