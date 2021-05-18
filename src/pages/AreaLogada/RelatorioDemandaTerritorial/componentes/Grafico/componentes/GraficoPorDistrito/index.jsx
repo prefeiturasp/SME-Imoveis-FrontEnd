@@ -38,8 +38,8 @@ export const GraficoPorDistrito = ({
               <>
                 <div className="col-12 mt-3 mb-3">
                   <label className="informacoes">
-                    Quantidade de imóveis cadastrados na DRE - {dre}:{" "}
-                    {Object.keys(resultado[dre]).map((distrito, idx) => resultado[dre][distrito][`demanda_${idx + 1}`]).reduce((a, b) => a + b, 0)}
+                    Quantidade de imóveis cadastrados na DRE - {dre}: {" "}
+                    {Object.keys(resultado[dre]).map((distrito) => resultado[dre][distrito]).map((obj) => obj["demanda_1"] + obj["demanda_2"] + obj["demanda_3"]).reduce((a, b) => a + b, 0)}
                   </label>
                 </div>
                 {Object.keys(resultado[dre]).map((distrito) => {
