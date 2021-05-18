@@ -40,7 +40,7 @@ export const GraficoPorSetor = ({
                     <>
                       <div className="col-12 mt-3 mb-3">
                         <label className="informacoes">
-                          Quantidade de imóveis cadastrados no Distrito - {distrito}:{" "}
+                          Quantidade de imóveis cadastrados no Distrito - {distrito}: {" "}
                           {Object.keys(resultado[dre][distrito]).map((setor, idx) => resultado[dre][distrito][setor][`demanda_${idx + 1}`]).reduce((a, b) => a + b, 0)}
                         </label>
                       </div>

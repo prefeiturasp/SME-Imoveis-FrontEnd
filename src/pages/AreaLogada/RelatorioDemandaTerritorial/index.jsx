@@ -75,7 +75,6 @@ const RelatorioDemandaTerritorial = () => {
                       />
                     </Tab>
                     <Tab eventKey="grafico" title="Gráfico">
-                      {tipoResultado}
                       <Grafico
                         resultado={resultado}
                         tipoResultado={tipoResultado}
