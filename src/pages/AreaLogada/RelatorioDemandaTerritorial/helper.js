@@ -10,17 +10,17 @@ export const getOpcoesDemandas = () => {
 };
 
 export const normalizaOpcoesAnos = (data) => {
-  var anos = [{ label: "Selecione os status", value: undefined }, 
-              { label: "Todos", value: "todos" }];
+  var anos = [{ label: "Selecione os status", value: undefined },
+  { label: "Todos", value: "todos" }];
   for (let idx = 0; idx < data.length; idx++) {
-    anos.push({label: data[idx], value: data[idx]});
+    anos.push({ label: data[idx], value: data[idx] });
   }
   return anos;
 };
 
 export const normalizaOpcoesDres = (data) => {
-  const dres_ = [{ label: "Selecione as DREs", value: undefined }, 
-                 { label: "Todas", value: "todas" }];
+  const dres_ = [{ label: "Selecione as DREs", value: undefined },
+  { label: "Todas", value: "todas" }];
   data.forEach((option) => {
     dres_.push({ label: option.nome, value: option.id });
   });
@@ -28,8 +28,8 @@ export const normalizaOpcoesDres = (data) => {
 };
 
 export const normalizaOpcoesDistritos = (data) => {
-  const distritos_ = [{ label: "Selecione os Distritos", value: undefined }, 
-                 { label: "Todos", value: "todos" }];
+  const distritos_ = [{ label: "Selecione os Distritos", value: undefined },
+  { label: "Todos", value: "todos" }];
   data.forEach((option) => {
     distritos_.push({ label: option.nome, value: option.id });
   });
@@ -37,8 +37,8 @@ export const normalizaOpcoesDistritos = (data) => {
 };
 
 export const normalizaOpcoesSetores = (data) => {
-  const setores_ = [{ label: "Selecione os Setores", value: undefined }, 
-                 { label: "Todos", value: "todos" }];
+  const setores_ = [{ label: "Selecione os Setores", value: undefined },
+  { label: "Todos", value: "todos" }];
   data.forEach((option) => {
     setores_.push({ label: option.codigo, value: option.codigo });
   });
@@ -94,7 +94,7 @@ export const formataPayloadSetores = (distritos) => {
 
 export const formataGraficoDRE = (resultado, todasDemandas) => {
   if (todasDemandas) {
-    var data_demanda_baixa = [] 
+    var data_demanda_baixa = []
     var data_demanda_media = []
     var data_demanda_alta = []
     var labels = []
@@ -128,7 +128,7 @@ export const formataGraficoDRE = (resultado, todasDemandas) => {
     var labels = Object.keys(resultado).map((dre) => dre);
     var backgroundColor = labels.map(() => '#4472C4');
     var hoverBackgroundColor = backgroundColor;
-    var data = labels.map((label) => resultado[label] );
+    var data = labels.map((label) => resultado[label]);
     var chart = {
       labels: labels,
       datasets: [{
@@ -143,7 +143,7 @@ export const formataGraficoDRE = (resultado, todasDemandas) => {
 
 export const formataGraficoDistrito = (resultado, todasDemandas) => {
   if (todasDemandas) {
-    var data_demanda_baixa = [] 
+    var data_demanda_baixa = []
     var data_demanda_media = []
     var data_demanda_alta = []
     var labels = []
@@ -200,7 +200,7 @@ export const formataGraficoDistrito = (resultado, todasDemandas) => {
 
 export const formataGraficoSetor = (resultado, todasDemandas) => {
   if (todasDemandas) {
-    var data_demanda_baixa = [] 
+    var data_demanda_baixa = []
     var data_demanda_media = []
     var data_demanda_alta = []
     var labels = []
