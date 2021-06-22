@@ -50,7 +50,7 @@ export default class Home extends Component {
               <h1>
                 Quem pode realizar cadastro?
               </h1>
-              <p>Os proprietários ou seus respresentantes legais interessados na locação de imóveis para fins educacionais.</p>
+              <p>Os proprietários ou seus representantes legais interessados na locação de imóveis para fins educacionais.</p>
             </div>
           </div>
         </div>
