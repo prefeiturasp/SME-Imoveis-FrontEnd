@@ -357,7 +357,7 @@ export const enviaDre = (queryParams) => {
     });
 };
 
-export const cancela = (id) => {
+export const cancela = (id, send) => {
   const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/cancela/?imovel=${id}`
   let status = 0;
   return fetch(url, {
@@ -366,6 +366,7 @@ export const cancela = (id) => {
       Authorization: `JWT ${getToken()}`,
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({ "sendEmail": send }),
   })
     .then((res) => {
       status = res.status;
