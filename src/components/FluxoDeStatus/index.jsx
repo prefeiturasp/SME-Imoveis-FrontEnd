@@ -30,28 +30,15 @@ export const FluxoDeStatus = (props) => {
               return (
                 <li
                   key={key}
-                  className={`${
-                    tipoDeStatusClasse(novoStatus) !== "pending"
+                  className={`${tipoDeStatusClasse(novoStatus) !== "pending"
                       ? tipoDeStatusClasse(novoStatus)
                       : fluxoNaoFinalizado
-                      ? "pending"
-                      : ""
-                  }`}
+                        ? "pending"
+                        : ""
+                    }`}
                   style={{ width: 100 / fluxoUtilizado.length + "%" }}
                 >
                   {novoStatus.criado_em}
-                  <br />
-                  {novoStatus.usuario && (
-                    <span>
-                      {novoStatus.usuario.username !== undefined &&
-                      cloneListaDeStatus[key].usuario.tipo_usuario ===
-                        "terceirizada"
-                        ? `CPF: ${novoStatus.usuario.cpf}`
-                        : `RF: ${novoStatus.usuario.username}`}
-                      <br />
-                      {novoStatus.usuario && novoStatus.usuario.nome}
-                    </span>
-                  )}
                 </li>
               );
             })}
