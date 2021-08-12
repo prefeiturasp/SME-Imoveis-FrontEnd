@@ -265,18 +265,14 @@ export const ModalAtualizaStatus = ({
 
   const agendarVistoria = async (values, enviar_email) => {
     if (values.data_vistoria) {
-      if (values.data_vistoria >= (new Date().toISOString().slice(0, 10))) {
-        values.enviar_email = enviar_email;
-        const response = await agendaVistoria(formataPaylaodAgendarVistoria(values));
-        if (!response) toastError("Erro ao atualizar cadastro");
-        else if (response.status === HTTP_STATUS.OK) {
-          toastSuccess("Vistoria agendada com sucesso")
-          setStatusCadastro(response.data.status);
-          setCadastroProps(response.data);
-          setAgendamentoDaVistoria(false);
-        }
-      } else {
-        toastError("A data não pode ser anterior a atual");
+      values.enviar_email = enviar_email;
+      const response = await agendaVistoria(formataPaylaodAgendarVistoria(values));
+      if (!response) toastError("Erro ao atualizar cadastro");
+      else if (response.status === HTTP_STATUS.OK) {
+        toastSuccess("Vistoria agendada com sucesso")
+        setStatusCadastro(response.data.status);
+        setCadastroProps(response.data);
+        setAgendamentoDaVistoria(false);
       }
     } else {
       toastError("É necessário preencher a data da vistoria");
