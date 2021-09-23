@@ -204,6 +204,7 @@ export const ModalAtualizaStatus = ({
         toastSuccess("Cadastro atualizado com sucesso")
         setStatusCadastro(response.data.status);
         setCadastroProps(response.data)
+        setCadastro(cadastro => cadastro, cadastro.situacao = response.data.situacao);
       }
     } else {
       if (enviadoComapre) {
