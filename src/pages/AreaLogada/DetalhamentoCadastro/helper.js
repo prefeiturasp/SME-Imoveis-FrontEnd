@@ -62,6 +62,16 @@ export const formataPaylaodEnviarComapre = (values) => {
   return stringParams.slice(0, -1);
 };
 
+export const formataPaylaodEnviarComapreEdicao = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  if (values.observacoes_comapre !== undefined && values.observacoes_comapre !== "") {
+    stringParams += `justificativa=${values.observacoes_comapre}&`;
+  }
+  stringParams += `edicao=ok&`
+  return stringParams.slice(0, -1);
+};
+
 export const formataPaylaodFinaliza = (values) => {
   let stringParams = "&";
   stringParams += `imovel=${values.id}&`;
@@ -87,11 +97,36 @@ export const formataPaylaodFinaliza = (values) => {
   return stringParams.slice(0, -1);
 };
 
+export const formataPayloadFinalizaEdicao = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+
+  if (values.observacoes_comapre !== undefined && values.observacoes_comapre !== "") {
+    stringParams += `justificativa_analise_previa=${values.observacoes_comapre}&`;
+  }
+
+  if (values.observacoes_analise !== undefined && values.observacoes_analise !== "") {
+    stringParams += `justificativa_finalizacao=${values.observacoes_analise}&`;
+  }
+
+  stringParams += `edicao=ok&`;
+
+  return stringParams.slice(0, -1);
+};
+
 export const formataPaylaodAgendarVistoria = (values) => {
   let stringParams = "&";
   stringParams += `imovel=${values.id}&`;
   stringParams += `data_agendada=${values.data_vistoria}&`;
   stringParams += `enviar_email=${values.enviar_email}&`;
+  return stringParams.slice(0, -1);
+};
+
+export const formataPaylaodAgendarVistoriaEdicao = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  stringParams += `data_agendada=${values.data_vistoria}&`;
+  stringParams += `edicao=ok&`;
   return stringParams.slice(0, -1);
 };
 
@@ -127,5 +162,15 @@ export const formataPaylaodEnviarDre = (values) => {
   stringParams += `enviar_email=${values.enviar_email}&`;
   stringParams += `processo_sei=${values.numero_processo_sei}&`;
   stringParams += `nome_da_unidade=${values.nome_da_unidade}&`;
+  return stringParams.slice(0, -1);
+};
+
+
+export const formataPaylaodEnviarDreEdicao = (values) => {
+  let stringParams = "&";
+  stringParams += `imovel=${values.id}&`;
+  stringParams += `processo_sei=${values.numero_processo_sei}&`;
+  stringParams += `nome_da_unidade=${values.nome_da_unidade}&`;
+  stringParams += `edicao=ok&`;
   return stringParams.slice(0, -1);
 };

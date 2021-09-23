@@ -21,14 +21,17 @@ import {
 } from "services/cadastros.service";
 import {
   formataPaylaodAtualizaCadastro, formataPaylaodEnviarComapre,
-  formataPaylaodFinaliza, formataPaylaodAgendarVistoria,
-  formataPaylaodEnviaRelatorio, formataPaylaodEnviaLaudo,
-  formataPaylaodResultadoVistoria, formataPaylaodEnviarDre
+  formataPaylaodEnviarComapreEdicao, formataPaylaodFinaliza,
+  formataPayloadFinalizaEdicao, formataPaylaodAgendarVistoria,
+  formataPaylaodAgendarVistoriaEdicao, formataPaylaodEnviaRelatorio,
+  formataPaylaodEnviaLaudo, formataPaylaodResultadoVistoria,
+  formataPaylaodEnviarDre, formataPaylaodEnviarDreEdicao
 } from "../../helper";
 import { toastError, toastSuccess } from "components/Toast/dialogs";
 import { EH_PERFIL_DRE, EH_PERFIL_CONSULTA_SECRETARIA } from "helpers/utils";
 import { ModalConfirmacaoEnvioEmailAoCancelar } from "../ModalEnviaEmailCancelar"
 import "./style.scss";
+import { set } from "react-ga";
 
 export const ModalAtualizaStatus = ({
   cadastroProps,
@@ -38,6 +41,7 @@ export const ModalAtualizaStatus = ({
 }) => {
   const [showModalCancelar, setShowModalCancelar] = useState(false);
   const [cadastro, setCadastro] = useState(null);
+  const [editar, setEditar] = useState(false);
   const [finalizado, setFinalizado] = useState(
     cadastroProps.status === "Enviado à DRE" ||
     cadastroProps.status === "Vistoria reprovada" ||
@@ -451,11 +455,126 @@ export const ModalAtualizaStatus = ({
     }
   };
 
+  const salvarEdicao = async (values) => {
+    let mensagem = "Dados enviados com sucesso"
+    // Trata Envio a Comapre  
+    if (enviadoComapreLog && values.observacoes_comapre !== undefined && values.observacoes_comapre !== "") {
+      const response = await enviaComapre(formataPaylaodEnviarComapreEdicao(values));
+      if (!response) toastError("Erro ao atualizar cadastro");
+      else if (response.status === HTTP_STATUS.OK) {
+        console.log("Enviado para COMAPRE com sucesso!")
+        setCadastroProps(response.data);
+      }
+    }
+
+    // atualização de análise prévia e finalização
+    if ((values.observacoes_comapre !== undefined && values.observacoes_comapre !== "") || (values.observacoes_analise !== undefined && values.observacoes_analise !== "")) {
+      const response = await finaliza(formataPayloadFinalizaEdicao(values));
+      if (!response) toastError("Erro ao atualizar cadastro");
+      else if (response.status === HTTP_STATUS.OK) {
+        console.log("Cadastro finalizado sucesso!")
+        setCadastroProps(response.data);
+      }
+    }
+
+    if (values.data_vistoria) {
+      const response = await agendaVistoria(formataPaylaodAgendarVistoriaEdicao(values));
+      if (!response) toastError("Erro ao atualizar cadastro");
+      else if (response.status === HTTP_STATUS.OK) {
+        console.log("Vistoria agendada com sucesso")
+        setCadastroProps(response.data);
+      }
+    } else {
+      toastError("É necessário preencher a data da vistoria");
+    }
+
+    if (values.numero_processo_sei) {
+      if (values.numero_processo_sei.length === 19) {
+        if (values.nome_da_unidade) {
+          const response = await enviaDre(formataPaylaodEnviarDreEdicao(values));
+          if (!response) toastError("Erro ao atualizar cadastro");
+          else if (response.status === HTTP_STATUS.OK) {
+            console.log("Enviado para DRE com sucesso");
+            setCadastroProps(response.data);
+          }
+        } else {
+          toastError("O nome da unidade não pode ficar em branco");
+        }
+      } else {
+        toastError("O número do processo SEI deve conter 16 dígitos");
+      }
+    } else {
+      toastError("É necessário preencher o número do processo SEI");
+    }
+
+    toastSuccess(mensagem)
+    setEditar(false);
+  }
+
+  const podeEditarFinalizacao = () => {
+    if (editar) {
+      return !(finalizado || analiseFinalizadaLog.length > 0 ||
+        finalizadoAprovadoLog.length > 0 || finalizadoReporvadoLog.length > 0 ||
+        statusCadastro === "Cancelado")
+    }
+
+    return (!finalizado || analiseFinalizadaLog.length > 0 ||
+      finalizadoAprovadoLog.length > 0 || finalizadoReporvadoLog.length > 0 ||
+      statusCadastro === "Cancelado")
+  }
+
+  const podeEditarAgendamento = () => {
+    if (editar) {
+      return !(vistoriaAgendadaLog.length > 0)
+    }
+
+    return statusCadastro !== 'Enviado à COMAPRE'
+  }
+
+  const podeEditarRelatorioVistoria = () => {
+    const disabled = (statusCadastro === "Vistoria aprovada") ||
+      (statusCadastro === "Vistoria reprovada") ||
+      (statusCadastro === "Enviado à DRE") ||
+      (statusCadastro === "Finalizado - Aprovado") ||
+      (statusCadastro === "Cancelado")
+
+    if (editar) {
+      return !disabled
+    }
+
+    return disabled
+  }
+
+  const podeAdicionarRelatorioVistoria = () => {
+    const disabled = (statusCadastro === "Vistoria aprovada") ||
+      (statusCadastro === "Vistoria reprovada") ||
+      (statusCadastro === "Enviado à DRE") ||
+      (statusCadastro === "Finalizado - Aprovado") ||
+      (statusCadastro === "Cancelado")
+
+    if (editar) {
+      return disabled
+    }
+
+    return (statusCadastro === "Aguardando relatório de vistoria") ||
+      (statusCadastro === "Relatório da vistoria") ||
+      (statusCadastro === "Aguardando laudo de valor locatício") ||
+      (statusCadastro === "Laudo de valor locatício")
+  }
+
+  const podeEditarEviadoDre = () => {
+    if (editar) {
+      return !enviadoDreLog.length > 0
+    }
+
+    return (statusCadastro !== "Vistoria aprovada")
+  }
+
   return (
     <Modal
       dialogClassName="modal-70w"
       show={showModal}
-      onHide={() => setShowModal(false)}
+      onHide={() => { setEditar(false); setShowModal(false) }}
       dialog='true'
     >
       <Modal.Header closeButton>
@@ -480,13 +599,29 @@ export const ModalAtualizaStatus = ({
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-12">
+                    {!editar ? (<Botao
+                      type={BUTTON_TYPE.BUTTON}
+                      style={BUTTON_STYLE.BLUE}
+                      texto="Editar"
+                      className="float-right mr-2"
+                      onClick={() => setEditar(true)}
+                      disabled={(statusCadastro === "Solicitação Realizada") || EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
+                    />) :
+                      (<Botao
+                        type={BUTTON_TYPE.BUTTON}
+                        style={BUTTON_STYLE.BLUE}
+                        texto="Salvar Edição"
+                        className="float-right mr-2"
+                        onClick={() => salvarEdicao(values)}
+                        disabled={(statusCadastro === "Solicitação Realizada") || EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
+                      />)}
                     <Botao
                       type={BUTTON_TYPE.BUTTON}
                       style={BUTTON_STYLE.BLUE}
                       texto="Salvar Alteração"
                       className="float-right mr-2"
                       onClick={() => onSubmit(values)}
-                      disabled={EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
+                      disabled={editar || EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
                     />
                   </div>
                   <div className="col-12 title mb-3">
@@ -685,10 +820,10 @@ export const ModalAtualizaStatus = ({
                       label="Observações"
                       name="observacoes_comapre"
                       maxLength={`${maximoCaracteres}`}
-                      defaultValue={enviadoComapreLog.length ? (enviadoComapreLog[0].justificativa) : ''}
+                      defaultValue={enviadoComapreLog.length > 0 ? (enviadoComapreLog[0].justificativa) : (analisePreviaLog.length > 0 ? (analisePreviaLog[0].justificativa) : '')}
                       style={{ minHeight: "100px", height: "100px", maxHeight: '100px' }}
                       labelClassName="font-weight-bold color-black"
-                      disabled={!enviadoComapre || (statusCadastro !== "Solicitação Realizada")}
+                      disabled={!editar && (!enviadoComapre || (statusCadastro !== "Solicitação Realizada"))}
                     />
                     <OnChange name="observacoes_comapre">
                       {async (value, previous) => {
@@ -731,7 +866,7 @@ export const ModalAtualizaStatus = ({
                       texto="Enviar E-mail"
                       className="enviarEmail"
                       onClick={() => enviarComapre(values, true)}
-                      disabled={(statusCadastro !== "Solicitação Realizada" || !enviadoComapre || statusCadastro === "Cancelado")}
+                      disabled={(editar || statusCadastro !== "Solicitação Realizada" || !enviadoComapre || statusCadastro === "Cancelado")}
                     />
                   </div>
                 </div>
@@ -766,7 +901,7 @@ export const ModalAtualizaStatus = ({
                       name="data_vistoria"
                       defaultValue={vistoriaAgendadaLog.length ? (vistoriaAgendadaLog[0].data_agendada) : (agendamentoDaVistoria ? (new Date().toISOString().slice(0, 10)) : null)}
                       type="date"
-                      disabled={statusCadastro !== 'Enviado à COMAPRE'}
+                      disabled={podeEditarAgendamento()}
                     />
                   </div>
                   <div className="col-8"></div>
@@ -821,12 +956,7 @@ export const ModalAtualizaStatus = ({
                           icon={BUTTON_ICON.TRASH}
                           className="w-50 br-none"
                           onClick={() => removerAnexo(relatorioVistoria[0].uuid)}
-                          disabled={(statusCadastro === "Vistoria aprovada") ||
-                            (statusCadastro === "Vistoria reprovada") ||
-                            (statusCadastro === "Enviado à DRE") ||
-                            (statusCadastro === "Finalizado - Aprovado") ||
-                            (statusCadastro === "Cancelado")
-                          }
+                          disabled={podeEditarRelatorioVistoria()}
                         />
                         <a href={relatorioVistoria[0].arquivo} target="_blank" rel="noopener noreferrer">
                           <Botao
@@ -838,10 +968,7 @@ export const ModalAtualizaStatus = ({
                         </a>
                       </>
                     ) : (
-                      (statusCadastro === "Aguardando relatório de vistoria") ||
-                        (statusCadastro === "Relatório da vistoria") ||
-                        (statusCadastro === "Aguardando laudo de valor locatício") ||
-                        (statusCadastro === "Laudo de valor locatício") ?
+                      podeAdicionarRelatorioVistoria() ?
                         (
                           <Field
                             component={InputFile}
@@ -872,12 +999,7 @@ export const ModalAtualizaStatus = ({
                           icon={BUTTON_ICON.TRASH}
                           className="w-50 br-none"
                           onClick={() => removerAnexo(relatorioFotografico[0].uuid)}
-                          disabled={(statusCadastro === "Vistoria aprovada") ||
-                            (statusCadastro === "Vistoria reprovada") ||
-                            (statusCadastro === "Enviado à DRE") ||
-                            (statusCadastro === "Finalizado - Aprovado") ||
-                            (statusCadastro === "Cancelado")
-                          }
+                          disabled={podeEditarRelatorioVistoria()}
                         />
                         <a href={relatorioFotografico[0].arquivo} target="_blank" rel="noopener noreferrer">
                           <Botao
@@ -925,12 +1047,7 @@ export const ModalAtualizaStatus = ({
                           icon={BUTTON_ICON.TRASH}
                           className="w-50 br-none"
                           onClick={() => removerAnexo(plantaAtual[0].uuid)}
-                          disabled={(statusCadastro === "Vistoria aprovada") ||
-                            (statusCadastro === "Vistoria reprovada") ||
-                            (statusCadastro === "Enviado à DRE") ||
-                            (statusCadastro === "Finalizado - Aprovado") ||
-                            (statusCadastro === "Cancelado")
-                          }
+                          disabled={podeEditarRelatorioVistoria()}
                         />
                         <a href={plantaAtual[0].arquivo} target="_blank" rel="noopener noreferrer">
                           <Botao
@@ -979,12 +1096,7 @@ export const ModalAtualizaStatus = ({
                           icon={BUTTON_ICON.TRASH}
                           className="w-50 br-none"
                           onClick={() => removerAnexo(plantaAdequacoes[0].uuid)}
-                          disabled={(statusCadastro === "Vistoria aprovada") ||
-                            (statusCadastro === "Vistoria reprovada") ||
-                            (statusCadastro === "Enviado à DRE") ||
-                            (statusCadastro === "Finalizado - Aprovado") ||
-                            (statusCadastro === "Cancelado")
-                          }
+                          disabled={podeEditarRelatorioVistoria()}
                         />
                         <a href={plantaAdequacoes[0].arquivo} target="_blank" rel="noopener noreferrer">
                           <Botao
@@ -1032,12 +1144,7 @@ export const ModalAtualizaStatus = ({
                           icon={BUTTON_ICON.TRASH}
                           className="w-50 br-none"
                           onClick={() => removerAnexo(planoAdequacoes[0].uuid)}
-                          disabled={(statusCadastro === "Vistoria aprovada") ||
-                            (statusCadastro === "Vistoria reprovada") ||
-                            (statusCadastro === "Enviado à DRE") ||
-                            (statusCadastro === "Finalizado - Aprovado") ||
-                            (statusCadastro === "Cancelado")
-                          }
+                          disabled={podeEditarRelatorioVistoria()}
                         />
                         <a href={planoAdequacoes[0].arquivo} target="_blank" rel="noopener noreferrer">
                           <Botao
@@ -1085,12 +1192,7 @@ export const ModalAtualizaStatus = ({
                           icon={BUTTON_ICON.TRASH}
                           className="w-50 br-none"
                           onClick={() => removerAnexo(laudoValorLocaticio[0].uuid)}
-                          disabled={(statusCadastro === "Vistoria aprovada") ||
-                            (statusCadastro === "Vistoria reprovada") ||
-                            (statusCadastro === "Enviado à DRE") ||
-                            (statusCadastro === "Finalizado - Aprovado") ||
-                            (statusCadastro === "Cancelado")
-                          }
+                          disabled={podeEditarRelatorioVistoria()}
                         />
                         <a href={laudoValorLocaticio[0].arquivo} target="_blank" rel="noopener noreferrer">
                           <Botao
@@ -1223,7 +1325,7 @@ export const ModalAtualizaStatus = ({
                       labelClassName="font-weight-bold color-black"
                       defaultValue={enviadoDreLog.length ? enviadoDreLog[0].processo_sei : null}
                       customChange={processoSeiMask}
-                      disabled={(statusCadastro !== "Vistoria aprovada")}
+                      disabled={podeEditarEviadoDre()}
                     />
                   </div>
                   <div className="col-5">
@@ -1234,7 +1336,7 @@ export const ModalAtualizaStatus = ({
                       type="text"
                       defaultValue={enviadoDreLog.length ? enviadoDreLog[0].nome_da_unidade : null}
                       labelClassName="font-weight-bold color-black"
-                      disabled={(statusCadastro !== "Vistoria aprovada")}
+                      disabled={podeEditarEviadoDre()}
                     />
                   </div>
                   <div className="col-7">
@@ -1263,7 +1365,7 @@ export const ModalAtualizaStatus = ({
                       texto="Enviar E-mail"
                       className="enviarEmail"
                       onClick={() => enviarDre(values, true)}
-                      disabled={statusCadastro !== "Vistoria aprovada" || statusCadastro === "Cancelado"}
+                      disabled={editar || statusCadastro !== "Vistoria aprovada" || statusCadastro === "Cancelado"}
                     />
                   </div>
                 </div>
@@ -1315,17 +1417,14 @@ export const ModalAtualizaStatus = ({
                       label="Observações"
                       name="observacoes_analise"
                       maxLength={`${maximoCaracteres}`}
-                      defaultValue={analiseFinalizadaLog.length ? analisePreviaLog[0].justificativa :
+                      defaultValue={analiseFinalizadaLog.length ? analiseFinalizadaLog[0].justificativa :
                         (finalizadoAprovadoLog.length ? finalizadoAprovadoLog[0].justificativa :
                           (finalizadoReporvadoLog.length ? finalizadoReporvadoLog[0].justificativa : '')
                         )
                       }
                       style={{ minHeight: "100px", height: "100px", maxHeight: '100px' }}
                       labelClassName="font-weight-bold color-black"
-                      disabled={!finalizado || analiseFinalizadaLog.length ||
-                        finalizadoAprovadoLog.length || finalizadoReporvadoLog.length ||
-                        statusCadastro === "Cancelado"
-                      }
+                      disabled={podeEditarFinalizacao()}
                     />
                     <OnChange name="observacoes_analise">
                       {async (value, previous) => {
@@ -1410,7 +1509,7 @@ export const ModalAtualizaStatus = ({
                       texto="Enviar E-mail"
                       className="enviarEmail"
                       onClick={() => finalizarAnalise(values, true)}
-                      disabled={!finalizado || analiseFinalizadaLog.length ||
+                      disabled={editar || !finalizado || analiseFinalizadaLog.length ||
                         finalizadoAprovadoLog.length || finalizadoReporvadoLog.length ||
                         vistoriaReprovadaLog.length || enviadoDreLog.length ||
                         statusCadastro === "Cancelado"}
@@ -1425,7 +1524,7 @@ export const ModalAtualizaStatus = ({
                       texto="Salvar Alteração"
                       className="float-right mr-2"
                       onClick={() => onSubmit(values)}
-                      disabled={EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
+                      disabled={editar || EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
                     />
                     {((cadastroProps.status === "Cancelado") ||
                       (cadastroProps.status === "Finalizado - Área Insuficiente") ||
@@ -1448,7 +1547,7 @@ export const ModalAtualizaStatus = ({
                           texto="Cancelar Cadastro"
                           className="float-right mr-2"
                           onClick={() => setShowModalCancelar(true)}
-                          disabled={EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
+                          disabled={editar || EH_PERFIL_DRE || EH_PERFIL_CONSULTA_SECRETARIA}
                         />
                       )
                     }
