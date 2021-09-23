@@ -205,6 +205,8 @@ export const ModalAtualizaStatus = ({
         setStatusCadastro(response.data.status);
         setCadastroProps(response.data)
         setCadastro(cadastro => cadastro, cadastro.situacao = response.data.situacao);
+        setCadastro(cadastro => cadastro, cadastro.codigo_eol = response.data.codigo_eol);
+        setCadastro(cadastro => cadastro, cadastro.escola = response.data.escola);
       }
     } else {
       if (enviadoComapre) {
