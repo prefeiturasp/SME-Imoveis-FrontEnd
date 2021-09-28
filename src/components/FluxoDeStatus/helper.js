@@ -6,7 +6,7 @@ export const fluxoImoveis = [
     usuario: null,
   },
   {
-    titulo: "Solicitação COMAPRE",
+    titulo: "Solicitação de vistoria",
     status: "",
     criado_em: "",
     usuario: null,
@@ -64,7 +64,7 @@ export const fluxoImoveis = [
 export const tipoDeStatus = (status) => {
   switch (status) {
     case "SME analisou previamente":
-    case "Enviado à COMAPRE":
+    case "Enviado para solicitação de vistoria":
     case "Agendamento da vistoria":
     case "Aguardando relatório de vistoria":
     case "Aguardando laudo de valor locatício":
