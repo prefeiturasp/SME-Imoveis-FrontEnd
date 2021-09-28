@@ -155,8 +155,8 @@ export const updateStatus = (queryParams) => {
     });
 };
 
-export const enviaComapre = (queryParams) => {
-  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/envia-comapre/?${queryParams}`
+export const enviaParaSolicitacaoDeVistoria = (queryParams) => {
+  const url = `${endPonts.API_URL}/cadastro-imovel/imoveis/envia-para-solicitacao-de-vistoria/?${queryParams}`
   let status = 0;
   return fetch(url, {
     method: "POST",
