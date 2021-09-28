@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.scss";
 
-const EnviadoComapre = (imovel) => {
+const EnviadoSolicitacaoVistoria = (imovel) => {
   return(
     <>
       <div className="title-email">
@@ -11,7 +11,7 @@ const EnviadoComapre = (imovel) => {
       </div>
       <div className="textarea-email">
         <p>
-         Em continuidade as ações referentes ao cadastro de imóvel, <b>protocolo nº {imovel.imovel.protocolo}</b>, conforme dados a seguir, informamos que foi encaminhado ao setor responsável (SME/COMAPRE) para <b>agendamento de vistoria</b>.
+         Em continuidade as ações referentes ao cadastro de imóvel, <b>protocolo nº {imovel.imovel.protocolo}</b>, conforme dados a seguir, informamos que foi encaminhado ao setor responsável para <b>agendamento de vistoria</b>.
         </p>
         <p>
           Aguarde contato do Engenheiro/Arquiteto para a realização da vistoria no imóvel.
@@ -21,4 +21,4 @@ const EnviadoComapre = (imovel) => {
   );
 }
 
-export default EnviadoComapre;
+export default EnviadoSolicitacaoVistoria;
