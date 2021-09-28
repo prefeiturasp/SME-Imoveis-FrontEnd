@@ -14,14 +14,14 @@ import { SITUACAO, OPCOES_ANALISE, OPCOES_VISTORIA } from "pages/CadastroImovel/
 import { codigoEscolaMask, processoSeiMask } from "helpers/textMask";
 import HTTP_STATUS from "http-status-codes";
 import {
-  getEscola, updateStatus, enviaComapre, finaliza,
+  getEscola, updateStatus, enviaParaSolicitacaoDeVistoria, finaliza,
   agendaVistoria, setAnexo, deleteAnexo, enviaRelatorio,
   enviaLaudo, enviaResultadoVistoria, enviaDre, cancela,
   reativa
 } from "services/cadastros.service";
 import {
-  formataPaylaodAtualizaCadastro, formataPaylaodEnviarComapre,
-  formataPaylaodEnviarComapreEdicao, formataPaylaodFinaliza,
+  formataPaylaodAtualizaCadastro, formataPaylaodEnviarSolicitacaoVistoria,
+  formataPaylaodEnviarSolicitacaoVistoriaEdicao, formataPaylaodFinaliza,
   formataPayloadFinalizaEdicao, formataPaylaodAgendarVistoria,
   formataPaylaodAgendarVistoriaEdicao, formataPaylaodEnviaRelatorio,
   formataPaylaodEnviaLaudo, formataPaylaodResultadoVistoria,
@@ -47,14 +47,14 @@ export const ModalAtualizaStatus = ({
     cadastroProps.status === "Vistoria reprovada" ||
     cadastroProps.status === "Finalizado - Reprovado"
   );
-  const [enviadoComapre, setEnviadoComapre] = useState(false);
-  const [agendamentoDaVistoria, setAgendamentoDaVistoria] = useState((cadastroProps.status === "Enviado à COMAPRE"));
+  const [enviadoSolicitacaoVistoria, setEnviadoSolicitacaoVistoria] = useState(false);
+  const [agendamentoDaVistoria, setAgendamentoDaVistoria] = useState((cadastroProps.status === "Enviado para solicitação de vistoria"));
   const [opcoesFinalizacao, setOpcoesFinalizacao] = useState([{ label: 'Selecione um status', value: undefined },]);
   const [resultadoAnalise, setResultadoAnalise] = useState();
   const [statusCadastro, setStatusCadastro] = useState(cadastroProps.status);
   const [maximoCaracteres] = useState(200);
   const [contadorAnalise, setContadorAnalise] = useState(0);
-  const [contadorComapre, setContadorComapre] = useState(0);
+  const [contadorSolicitacaoVistoria, setContadorSolicitacaoVistoria] = useState(0);
   const [aguardandoVistoria] = useState(
     (cadastroProps.status === "Aguardando relatório de vistoria") ||
     (cadastroProps.status === "Relatório da vistoria")
@@ -62,8 +62,8 @@ export const ModalAtualizaStatus = ({
   const analisePreviaLog = (cadastroProps && cadastroProps.logs) ? (
     cadastroProps.logs.filter((log) => log.status_evento_explicacao === "SME analisou previamente")
   ) : [];
-  const enviadoComapreLog = (cadastroProps && cadastroProps.logs) ? (
-    cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Enviado à COMAPRE")
+  const enviadoSolicitacaoVistoriaLog = (cadastroProps && cadastroProps.logs) ? (
+    cadastroProps.logs.filter((log) => log.status_evento_explicacao === "Enviado para solicitação de vistoria")
   ) : [];
 
   const vistoriaAgendadaLog = (cadastroProps && cadastroProps.logs) ? (
@@ -209,8 +209,8 @@ export const ModalAtualizaStatus = ({
         setCadastro(cadastro => cadastro, cadastro.escola = response.data.escola);
       }
     } else {
-      if (enviadoComapre) {
-        enviarComapre(values, false);
+      if (enviadoSolicitacaoVistoria) {
+        enviarSolicitacaoDeVistoria(values, false);
       } else if (finalizado &&
         (cadastroProps.status === "Solicitação Realizada" ||
           cadastroProps.status === "Enviado à DRE" ||
@@ -233,17 +233,17 @@ export const ModalAtualizaStatus = ({
     }
   };
 
-  const enviarComapre = async (values, enviar_email) => {
-    if (values.data_envio_comapre) {
-      if (values.data_envio_comapre <= (new Date().toISOString().slice(0, 10))) {
+  const enviarSolicitacaoDeVistoria = async (values, enviar_email) => {
+    if (values.data_envio_solicitacao_vistoria) {
+      if (values.data_envio_solicitacao_vistoria <= (new Date().toISOString().slice(0, 10))) {
         values.enviar_email = enviar_email;
-        const response = await enviaComapre(formataPaylaodEnviarComapre(values));
+        const response = await enviaParaSolicitacaoDeVistoria(formataPaylaodEnviarSolicitacaoVistoria(values));
         if (!response) toastError("Erro ao atualizar cadastro");
         else if (response.status === HTTP_STATUS.OK) {
-          toastSuccess("Enviado para COMAPRE com sucesso")
+          toastSuccess("Enviado para solicitação de vistoria com sucesso")
           setStatusCadastro(response.data.status);
           setCadastroProps(response.data);
-          setEnviadoComapre(false);
+          setEnviadoSolicitacaoVistoria(false);
           setAgendamentoDaVistoria(true);
         }
       } else {
@@ -460,18 +460,18 @@ export const ModalAtualizaStatus = ({
 
   const salvarEdicao = async (values) => {
     let mensagem = "Dados enviados com sucesso"
-    // Trata Envio a Comapre  
-    if (enviadoComapreLog && values.observacoes_comapre !== undefined && values.observacoes_comapre !== "") {
-      const response = await enviaComapre(formataPaylaodEnviarComapreEdicao(values));
+    // Trata Envio a solicitação de vistoria  
+    if (enviadoSolicitacaoVistoriaLog && values.observacoes_solicitacao_vistoria !== undefined && values.observacoes_solicitacao_vistoria !== "") {
+      const response = await enviaParaSolicitacaoDeVistoria(formataPaylaodEnviarSolicitacaoVistoriaEdicao(values));
       if (!response) toastError("Erro ao atualizar cadastro");
       else if (response.status === HTTP_STATUS.OK) {
-        console.log("Enviado para COMAPRE com sucesso!")
+        console.log("Enviado para solicitação de vistoria com sucesso!")
         setCadastroProps(response.data);
       }
     }
 
     // atualização de análise prévia e finalização
-    if ((values.observacoes_comapre !== undefined && values.observacoes_comapre !== "") || (values.observacoes_analise !== undefined && values.observacoes_analise !== "")) {
+    if ((values.observacoes_solicitacao_vistoria !== undefined && values.observacoes_solicitacao_vistoria !== "") || (values.observacoes_analise !== undefined && values.observacoes_analise !== "")) {
       const response = await finaliza(formataPayloadFinalizaEdicao(values));
       if (!response) toastError("Erro ao atualizar cadastro");
       else if (response.status === HTTP_STATUS.OK) {
@@ -531,7 +531,7 @@ export const ModalAtualizaStatus = ({
       return !(vistoriaAgendadaLog.length > 0)
     }
 
-    return statusCadastro !== 'Enviado à COMAPRE'
+    return statusCadastro !== 'Enviado para solicitação de vistoria'
   }
 
   const podeEditarRelatorioVistoria = () => {
@@ -766,7 +766,7 @@ export const ModalAtualizaStatus = ({
                       name="resultado_da_analise"
                       label="Resultado da Análise"
                       placeholder={"Selecione um status"}
-                      defaultValue={enviadoComapreLog.length ? 3 : (analiseFinalizadaLog.length ? resultadoAnalise : ``)}
+                      defaultValue={enviadoSolicitacaoVistoriaLog.length ? 3 : (analiseFinalizadaLog.length ? resultadoAnalise : ``)}
                       options={OPCOES_ANALISE}
                       labelClassName="font-weight-bold color-black"
                       disabled={(statusCadastro !== "Solicitação Realizada")}
@@ -776,10 +776,10 @@ export const ModalAtualizaStatus = ({
                         if (value !== 3) {
                           if (value === "") {
                             setFinalizado(false)
-                            setEnviadoComapre(false)
+                            setEnviadoSolicitacaoVistoria(false)
                           } else {
                             setFinalizado(true)
-                            setEnviadoComapre(false)
+                            setEnviadoSolicitacaoVistoria(false)
                             if (value === 0) {
                               setOpcoesFinalizacao([
                                 { label: 'Selecione um status', value: undefined },
@@ -800,7 +800,7 @@ export const ModalAtualizaStatus = ({
                             }
                           }
                         } else {
-                          setEnviadoComapre(true)
+                          setEnviadoSolicitacaoVistoria(true)
                           setFinalizado(false)
                         }
                       }}
@@ -809,11 +809,11 @@ export const ModalAtualizaStatus = ({
                   <div className="col-4">
                     <Field
                       component={InputText}
-                      label="Data de envio para COMAPRE"
-                      name="data_envio_comapre"
-                      defaultValue={enviadoComapreLog.length ? (enviadoComapreLog[0].data_agendada) : (enviadoComapre ? (new Date().toISOString().slice(0, 10)) : null)}
+                      label="Data de envio para solicitação de vistoria"
+                      name="data_envio_solicitacao_vistoria"
+                      defaultValue={enviadoSolicitacaoVistoriaLog.length ? (enviadoSolicitacaoVistoriaLog[0].data_agendada) : (enviadoSolicitacaoVistoria ? (new Date().toISOString().slice(0, 10)) : null)}
                       type="date"
-                      disabled={!enviadoComapre || (statusCadastro !== "Solicitação Realizada")}
+                      disabled={!enviadoSolicitacaoVistoria || (statusCadastro !== "Solicitação Realizada")}
                     />
                   </div>
                   <div className="col-2"></div>
@@ -821,26 +821,26 @@ export const ModalAtualizaStatus = ({
                     <Field
                       component={TextArea}
                       label="Observações"
-                      name="observacoes_comapre"
+                      name="observacoes_solicitacao_vistoria"
                       maxLength={`${maximoCaracteres}`}
-                      defaultValue={enviadoComapreLog.length > 0 ? (enviadoComapreLog[0].justificativa) : (analisePreviaLog.length > 0 ? (analisePreviaLog[0].justificativa) : '')}
+                      defaultValue={enviadoSolicitacaoVistoriaLog.length > 0 ? (enviadoSolicitacaoVistoriaLog[0].justificativa) : (analisePreviaLog.length > 0 ? (analisePreviaLog[0].justificativa) : '')}
                       style={{ minHeight: "100px", height: "100px", maxHeight: '100px' }}
                       labelClassName="font-weight-bold color-black"
-                      disabled={!editar && (!enviadoComapre || (statusCadastro !== "Solicitação Realizada"))}
+                      disabled={!editar && (!enviadoSolicitacaoVistoria || (statusCadastro !== "Solicitação Realizada"))}
                     />
-                    <OnChange name="observacoes_comapre">
+                    <OnChange name="observacoes_solicitacao_vistoria">
                       {async (value, previous) => {
                         if (value.length && value.length <= maximoCaracteres) {
-                          setContadorComapre(value.length);
+                          setContadorSolicitacaoVistoria(value.length);
                         } else {
-                          setContadorComapre(0);
+                          setContadorSolicitacaoVistoria(0);
                         }
                       }}
                     </OnChange>
                   </div>
                   <div className="col-12">
                     <p className="contador">
-                      {`${contadorComapre}/${maximoCaracteres}`}
+                      {`${contadorSolicitacaoVistoria}/${maximoCaracteres}`}
                     </p>
                   </div>
                   <div className="col-7">
@@ -849,14 +849,14 @@ export const ModalAtualizaStatus = ({
                     </p>
                     <p className="mt-1 emailEnviado" style={{ color: '#42474A' }}>
                       <i>
-                        {(enviadoComapreLog.length > 0 && enviadoComapreLog[0].email_enviado) && (
-                          `${enviadoComapreLog[0].usuario.nome} RF: ${enviadoComapreLog[0].usuario.username} 
-                          - ${enviadoComapreLog[0].criado_em} 
+                        {(enviadoSolicitacaoVistoriaLog.length > 0 && enviadoSolicitacaoVistoriaLog[0].email_enviado) && (
+                          `${enviadoSolicitacaoVistoriaLog[0].usuario.nome} RF: ${enviadoSolicitacaoVistoriaLog[0].usuario.username} 
+                          - ${enviadoSolicitacaoVistoriaLog[0].criado_em} 
                           - Email enviado`
                         )}
-                        {(enviadoComapreLog.length > 0 && !enviadoComapreLog[0].email_enviado) && (
-                          `${enviadoComapreLog[0].usuario.nome} RF: ${enviadoComapreLog[0].usuario.username} 
-                          - ${enviadoComapreLog[0].criado_em} 
+                        {(enviadoSolicitacaoVistoriaLog.length > 0 && !enviadoSolicitacaoVistoriaLog[0].email_enviado) && (
+                          `${enviadoSolicitacaoVistoriaLog[0].usuario.nome} RF: ${enviadoSolicitacaoVistoriaLog[0].usuario.username} 
+                          - ${enviadoSolicitacaoVistoriaLog[0].criado_em} 
                           - Email não enviado`
                         )}
                       </i>
@@ -868,8 +868,8 @@ export const ModalAtualizaStatus = ({
                       style={BUTTON_STYLE.BLUE}
                       texto="Enviar E-mail"
                       className="enviarEmail"
-                      onClick={() => enviarComapre(values, true)}
-                      disabled={(editar || statusCadastro !== "Solicitação Realizada" || !enviadoComapre || statusCadastro === "Cancelado")}
+                      onClick={() => enviarSolicitacaoDeVistoria(values, true)}
+                      disabled={(editar || statusCadastro !== "Solicitação Realizada" || !enviadoSolicitacaoVistoria || statusCadastro === "Cancelado")}
                     />
                   </div>
                 </div>
@@ -881,8 +881,8 @@ export const ModalAtualizaStatus = ({
                       name="agendamento_vistoria"
                       type="checkbox"
                       checked={
-                        (cadastro.status === 'Enviado à COMAPRE') ||
-                        (statusCadastro === 'Enviado à COMAPRE') ||
+                        (cadastro.status === 'Enviado para solicitação de vistoria') ||
+                        (statusCadastro === 'Enviado para solicitação de vistoria') ||
                         (statusCadastro === "Aguardando relatório de vistoria") ||
                         (statusCadastro === "Relatório da vistoria") ||
                         (statusCadastro === "Aguardando laudo de valor locatício") ||
@@ -934,7 +934,7 @@ export const ModalAtualizaStatus = ({
                       texto="Enviar E-mail"
                       className="enviarEmail mt-3"
                       onClick={() => agendarVistoria(values, true)}
-                      disabled={statusCadastro !== 'Enviado à COMAPRE'}
+                      disabled={statusCadastro !== 'Enviado para solicitação de vistoria'}
                     />
                   </div>
                 </div>

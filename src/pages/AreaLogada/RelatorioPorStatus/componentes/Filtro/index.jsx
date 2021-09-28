@@ -54,7 +54,7 @@ export const Filtro = ({
                 </p>
                 <ul>
                   <li>SME Analisou previamente</li>
-                  <li>Enviado à COMAPRE</li>
+                  <li>Enviado para solicitação de vistoria</li>
                   <li>Agendamento da vistoria</li>
                   <li>Aguardando relatório de vistoria</li>
                   <li>Aguardando laudo de valor locatício</li>
