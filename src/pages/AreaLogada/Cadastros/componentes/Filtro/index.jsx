@@ -30,7 +30,7 @@ export const Filtro = ({
     { label: 'Selecione', value: undefined },
     { label: 'Solicitação Realizada', value: 'SOLICITACAO_REALIZADA' },
     { label: 'SME analisou previamente', value: 'AGUARDANDO_ANALISE_PREVIA_SME' },
-    { label: 'Enviado à COMAPRE', value: 'ENVIADO_COMAPRE' },
+    { label: 'Enviado para solicitação de vistoria', value: 'ENVIADO_PARA_SOLICITACAO_DE_VISTORIA' },
     { label: 'Agendamento da vistoria', value: 'AGENDAMENTO_DA_VISTORIA' },
     { label: 'Aguardando relatório de vistoria', value: 'AGUARDANDO_RELATORIO_DE_VISTORIA' },
     { label: 'Aguardando laudo de valor locatício', value: 'AGUARDANDO_LAUDO_DE_VALOR_LOCATICIO' },
