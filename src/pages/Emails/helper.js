@@ -3,7 +3,7 @@ import CadastroRealizado from './components/Textos/CadastroRealizado'
 import NaoAtendeNecessidade from './components/Textos/NaoAtendeNecessidade'
 import DemandaInsuficiente from './components/Textos/DemandaInsuficiente'
 import AreaInsuficiente from './components/Textos/AreaInsuficiente'
-import EnviadoComapre from './components/Textos/EnviadoComapre'
+import EnviadoSolicitacaoVistoria from './components/Textos/EnviadoSolicitacaoVistoria'
 import VistoriaAgendada from './components/Textos/VistoriaAgendada'
 import VistoriaReprovada from './components/Textos/VistoriaReprovada'
 import VistoriaAprovada from './components/Textos/VistoriaAprovada'
@@ -24,8 +24,8 @@ export const setTextContent = (tipoEmail, imovel) => {
   if (tipoEmail === "finalizado_area_insuficiente") {
     content =	<AreaInsuficiente imovel={imovel}/>
   }
-  if (tipoEmail === "enviado_comapre") {
-    content =	<EnviadoComapre imovel={imovel}/>
+  if (tipoEmail === "enviado_para_solicitacao_de_vistoria") {
+    content =	<EnviadoSolicitacaoVistoria imovel={imovel}/>
   }
   if (tipoEmail === "vistoria_agendada") {
     content =	<VistoriaAgendada imovel={imovel}/>
