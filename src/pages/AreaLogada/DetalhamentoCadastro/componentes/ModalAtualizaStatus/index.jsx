@@ -1014,10 +1014,7 @@ export const ModalAtualizaStatus = ({
                         </a>
                       </>
                     ) : (
-                      (statusCadastro === "Aguardando relatório de vistoria") ||
-                        (statusCadastro === "Relatório da vistoria") ||
-                        (statusCadastro === "Aguardando laudo de valor locatício") ||
-                        (statusCadastro === "Laudo de valor locatício") ?
+                      podeAdicionarRelatorioVistoria() ?
                         (
                           <Field
                             component={InputFile}
@@ -1062,10 +1059,7 @@ export const ModalAtualizaStatus = ({
                         </a>
                       </>
                     ) : (
-                      (statusCadastro === "Aguardando relatório de vistoria") ||
-                        (statusCadastro === "Relatório da vistoria") ||
-                        (statusCadastro === "Aguardando laudo de valor locatício") ||
-                        (statusCadastro === "Laudo de valor locatício") ?
+                      podeAdicionarRelatorioVistoria() ?
                         (
                           <Field
                             component={InputFile}
@@ -1111,10 +1105,7 @@ export const ModalAtualizaStatus = ({
                         </a>
                       </>
                     ) : (
-                      (statusCadastro === "Aguardando relatório de vistoria") ||
-                        (statusCadastro === "Relatório da vistoria") ||
-                        (statusCadastro === "Aguardando laudo de valor locatício") ||
-                        (statusCadastro === "Laudo de valor locatício") ?
+                      podeAdicionarRelatorioVistoria() ?
                         (
                           <Field
                             component={InputFile}
@@ -1159,10 +1150,7 @@ export const ModalAtualizaStatus = ({
                         </a>
                       </>
                     ) : (
-                      (statusCadastro === "Aguardando relatório de vistoria") ||
-                        (statusCadastro === "Relatório da vistoria") ||
-                        (statusCadastro === "Aguardando laudo de valor locatício") ||
-                        (statusCadastro === "Laudo de valor locatício") ?
+                      podeAdicionarRelatorioVistoria() ?
                         (
                           <Field
                             component={InputFile}
@@ -1207,8 +1195,7 @@ export const ModalAtualizaStatus = ({
                         </a>
                       </>
                     ) : (
-                      (statusCadastro === "Aguardando laudo de valor locatício") ||
-                        (statusCadastro === "Laudo de valor locatício") ?
+                      podeAdicionarRelatorioVistoria() ?
                         (
                           <Field
                             component={InputFile}
