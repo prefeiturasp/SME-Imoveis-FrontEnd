@@ -38,7 +38,7 @@ export const OPCOES_ANALISE = [
   {label: 'Área insuficiente', value: 0},
   {label: 'Demanda insuficiente', value: 1},
   {label: 'Não atende as necessidades da SME', value: 2},
-  {label: 'Enviado COMAPRE', value: 3},
+  {label: 'Enviado para solicitação de vistoria', value: 3},
 ];
 
 export const OPCOES_VISTORIA = [
