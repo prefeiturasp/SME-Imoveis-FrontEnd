@@ -70,7 +70,7 @@ export const Filtro = ({
                 </p>
                 <ul>
                   <li>Finalizado - Área Insuficiente</li>
-                  <li>Finalizado - Demanda Insuficiente</li>
+                  <li>Demanda Insuficiente</li>
                   <li>Finalizado - Não atende as necessidades da SME</li>
                 </ul>
               </>
