@@ -141,7 +141,7 @@ export const ModalAtualizaStatus = ({
       if (log.status_evento_explicacao === 'Finalizado - Área Insuficiente') {
         return log
       }
-      if (log.status_evento_explicacao === 'Finalizado - Demanda Insuficiente') {
+      if (log.status_evento_explicacao === 'Demanda Insuficiente') {
         return log
       }
       if (log.status_evento_explicacao === "Finalizado - Não atende as necessidades da SME") {
@@ -159,11 +159,11 @@ export const ModalAtualizaStatus = ({
         { label: 'Finalizado - Área insuficiente', value: 0 }
       ]);
     }
-    if (cadastroProps.status === 'Finalizado - Demanda Insuficiente') {
+    if (cadastroProps.status === 'Demanda Insuficiente') {
       setResultadoAnalise(1);
       setOpcoesFinalizacao([
         { label: 'Selecione um status', value: undefined },
-        { label: 'Finalizado - Demanda insuficiente', value: 1 }
+        { label: 'Demanda Insuficiente', value: 1 }
       ]);
     }
     if (cadastroProps.status === "Finalizado - Não atende as necessidades da SME") {
@@ -789,7 +789,7 @@ export const ModalAtualizaStatus = ({
                             if (value === 1) {
                               setOpcoesFinalizacao([
                                 { label: 'Selecione um status', value: undefined },
-                                { label: 'Finalizado - Demanda insuficiente', value: 1 }
+                                { label: 'Demanda Insuficiente', value: 1 }
                               ]);
                             }
                             if (value === 2) {
@@ -1518,7 +1518,7 @@ export const ModalAtualizaStatus = ({
                     />
                     {((cadastroProps.status === "Cancelado") ||
                       (cadastroProps.status === "Finalizado - Área Insuficiente") ||
-                      (cadastroProps.status === "Finalizado - Demanda Insuficiente") ||
+                      (cadastroProps.status === "Demanda Insuficiente") ||
                       (cadastroProps.status === "Finalizado - Não atende as necessidades da SME") ||
                       (cadastroProps.status === "Finalizado - Reprovado")) ?
                       (
