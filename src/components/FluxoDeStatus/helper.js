@@ -75,7 +75,7 @@ export const tipoDeStatus = (status) => {
     case "Finalizado - Aprovado":
       return "prosseguiu";
     case "Finalizado - Área Insuficiente":
-    case "Finalizado - Demanda Insuficiente":
+    case "Demanda Insuficiente":
     case "Finalizado - Não atende as necessidades da SME":
     case "Finalizado - Reprovado":
     case "Vistoria reprovada":
