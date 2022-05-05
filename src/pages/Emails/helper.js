@@ -18,7 +18,7 @@ export const setTextContent = (tipoEmail, imovel) => {
   if (tipoEmail === "finalizado_nao_atende_necessidade") {
     content =	<NaoAtendeNecessidade imovel={imovel}/>
   }
-  if (tipoEmail === "finalizado_demanda_insuficiente") {
+  if (tipoEmail === "demanda_insuficiente") {
     content =	<DemandaInsuficiente imovel={imovel}/>
   }
   if (tipoEmail === "finalizado_area_insuficiente") {
