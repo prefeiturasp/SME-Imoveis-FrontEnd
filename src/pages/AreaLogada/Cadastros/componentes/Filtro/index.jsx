@@ -38,7 +38,7 @@ export const Filtro = ({
     { label: 'Vistoria reprovada', value: 'VISTORIA_REPROVADA' },
     { label: 'Enviado à DRE', value: 'ENVIADO_DRE' },
     { label: 'Finalizado - Área Insuficiente', value: 'FINALIZADO_AREA_INSUFICIENTE' },
-    { label: 'Finalizado - Demanda Insuficiente', value: 'FINALIZADO_DEMANDA_INSUFICIENTE' },
+    { label: 'Demanda Insuficiente', value: 'DEMANDA_INSUFICIENTE' },
     { label: 'Finalizado - Não atende as necessidades da SME', value: 'FINALIZADO_NAO_ATENDE_NECESSIDADES' },
     { label: 'Finalizado - Aprovado', value: 'FINALIZADO_APROVADO' },
     { label: 'Finalizado - Reprovado', value: 'FINALIZADO_REPROVADO' },
