@@ -10,6 +10,7 @@ import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
 import Botao from "components/Botao";
 import { toastError } from "components/Toast/dialogs";
 import { formataPaylaodBuscaCadastros } from "../../helper";
+import { iptuMask } from "helpers/textMask";
 import Spin from "antd/es/spin";
 import "antd/es/spin/style/css";
 
@@ -133,7 +134,7 @@ export const Filtro = ({
                       type="text"
                       />
                   </div>
-                  <div className="col-sm-6 col-12">
+                  <div className="col-sm-3 col-12">
                     <Field
                       component={InputText}
                       esconderAsterisco
@@ -142,6 +143,16 @@ export const Filtro = ({
                       placeholder={"Insira o endereço"}
                       type="text"
                       />
+                  </div>
+                  <div className="col-sm-3 col-12">
+                    <Field
+                      customChange={iptuMask}
+                      label="Número do IPTU"
+                      name="numero_iptu"
+                      component={InputText}
+                      placeholder={"N. do IPTU"}
+                      type="text"
+                    />
                   </div>
                   <div className="col-sm-3 col-12">
                     <Field
