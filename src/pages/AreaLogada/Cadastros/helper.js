@@ -6,6 +6,9 @@ export const formataPaylaodBuscaCadastros = (values) => {
   if (values.endereco) {
     stringParams += `endereco=${values.endereco}&`;
   }
+  if (values.numero_iptu) {
+    stringParams += `numero_iptu=${values.numero_iptu}&`;
+  }
   if (values.area) {
     stringParams += `area=${values.area}&`;
   }
