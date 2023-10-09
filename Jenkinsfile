@@ -6,9 +6,11 @@ pipeline {
       namespace = "${env.branchname == 'development' ? 'imoveis-dev' : env.branchname == 'homolog' ? 'imoveis-hom' : env.branchname == 'homolog-r2' ? 'imoveis-hom2' : 'sme-imoveis' }"
     }
   
-    agent {
-      node { label 'AGENT-NODES' }
-    }
+    agent { kubernetes { 
+                  label 'builder'
+                  defaultContainer 'builder'
+                }
+              }
 
     options {
       buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
@@ -24,7 +26,13 @@ pipeline {
 
         stage('AnaliseCodigo') {
           when { branch 'homolog' }
+          agent { kubernetes { 
+                  label 'python36'
+                  defaultContainer 'builder'
+                }
+              }
           steps {
+              checkout scm
               withSonarQubeEnv('sonarqube-local'){
                 sh 'echo "[ INFO ] Iniciando analise Sonar..." && sonar-scanner \
                 -Dsonar.projectKey=SME-Imoveis-FrontEnd \
