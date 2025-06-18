@@ -32,7 +32,26 @@ export const updateImovel = async (id, payload) => {
 
 
 export const getImovel = async (uuid) => {
-  return await api.get(`cadastro-imovel/${uuid}/`);
+  const url = `${endPontsConstants.API_URL}/cadastro-imovel/${uuid}/`;
+  let status = 0;
+  return fetch(url, {
+    headers: {
+      Authorization: `JWT ${getToken()}`,
+      "Accept-Language": "pt-br",
+      "Content-Type": "application/json",
+    },
+    method: "GET",
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return error;
+    });
 };
 
 export const getImovelAsDict = async (uuid) => {
