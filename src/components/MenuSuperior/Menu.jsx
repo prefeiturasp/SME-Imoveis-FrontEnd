@@ -7,6 +7,7 @@ import {
   faInstagram,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+import logoEducacao from "img/Logo_Educacao.png";
 import "./style.scss";
 
 export default class Menu extends Component {
@@ -130,7 +131,7 @@ export default class Menu extends Component {
               </h1>
             </div>
             <div className="offset-lg-6 col-lg-2 col-sm-12">
-              <img src='https://educacao.sme.prefeitura.sp.gov.br/wp-content/uploads/2019/06/Logo_Educacao.png' alt="Logo SME" className="img-fluid logo-sme"></img>
+              <img src={logoEducacao} alt="Logo SME" className="img-fluid logo-sme"></img>
             </div>
             <div
               id="menu-principal"
