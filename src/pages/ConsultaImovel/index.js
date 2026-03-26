@@ -9,7 +9,7 @@ import { BUTTON_STYLE, BUTTON_TYPE } from "components/Botao/constants";
 import Botao from "components/Botao";
 import { numeroProtocolo } from "helpers/textMask";
 import { toastError } from "components/Toast/dialogs";
-import { getImovel } from "services/Imovel.service";
+import { getStatusImovel } from "services/Imovel.service";
 import HTTP_STATUS from "http-status-codes";
 import { TextArea } from "components/TextArea/TextArea";
 
@@ -21,10 +21,12 @@ const ConsultaImovel = () => {
   const onSubmit = async (values) => {
     if (values.numero_protocolo && values.numero_protocolo.length > 0) {
       const uuid = values.numero_protocolo
-      getImovel(uuid)
+      getStatusImovel(uuid)
     .then((response) => {
     if (response.status === HTTP_STATUS.OK) {
       setImovel(response.data);
+    } else {
+      toastError("Cadastro não encontrado")
     }
     })
     .catch(() => {
@@ -151,7 +153,7 @@ const ConsultaImovel = () => {
                               <div className="col-3">
                                 <Field
                                   component={InputText}
-                                  defaultValue={imovel.area_construida | 0}
+                                  defaultValue={imovel.area_construida || 0}
                                   name={"area_construida"}
                                   label="Área Construída em m²"
                                   disabled={true}

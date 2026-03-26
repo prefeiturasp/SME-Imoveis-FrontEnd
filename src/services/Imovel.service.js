@@ -54,6 +54,24 @@ export const getImovel = async (uuid) => {
     });
 };
 
+export const getStatusImovel = async (uuid) => {
+  const url = `${endPontsConstants.API_URL}/cadastro-imovel/${uuid}/status-imovel/`;
+  let status = 0;
+  return fetch(url, {
+    method: "GET",
+  })
+    .then((res) => {
+      status = res.status;
+      return res.json();
+    })
+    .then((data) => {
+      return { data: data, status: status };
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+
 export const getImovelAsDict = async (uuid) => {
   return await api.get(`cadastro-imovel/imoveis/get-as-dict/?imovel=${uuid}`);
 };
